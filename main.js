@@ -238,3 +238,23 @@ function autoResize(textarea) {
     textarea.style.height = '204.5px'; // Reset the height
     textarea.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
 }
+
+function updatePlaceholder() {
+    const textarea1 = document.getElementById('first-input');
+    const textarea2 = document.getElementById('second-input');
+    const windowWidth = window.innerWidth;
+    if (windowWidth < 768) {
+      textarea1.innerText = "Abc...";
+      console.log('running', textarea1, textarea1.placeholder)
+      textarea2.innerText = "Abc...";
+    } else if (windowWidth >= 768) {
+      textarea1.innerText = "Alpha Quadrant";
+      textarea2.innerText = "Strange New Worlds";
+    }
+  }
+
+  // Call the function on window resize
+  window.addEventListener('resize', updatePlaceholder);
+
+  // Call the function on initial load
+  window.addEventListener('load', updatePlaceholder);

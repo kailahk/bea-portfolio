@@ -88,28 +88,28 @@ h3 {
     justify-content: center;
     align-items: center;
 }
-.desktop-heading .info .name, .desktop-heading .info .type-design {
+.info .name,.info .type-design {
     line-height: 29.5px;
     letter-spacing: 1.5px;
 }
-.desktop-heading .info .name {
+.info .name {
     text-transform: uppercase;
     letter-spacing: 3px;
 }
-.desktop-heading .info .type-design {
+.info .type-design {
     font-size: 22px;
 }
 
 /* Contact */
-.contact .top {
+.contact .desktop.top {
     grid-column: 1 / 23;
     grid-row: 1;
 }
-.contact .top, .contact .bottom {
+.contact .desktop.top, .contact .desktop.bottom {
     letter-spacing: 3.16px;
     line-height: 29.5px;
 }
-.contact .bottom {
+.contact .desktop.bottom {
     grid-row: 7;
 }
 .contact .left {
@@ -171,7 +171,6 @@ body.light-mode, body.light-mode * {
 #sun, #moon {
     height: 26px;
     width: 26px;
-    z-index: 500;
     background-repeat: no-repeat;
     background-size: contain;
     margin: 0 3px;
@@ -205,10 +204,10 @@ body.dark-mode #moon {
     border: 1px solid white;
     letter-spacing: 2px;
 }
-.font-area-1 .title-dropdown:hover .titles.dropdown-content {
-    top: 530px;
+body.light-mode .title-dropdown:hover .titles.dropdown-content  {
+    border: 1px solid black;
 }
-.font-area-2 .title-dropdown:hover .titles.dropdown-content {
+.font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content {
     margin-top: -125px !important;
 }
 .title-dropdown:hover .titles.dropdown-content p {
@@ -223,6 +222,9 @@ body.dark-mode #moon {
     position: absolute;
     border: 1px solid white;
     padding: 10px;
+}
+body.light-mode .features:hover .features-dropdown {
+    border: 1px solid black;
 }
 .features:hover .features-dropdown.hen {
     margin-top: 100px;
@@ -239,6 +241,9 @@ div.alignment-option:hover > .alignment-dropdown {
     position: absolute;
     border: 1px solid white;
     margin-top: 60px;
+}
+body.light-mode div.alignment-option:hover > .alignment-dropdown {
+    border: 1px solid black;
 }
 .alignment-dropdown label {
     padding: 10px 5px;
@@ -258,8 +263,6 @@ div.alignment-option:hover > .alignment-dropdown {
 textarea {
     /* min-height and min-width don't allow text box to get smaller than its container */
     height: 202px;
-    background-color: black;
-    color: white;
     font-size: 75px;
     line-height: 120%;
     text-align: center;
@@ -271,6 +274,10 @@ textarea {
     border-right: 0px;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
+}
+body.light-mode textarea {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 ::-webkit-resizer {
     display: none;
@@ -297,6 +304,9 @@ h3.title {
     margin-left: 10px;
     min-width: 160px !important;
 }
+body.light-mode .slider {
+    background-color: black !important;
+}
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -306,6 +316,9 @@ h3.title {
     background: black;
     border: 1px solid white;
     cursor: pointer;
+}
+body.light-mode .slider::-webkit-slider-thumb {
+    border: 1px solid black;
 }
 .options > div {
     display: flex;
@@ -393,4 +406,148 @@ h3.title {
     grid-row: 2 / 11;
     grid-column: 2 / 9;
     margin: 0 auto;
+}
+
+/* Responsive Styling */
+
+.mobile-heading {
+    display: none;
+}
+.mobile.left, .mobile.right, .mobile.top, .mobile.bottom, .tumblr-mobile {
+    display: none;
+}
+
+@media screen and (max-width:768px) {
+    /* Global */
+    body {
+        max-width: 320px;
+        padding: 0 15px;
+    }
+    #sun-and-moon {
+        display: flex;
+        position: absolute;
+        top: 722px;
+        left: 45%;
+    }
+
+    /* Header */
+    .desktop-heading {
+        display: none;
+    }
+    .mobile-heading {
+        display: grid;
+        grid-template-columns: repeat(9, 31px);
+        grid-template-rows: repeat(9, 29px);
+        margin-top: 50px;
+    }    
+    .mobile-heading .top {
+        letter-spacing: 3.11px;
+        line-height: 29px;
+    }
+    .mobile-heading .left {
+        grid-row: 4 / 7;
+        letter-spacing: 3.11px;
+        line-height: 29px;
+        display: flex;
+        flex-direction: column; 
+        justify-content: center;
+        word-wrap: break-word;
+    }
+    .mobile-heading .right {
+        grid-row: 4 / 7;
+        grid-column: 9;
+        letter-spacing: 3.11px;
+        line-height: 29px;
+        display: flex;
+        flex-direction: column; 
+        justify-content: center;
+        word-wrap: break-word;
+    }
+    .mobile-heading .bottom {
+        letter-spacing: 3.11px;
+        line-height: 29px;
+        grid-row: 7;
+    }
+    .mobile-heading .info {
+        grid-row: 4 / 7;
+        grid-column: 2 / 9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Contact Section */
+    .desktop.top, .desktop.bottom, .desktop.left, .desktop.right {
+        display: none;
+    }
+    .contact {
+        grid-template-columns: repeat(9, 31px);
+        grid-template-rows: auto;
+    }
+    .mobile.top {
+        display: flex;
+        grid-row: 1;
+        grid-column: 1 / 10;
+        letter-spacing: 3.11px;
+        line-height: 29px;
+    }
+    .mobile.bottom {
+        display: flex;
+        grid-row: 10;
+        grid-column: 1 / 10;
+        letter-spacing: 3.11px;
+        line-height: 29px;
+    }
+    .mobile.left {
+        display: flex;
+        grid-row: 2 / 9;
+        line-height: 27px;
+    }
+    .mobile.right {
+        display: flex;
+        grid-row: 2 / 9;
+        grid-column: 9;
+        line-height: 27px;
+    }
+    .contact .contact-info {
+        grid-row: 2 / 10;
+        grid-column: 2 / 9;
+        flex-direction: column;
+        justify-content: space-around;
+        margin: 0;
+    }
+    .contact .contact-info *, .contact .contact-info p {
+        text-align: center;
+        margin: 0;
+    }
+
+    /* Font Areas */
+    textarea {
+        height: 150px;
+        padding: 30px 5px;
+    }
+    .options {
+        flex-direction: column;
+    }
+    .options > div {
+        justify-content: space-between;
+        margin-top: 2px;
+    }
+    .all-fonts {
+        margin-top: 40px;
+    }
+
+    /* Bea Section */
+    .bea-section {
+        width: 100%;
+    }
+    .tumblr-web, .heart.bottom {
+        display: none;
+    }
+    .tumblr-mobile {
+        display: flex;
+        justify-content: center;
+        margin: 30px 0;
+    }
 }
