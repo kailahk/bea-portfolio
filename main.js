@@ -81,11 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const classList = event.target.classList;
         const elementId = event.target.id;
         const textArea = fontArea.querySelector('.font-input');
-        console.log(event.target)
-        if (classList.contains('hen')) {
+        if (classList.contains('hen') && !classList.contains('font-input')) {
+            console.log(classList);
             updateFont(fontArea, textArea, 'hen');
             initFeatures(allFonts);
         } else if (classList.contains('c4f')) {
+            console.log(classList);
             updateFont(fontArea, textArea, 'c4f');
             initFeatures(allFonts);
         }
@@ -112,9 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateFont(fontArea, textArea, chosenFont) {
         const titleElement = fontArea.querySelector('.title');
         if (chosenFont === 'hen') {
+            console.log(chosenFont)
             titleElement.innerHTML = 'Henmania <span class="wip hen">(wip) </span>&#x2195;';
             textArea.style.fontFamily = 'Henmania-Black';
         } else if (chosenFont === 'c4f') {
+            console.log(chosenFont)
             titleElement.innerHTML = 'Cafe4Freaks <span class="wip c4f">(wip) </span>&#x2195;';
             textArea.style.fontFamily = 'Cake4Freaks-Regular';
         }
@@ -141,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Set 'normal' to true and all other features to false
             Object.keys(features).forEach(featureName => {
                 if (features[featureName][1] === 'none') {
-                    console.log('featureName',featureName)
                     features['normal'][0] = true;
                 } else {
                     features[featureName][0] = false; // Set all other features to false
@@ -245,11 +247,10 @@ function updatePlaceholder() {
     const windowWidth = window.innerWidth;
     if (windowWidth < 768) {
       textarea1.innerText = "Abc...";
-      console.log('running', textarea1, textarea1.placeholder)
       textarea2.innerText = "Abc...";
     } else if (windowWidth >= 768) {
       textarea1.innerText = "Alpha Quadrant";
-      textarea2.innerText = "Strange New Worlds";
+      textarea2.innerText = "Alpha Quadrant";
     }
   }
 
