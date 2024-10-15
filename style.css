@@ -1,0 +1,396 @@
+/* Global Styles */
+@font-face {
+    font-family: 'Cake4Freaks-Regular';
+    src: url('./assets/fonts/Cake4Freaks-RegularText.otf') format('opentype');
+    font-weight: 400;
+} 
+@font-face {
+    font-family: 'Henmania-Black';
+    src: url('./assets/fonts/Henmania-Black.otf') format('opentype');
+    font-weight: 400;
+} 
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 716px;
+    margin: 0 auto;
+}
+a:hover, a *:hover {
+    color: pink !important;
+}
+a, a * {
+    text-decoration: none;
+}
+* {
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Cake4Freaks-Regular';
+    font-size: 23px;
+    letter-spacing: 1.5px;
+    box-sizing: border-box;
+}
+h3 {
+    font-weight: 400 !important;
+}
+.hen.font-input {
+    font-family: 'Henmania-Black';
+}
+.hidden {
+    display: none;
+}
+.title, .titles p {
+    text-transform: uppercase;
+}
+.wip {
+    text-transform: lowercase;
+}
+.invisible {
+    visibility: hidden;
+}
+.visible {
+    visibility: visible !important;
+}
+
+/* Header */
+.desktop-heading, .contact {
+    display: grid;
+    grid-template-columns: repeat(23, 31px);
+    grid-template-rows: repeat(7, 29.5px);
+    margin-top: 60px;
+    grid-auto-flow: column;
+}
+.desktop-heading .top {
+    letter-spacing: 3.11px;
+    line-height: 29.5px;
+}
+.desktop-heading .left {
+    grid-row: 3;
+    letter-spacing: 3px;
+    line-height: 29.5px;
+}
+.desktop-heading .right {
+    grid-row: 3;
+    grid-column: 16;
+    letter-spacing: 3px;
+    line-height: 29.5px;
+}
+.desktop-heading .bottom {
+    grid-row: 6;
+    letter-spacing: 3.11px;
+    line-height: 29.5px;
+}
+.desktop-heading .info {
+    grid-row: 3 / 6;
+    grid-column: 9 / 16;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.desktop-heading .info .name, .desktop-heading .info .type-design {
+    line-height: 29.5px;
+    letter-spacing: 1.5px;
+}
+.desktop-heading .info .name {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+.desktop-heading .info .type-design {
+    font-size: 22px;
+}
+
+/* Contact */
+.contact .top {
+    grid-column: 1 / 23;
+    grid-row: 1;
+}
+.contact .top, .contact .bottom {
+    letter-spacing: 3.16px;
+    line-height: 29.5px;
+}
+.contact .bottom {
+    grid-row: 7;
+}
+.contact .left {
+    grid-column: 1;
+    grid-row: 2 / 7;
+    letter-spacing: 3px;
+    line-height: 29.5px;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    word-wrap: break-word;
+}
+.contact .right {
+    grid-column: 23;
+    grid-row: 2 / 7;
+    letter-spacing: 3px;
+    line-height: 29.5px;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    word-wrap: break-word;
+}
+.contact .contact-info {
+    grid-row: 2 / 7;
+    grid-column: 2 / 23;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 34px;
+    margin-right: 34px;
+}
+.contact-info p:first-child {
+    font-size: 20px;
+    margin-right: 35px;
+    letter-spacing: 1px;
+}
+.email p {
+    letter-spacing: 3px;
+    font-size: 23px !important;
+}
+
+/* Sun and Moon */
+body.dark-mode, body.dark-mode * {
+    background-color: black;
+    color: white;
+}
+body.light-mode, body.light-mode * {
+    color: black;
+    background-color: white;
+}
+#sun-and-moon {
+    display: flex;
+    position: fixed;
+    right: 0;
+    background-color: transparent;
+    right: 1%;
+    top: 2%;
+}
+#sun, #moon {
+    height: 26px;
+    width: 26px;
+    z-index: 500;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: 0 3px;
+    background-color: transparent;
+    cursor: pointer;
+}
+body.light-mode #sun {
+    background-image: url('https://i.imgur.com/9Mittl6.png');
+}
+body.dark-mode #sun {
+    background-image: url('https://i.imgur.com/hiCtBB5.png');
+}
+body.light-mode #moon {
+    background-image: url('https://i.imgur.com/qww9fRO.png');
+}
+body.dark-mode #moon {
+    background-image: url('https://i.imgur.com/nVRAPPY.png');
+}
+
+/* Font Areas */
+.title-dropdown, .titles.dropdown-content, .alignment-option, .alignment-option label, .features, .features label {
+    cursor: pointer;
+}
+.features .features-dropdown * {
+    font-size: 16px !important;
+    letter-spacing: 2px;
+}
+.title-dropdown:hover .titles.dropdown-content {
+    display: block;
+    position: absolute;
+    border: 1px solid white;
+    letter-spacing: 2px;
+}
+.font-area-1 .title-dropdown:hover .titles.dropdown-content {
+    top: 530px;
+}
+.font-area-2 .title-dropdown:hover .titles.dropdown-content {
+    margin-top: -125px !important;
+}
+.title-dropdown:hover .titles.dropdown-content p {
+    margin: 10px;
+    font-size: 23px;
+}
+.alignment-option input[type="radio"] {
+    display: none;
+}
+.features:hover .features-dropdown {
+    display: block;
+    position: absolute;
+    border: 1px solid white;
+    padding: 10px;
+}
+.features:hover .features-dropdown.hen {
+    margin-top: 100px;
+
+}
+.features:hover .features-dropdown.c4f {
+    margin-top: 140px;
+}
+.features:hover .features-dropdown * {
+    font-size: 23px;
+}
+div.alignment-option:hover > .alignment-dropdown {
+    display: flex;
+    position: absolute;
+    border: 1px solid white;
+    margin-top: 60px;
+}
+.alignment-dropdown label {
+    padding: 10px 5px;
+}
+.all-fonts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.font-area {
+    margin-top: 60px;
+}
+.font-area .options {
+    display: flex;
+    justify-content: space-between;
+}
+textarea {
+    /* min-height and min-width don't allow text box to get smaller than its container */
+    height: 202px;
+    background-color: black;
+    color: white;
+    font-size: 75px;
+    line-height: 120%;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 50px 5px;
+    resize:none;
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+::-webkit-resizer {
+    display: none;
+}
+textarea:focus {
+    outline: 0;
+}
+.font-area label, .alignment-option * {
+    font-size: 16px;
+}
+h3.title {
+    letter-spacing: 3px;
+    margin-bottom: 2px;
+    padding: 5px 0;
+}
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    height: .75px;
+    background-color: white !important;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: .2s;
+    margin-left: 10px;
+    min-width: 160px !important;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: black;
+    border: 1px solid white;
+    cursor: pointer;
+}
+.options > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: white;
+    cursor: pointer;
+}
+
+/* Bea Section */
+.bea {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.bea-info * {
+    font-size: 23px !important;
+}
+.bea-section {
+    margin: 40px auto;
+}
+.bea-section img {
+    height: 292px;
+    width: auto;
+}
+.tumblr-web {
+    display: flex;
+    justify-content: space-between;
+    letter-spacing: 3px;
+    margin: 40px 0;
+}
+.heart {
+    text-align: center;
+}
+.heart.top {
+    margin-top: 20px;
+}
+.heart.halo {
+    margin-top: 60px;
+}
+.wip {
+    font-size: 16px;
+}
+.bea-image {
+    display: grid;
+    grid-template-columns: repeat(9, 31px);
+    grid-template-rows: repeat(12, 29.5px);
+    margin-bottom: 20px;
+}
+.bea-image .top {
+    grid-row: 1;
+    letter-spacing: 3.11px;
+    line-height: 29.5px;
+}
+.bea-image .left {
+    grid-row: 2 / 12;
+    letter-spacing: 3px;
+    line-height: 27px;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    word-wrap: break-word;
+}
+.bea-image .right {
+    grid-row: 2 / 12;
+    grid-column: 9;
+    letter-spacing: 3px;
+    line-height: 27px;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    word-wrap: break-word;
+}
+.bea-image .bottom {
+    grid-row: 12;
+    letter-spacing: 3.11px;
+    line-height: 29.5px;
+}
+.bea-image .bea-photo {
+    grid-row: 2 / 11;
+    grid-column: 2 / 9;
+    margin: 0 auto;
+}
