@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             textArea.style.fontFamily = 'Henmania-Black';
         } else if (chosenFont === 'c4f') {
             console.log(chosenFont)
-            titleElement.innerHTML = 'Cafe4Freaks <span class="wip c4f">(wip) </span>&#x2195;';
+            titleElement.innerHTML = 'Cake4Freaks <span class="wip c4f">(wip) </span>&#x2195;';
             textArea.style.fontFamily = 'Cake4Freaks-Regular';
         }
     }
