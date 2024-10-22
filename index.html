@@ -105,6 +105,28 @@
     <div class="all-fonts">
         <!-- First Font -->
         <section class="font-area font-area-1">
+            <div class="options top">
+                <div class="features">
+                    <label>Features &#x2195;</label>
+                    <div class="features-dropdown hidden"></div>
+                </div>
+                <div class="alignment-option">
+                    <div id="txt-align-icon">
+                        <i class="fas fa-align-center"></i>
+                    </div>
+                    <div class="alignment-dropdown hidden">
+                        <label for="align-left">
+                            <i class="fas fa-align-left left"></i>
+                        </label>
+                        <label for="align-center">
+                            <i class="fas fa-align-center center"></i>
+                        </label>
+                        <label for="align-right">
+                            <i class="fas fa-align-right right"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
             <div class="title-dropdown">
                 <h3 class="title">Henmania <span class="wip hen">(wip) </span>&#x2195;</h3>
                 <div class="titles dropdown-content hidden">
@@ -115,34 +137,45 @@
             <textarea oninput="autoResize(this)" id="first-input" class="hen font-input">Alpha Quadrant</textarea>
             <div class="options">
                 <div class="size-option">
-                    <label>SIZE</label>
+                    <label>Size</label>
                     <input class="slider" type="range" min="10" max="200" value="80" id="font-size" step="1">
                 </div>
+                <div class="tracking-option">
+                    <label>Tracking</label>
+                    <input class="slider" type="range" min="0" max="100" id="font-tracking" step="1">
+                </div>
                 <div class="leading-option">
-                    <label>LEADING</label>
-                    <input class="slider" type="range" min="-50" max="50" id="font-leading" step="1">
-                </div>
-                <div class="features">
-                    <label>FEATURES &#x2195;</label>
-                    <div class="features-dropdown hidden">
-                    </div>
-                </div>
-                <div class="alignment-option">
-                    <div id="txt-align-icon"><i class="fas fa-align-center"></i>
-                    </div>
-                    <div class="alignment-dropdown hidden">
-                        <label for="align-left"><i class="fas fa-align-left left"></i></label>
-
-                        <label for="align-center"><i class="fas fa-align-center center"></i></label>
-
-                        <label for="align-right"><i class="fas fa-align-right right"></i></label>
-                    </div>
+                    <label>Leading</label>
+                    <input class="slider" type="range" min="0" max="200" id="font-leading" step="1">
                 </div>
             </div>
         </section>
 
+
         <!-- Second Font -->
         <section class="font-area font-area-2">
+            <div class="options top">
+                <div class="features">
+                    <label>Features &#x2195;</label>
+                    <div class="features-dropdown hidden"></div>
+                </div>
+                <div class="alignment-option">
+                    <div id="txt-align-icon">
+                        <i class="fas fa-align-center"></i>
+                    </div>
+                    <div class="alignment-dropdown hidden">
+                        <label for="align-left">
+                            <i class="fas fa-align-left left"></i>
+                        </label>
+                        <label for="align-center">
+                            <i class="fas fa-align-center center"></i>
+                        </label>
+                        <label for="align-right">
+                            <i class="fas fa-align-right right"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
             <div class="title-dropdown">
                 <h3 class="title">Cake4Freaks <span class="wip c4f">(wip) </span>&#x2195;</h3>
                 <div class="titles dropdown-content hidden">
@@ -153,28 +186,16 @@
             <textarea oninput="autoResize(this)" id="second-input" class="font-input">Alpha Quadrant</textarea>
             <div class="options">
                 <div class="size-option">
-                    <label>SIZE</label>
+                    <label>Size</label>
                     <input class="slider" type="range" min="10" max="200" value="80" id="font-size" step="1">
                 </div>
+                <div class="tracking-option">
+                    <label>Tracking</label>
+                    <input class="slider" type="range" min="-50" max="50" id="font-tracking" step="1">
+                </div>
                 <div class="leading-option">
-                    <label>LEADING</label>
+                    <label>Leading</label>
                     <input class="slider" type="range" min="-50" max="50" id="font-leading" step="1">
-                </div>
-                <div class="features">
-                    <label>FEATURES &#x2195;</label>
-                    <div class="features-dropdown hidden">
-                    </div>
-                </div>
-                <div class="alignment-option">
-                    <div id="txt-align-icon"><i class="fas fa-align-center"></i>
-                    </div>
-                    <div class="alignment-dropdown hidden">
-                        <label for="align-left"><i class="fas fa-align-left left"></i></label>
-
-                        <label for="align-center"><i class="fas fa-align-center center"></i></label>
-
-                        <label for="align-right"><i class="fas fa-align-right right"></i></label>
-                    </div>
                 </div>
             </div>
         </section>
@@ -187,13 +208,17 @@
         <div class="bea">
             <div class="bea-image">
                 <div class="top">&#x2665;&#x2665;&#x2665;&#x2665;&#x2698;&#x2665;&#x2665;&#x2665;&#x2665;</div>
-                <div class="left">&#x2665;&#x2665;&#x2665;&#x2665;&#x2665;&#x2698;&#x2665;&#x2665;&#x2665;&#x2665;&#x2665;</div>
-                <div class="right">&#x2665;&#x2665;&#x2665;&#x2665;&#x2665;&#x2698;&#x2665;&#x2665;&#x2665;&#x2665;&#x2665;</div>
+                <div class="left">
+                    &#x2665;&#x2665;&#x2665;&#x2665;&#x2665;&#x2698;&#x2665;&#x2665;&#x2665;&#x2665;&#x2665;</div>
+                <div class="right">
+                    &#x2665;&#x2665;&#x2665;&#x2665;&#x2665;&#x2698;&#x2665;&#x2665;&#x2665;&#x2665;&#x2665;</div>
                 <div class="bottom">&#x2665;&#x2665;&#x2665;&#x2665;&#x2698;&#x2665;&#x2665;&#x2665;&#x2665;</div>
-                <img class="bea-photo" src="./assets/images/bea.jpeg" alt="Bea Korsh">
+                <div class="image-container">
+                    <img class="bea-photo" src="./assets/images/bea.jpeg" alt="Bea Korsh">
+                </div>
             </div>
             <div class="bea-info">
-                <p>BEA KORSH is a typeface designer living in Brooklyn, NY.                </p>
+                <p>BEA KORSH is a typeface designer living in Brooklyn, NY. </p>
                 <p>Bea enjoys the privilege of working for accomplished typeface designers like <a
                         href="https://djr.com/" target="_blank">David Jonathan Ross↗</a>, <a
                         href="http://www.christianschwartz.com/" target="_blank">Christian Schwartz↗</a>, and <a
@@ -211,11 +236,10 @@
         </div>
         <div class="tumblr-web">
             &#x2665;&#x2698;&#x2665;&#x2698;&#x2665;&#x2698;&#x2665;&#x2698;<a target="_blank"
-                href="https://www.tumblr.com/beabeebeb">Tumblr↗</a>&#x2665;&#x2698;&#x2665;&#x2698;&#x2665;&#x2698;&#x2665;&#x2698;
+                href="https://www.tumblr.com/beabeebeb">Tumblr↗</a>&#x2698;&#x2665;&#x2698;&#x2665;&#x2698;&#x2665;&#x2698;&#x2665;
         </div>
         <div class="tumblr-mobile">
-            <a target="_blank"
-                href="https://www.tumblr.com/beabeebeb">Tumblr↗</a>
+            <a target="_blank" href="https://www.tumblr.com/beabeebeb">Tumblr↗</a>
         </div>
         <div class="heart bottom">
             &#x2665;

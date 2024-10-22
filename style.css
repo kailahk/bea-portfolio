@@ -27,8 +27,8 @@ a, a * {
     -webkit-font-smoothing: antialiased;
     font-family: 'Cake4Freaks-Regular';
     font-size: 23px;
-    letter-spacing: 1.5px;
     box-sizing: border-box;
+    font-feature-settings: "lnum";
 }
 h3 {
     font-weight: 400 !important;
@@ -37,7 +37,7 @@ h3 {
     font-family: 'Henmania-Black';
 }
 .hidden {
-    display: none;
+    display: none !important;
 }
 .title, .titles p {
     text-transform: uppercase;
@@ -90,7 +90,6 @@ h3 {
 }
 .info .name,.info .type-design {
     line-height: 29.5px;
-    letter-spacing: 1.5px;
 }
 .info .name {
     text-transform: uppercase;
@@ -193,13 +192,14 @@ body.dark-mode #moon {
 /* Font Areas */
 .title-dropdown, .titles.dropdown-content, .alignment-option, .alignment-option label, .features, .features label {
     cursor: pointer;
+    width: fit-content;
 }
 .features .features-dropdown * {
     font-size: 16px !important;
     letter-spacing: 2px;
 }
 .title-dropdown:hover .titles.dropdown-content {
-    display: block;
+    display: block !important;
     position: absolute;
     border: 1px solid white;
     letter-spacing: 2px;
@@ -208,17 +208,20 @@ body.light-mode .title-dropdown:hover .titles.dropdown-content  {
     border: 1px solid black;
 }
 .font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content {
-    margin-top: -125px !important;
+    margin-top: -105px !important;
 }
 .title-dropdown:hover .titles.dropdown-content p {
     margin: 10px;
-    font-size: 23px;
+    font-size: 16px;
+}
+.title-dropdown:hover .titles.dropdown-content .wip {
+    font-size: 16px;
 }
 .alignment-option input[type="radio"] {
     display: none;
 }
 .features:hover .features-dropdown {
-    display: block;
+    display: block !important;
     position: absolute;
     border: 1px solid white;
     padding: 10px;
@@ -237,7 +240,7 @@ body.light-mode .features:hover .features-dropdown {
     font-size: 23px;
 }
 div.alignment-option:hover > .alignment-dropdown {
-    display: flex;
+    display: flex !important;
     position: absolute;
     border: 1px solid white;
     margin-top: 60px;
@@ -259,6 +262,17 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
 .font-area .options {
     display: flex;
     justify-content: space-between;
+}
+.font-area .options.top {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: -55px;
+}
+.font-area .options .features {
+    margin-right: 20px;
+}
+.options label {
+    text-transform: uppercase;
 }
 textarea {
     /* min-height and min-width don't allow text box to get smaller than its container */
@@ -302,7 +316,7 @@ h3.title {
     -webkit-transition: .2s;
     transition: .2s;
     margin-left: 10px;
-    min-width: 160px !important;
+    min-width: 140px !important;
 }
 body.light-mode .slider {
     background-color: black !important;
@@ -348,6 +362,8 @@ body.light-mode .slider::-webkit-slider-thumb {
 .bea-section img {
     height: 292px;
     width: auto;
+    object-fit: cover;
+    overflow: hidden;
 }
 .tumblr-web {
     display: flex;
@@ -363,9 +379,6 @@ body.light-mode .slider::-webkit-slider-thumb {
 }
 .heart.halo {
     margin-top: 60px;
-}
-.wip {
-    font-size: 16px;
 }
 .bea-image {
     display: grid;
@@ -402,10 +415,11 @@ body.light-mode .slider::-webkit-slider-thumb {
     letter-spacing: 3.11px;
     line-height: 29.5px;
 }
-.bea-image .bea-photo {
+.bea-image .image-container {
     grid-row: 2 / 11;
     grid-column: 2 / 9;
     margin: 0 auto;
+    margin-top: 2px;
 }
 
 /* Responsive Styling */
@@ -535,7 +549,22 @@ body.light-mode .slider::-webkit-slider-thumb {
         margin-top: 2px;
     }
     .all-fonts {
-        margin-top: 40px;
+        margin-top: 100px;
+    }
+    .font-area-2 {
+        margin-top: 100px;
+    }
+    .font-area .options.top {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        margin-bottom: -73px;
+    }
+    .font-area .title-dropdown {
+        margin-bottom: 20px;
+    }
+    h3.title {
+        font-size: 20px;
     }
 
     /* Bea Section */

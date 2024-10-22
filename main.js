@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const c4fFeatures = {
-        'normal': [true, 'none'],
-        'lining figures': [false, 'lnum'],
+        'normal': [false, 'none'],
+        'lining figures': [true, 'lnum'],
         'oldstyle figures': [false, 'onum'],
         'case sensitive': [false, 'case'],
         'short ascenders': [false, 'ss01']
     };
     const henFeatures = {
-        'normal': [true, 'none'],
+        'normal': [false, 'none'],
         'contextual alternate': [false, 'calt'],
-        'ligatures': [false, 'liga']
+        'ligatures': [true, 'liga']
     };
 
     let activeFeaturesC4f = [];
@@ -99,6 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
             updateLeading(textArea, event.target.value);
         }
 
+        if (elementId === 'font-tracking') {
+            updateTracking(textArea, event.target.value);
+        }
+
         if (event.target.classList.contains('fas')) {
             updateAlignment(textArea, classList);
         }
@@ -126,7 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
         textArea.style.fontSize = `${fontSize}px`;
     }
     function updateLeading(textArea, leadingVal) {
-        textArea.style.letterSpacing = `${leadingVal}px`;
+        textArea.style.lineHeight = `${leadingVal}px`;
+    }
+    function updateTracking(textArea, trackingVal) {
+        textArea.style.letterSpacing = `${trackingVal}px`;
     }
     function updateAlignment(textArea, classList) {
         if (classList[2] === 'right') {
@@ -237,8 +244,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function autoResize(textarea) {
-    textarea.style.height = '204.5px'; // Reset the height
-    textarea.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
+    const windowWidth = window.innerWidth;
+    if (windowWidth < 768) {
+        textarea.style.height = '150px'; // Reset the height
+        textarea.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
+      } else if (windowWidth >= 768) {
+        textarea.style.height = '204.5px'; // Reset the height
+        textarea.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
+      }
 }
 
 function updatePlaceholder() {
