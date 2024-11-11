@@ -54,20 +54,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function appendFeatures(container, featureSet) {
         Object.entries(featureSet).forEach(([featureName, featureValue]) => {
             const [isActive, featureCode] = featureValue;
-    
+
             const fontFeature = document.createElement('div');
             fontFeature.setAttribute('class', `feature ${featureCode}`);
             fontFeature.setAttribute('data-feature-code', featureCode); // Set the data attribute
-    
+
             // Set the visibility class based on whether the feature is active
             const visibilityClass = isActive ? 'visible' : 'invisible';
-    
+
             fontFeature.innerHTML = `<span class="check ${visibilityClass}">&#x2713; </span>${featureName}`;
-            
+
             container.appendChild(fontFeature);
         });
     }
-    
+
 
     // switch between light and dark mode
     function updateMode(event) {
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     features[featureName][0] = false; // Set all other features to false
                 }
             });
-    
+
             // Clear the activeFeatures and set only 'none'
             activeFeatures = ['none'];
         } else {
@@ -170,24 +170,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     features[featureName][0] = false;
                 }
             });
-    
+
             // Manage the active features
             let hasOtherActiveFeatures = false;
-    
+
             for (const [key, [isActive, featureCode]] of Object.entries(features)) {
                 const featureString = `${featureCode}`;
-    
+
                 if (isActive && featureString !== 'none' && !activeFeatures.includes(featureString)) {
                     activeFeatures.push(featureString);
                 } else if (!isActive && activeFeatures.includes(featureString)) {
                     activeFeatures = activeFeatures.filter(item => item !== featureString);
                 }
-    
+
                 if (isActive && featureString !== 'none') {
                     hasOtherActiveFeatures = true;
                 }
             }
-    
+
             // Handle 'none' visibility: Remove 'none' if any other feature is active
             if (hasOtherActiveFeatures) {
                 activeFeatures = activeFeatures.filter(item => item !== 'none'); // Remove 'none' if any other feature is active
@@ -199,11 +199,11 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(activeFeatures)
         return activeFeatures;
     }
-    
+
     function updateFeatures(fontArea, textArea, classList) {
         const titleElement = fontArea.querySelector('.title .wip');
         const fontCode = [...classList][1];
-    
+
         let featureSet;
         if (titleElement.classList.contains('c4f')) {
             activeFeaturesC4f = toggleFeature(c4fFeatures, activeFeaturesC4f, fontCode);
@@ -212,11 +212,11 @@ document.addEventListener('DOMContentLoaded', () => {
             activeFeaturesHen = toggleFeature(henFeatures, activeFeaturesHen, fontCode);
             featureSet = henFeatures;
         }
-    
+
         // Update the font feature settings
         const activeFeatures = titleElement.classList.contains('c4f') ? activeFeaturesC4f : activeFeaturesHen;
         textArea.style.fontFeatureSettings = activeFeatures.map(feature => `'${feature}'`).join(', ');
-    
+
         // Update the visibility of check marks dynamically
         updateCheckMarks(featureSet, fontArea);
     }
@@ -224,10 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateCheckMarks(featureSet, fontArea) {
         Object.entries(featureSet).forEach(([featureName, featureValue]) => {
             const [isActive, featureCode] = featureValue;
-    
+
             // Find the feature element by its data attribute
             const featureElement = fontArea.querySelector(`.feature[data-feature-code="${featureCode}"] .check`);
-    
+
             // Update the visibility class based on whether the feature is active
             if (featureElement) {  // Ensure featureElement exists before trying to update it
                 if (isActive) {
@@ -249,38 +249,36 @@ function updatePlaceholder() {
     const textarea2 = document.getElementById('second-input');
     const windowWidth = window.innerWidth;
     if (windowWidth < 768) {
-      textarea1.innerText = "Abc...";
-      textarea2.innerText = "Abc...";
+        textarea1.innerText = "Abc...";
+        textarea2.innerText = "Abc...";
     } else if (windowWidth >= 768) {
-      textarea1.innerText = "Alpha Quadrant";
-      textarea2.innerText = "Strange New Worlds";
+        textarea1.innerText = "Alpha Quadrant";
+        textarea2.innerText = "Strange New Worlds";
     }
-  }
+}
 
-  function autoResize(textArea){
+function autoResize(textArea) {
     const windowWidth = window.innerWidth;
-    if (!textArea) {
-        const textarea1 = document.getElementById('first-input');
-        const textarea2 = document.getElementById('second-input');
-        if (windowWidth < 768) {
-            textarea1.style.height = '152px'; // Reset the height
-            textarea2.style.height = '152px'; // Reset the height
-            textarea1.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
-            textarea2.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
-          } else if (windowWidth >= 768) {
-            console.log(textarea)
-            textarea1.style.height = '204px'; // Reset the height
-            textarea2.style.height = '204px'; // Reset the height
-            textarea1.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
-            textarea2.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
-          }
+    const textarea1 = document.getElementById('first-input');
+    const textarea2 = document.getElementById('second-input');
+    if (windowWidth < 768) {
+        textarea1.style.height = '152px'; // Reset the height
+        textarea2.style.height = '152px'; // Reset the height
+        textarea1.style.height = textarea1.scrollHeight + 'px'; // Adjust based on content
+        textarea2.style.height = textarea2.scrollHeight + 'px'; // Adjust based on content
+    } else if (windowWidth >= 768) {
+        console.log(textarea1, textarea2)
+        textarea1.style.height = '204px'; // Reset the height
+        textarea2.style.height = '204px'; // Reset the height
+        textarea1.style.height = textarea1.scrollHeight + 'px'; // Adjust based on content
+        textarea2.style.height = textarea2.scrollHeight + 'px'; // Adjust based on content
     }
-  }
+}
 
-  // Call the function on window resize
-  window.addEventListener('resize', updatePlaceholder);
-  window.addEventListener('resize', autoResize);
+// Call the function on window resize
+window.addEventListener('resize', updatePlaceholder);
+window.addEventListener('resize', autoResize);
 
-  // Call the function on initial load
-  window.addEventListener('load', updatePlaceholder);
-  window.addEventListener('load', autoResize);
+// Call the function on initial load
+window.addEventListener('load', updatePlaceholder);
+window.addEventListener('load', autoResize);
