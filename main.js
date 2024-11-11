@@ -1,14 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const c4fFeatures = {
-        'normal': [false, 'none'],
+        'none': [false, 'none'],
         'lining figures': [true, 'lnum'],
         'oldstyle figures': [false, 'onum'],
         'case sensitive': [false, 'case'],
-        'short ascenders': [false, 'ss01']
+        'short ascenders': [false, 'ss01'],
+        'ligatures': [true, 'liga']
     };
     const henFeatures = {
-        'normal': [false, 'none'],
+        'none': [false, 'none'],
         'contextual alternate': [false, 'calt'],
         'ligatures': [true, 'liga']
     };
@@ -146,12 +147,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function toggleFeature(features, activeFeatures, fontCode) {
-        // Check if 'normal' (i.e., 'none') is clicked
+        // Check if 'none' is clicked
         if (fontCode === 'none') {
-            // Set 'normal' to true and all other features to false
+            // Set 'none' to true and all other features to false
             Object.keys(features).forEach(featureName => {
                 if (features[featureName][1] === 'none') {
-                    features['normal'][0] = true;
+                    features['none'][0] = true;
                 } else {
                     features[featureName][0] = false; // Set all other features to false
                 }
@@ -164,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Object.entries(features).forEach(([featureName, featureValue]) => {
                 if (fontCode === featureValue[1] && !featureValue[0]) {
                     features[featureName][0] = true;
-                    features['normal'][0] = false;
+                    features['none'][0] = false;
                 } else if (fontCode === featureValue[1] && featureValue[0]) {
                     features[featureName][0] = false;
                 }
@@ -192,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeFeatures = activeFeatures.filter(item => item !== 'none'); // Remove 'none' if any other feature is active
             } else if (!activeFeatures.includes('none')) {
                 activeFeatures.push('none');  // Add 'none' if no other feature is active
-                features['normal'][0] = true;
+                features['none'][0] = true;
             }
         }
         console.log(activeFeatures)
@@ -243,17 +244,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initFeatures(allFonts);
 });
 
-function autoResize(textarea) {
-    const windowWidth = window.innerWidth;
-    if (windowWidth < 768) {
-        textarea.style.height = '150px'; // Reset the height
-        textarea.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
-      } else if (windowWidth >= 768) {
-        textarea.style.height = '204.5px'; // Reset the height
-        textarea.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
-      }
-}
-
 function updatePlaceholder() {
     const textarea1 = document.getElementById('first-input');
     const textarea2 = document.getElementById('second-input');
@@ -263,12 +253,34 @@ function updatePlaceholder() {
       textarea2.innerText = "Abc...";
     } else if (windowWidth >= 768) {
       textarea1.innerText = "Alpha Quadrant";
-      textarea2.innerText = "Alpha Quadrant";
+      textarea2.innerText = "Strange New Worlds";
+    }
+  }
+
+  function autoResize(textArea){
+    const windowWidth = window.innerWidth;
+    if (!textArea) {
+        const textarea1 = document.getElementById('first-input');
+        const textarea2 = document.getElementById('second-input');
+        if (windowWidth < 768) {
+            textarea1.style.height = '152px'; // Reset the height
+            textarea2.style.height = '152px'; // Reset the height
+            textarea1.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
+            textarea2.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
+          } else if (windowWidth >= 768) {
+            console.log(textarea)
+            textarea1.style.height = '204px'; // Reset the height
+            textarea2.style.height = '204px'; // Reset the height
+            textarea1.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
+            textarea2.style.height = textarea.scrollHeight + 'px'; // Adjust based on content
+          }
     }
   }
 
   // Call the function on window resize
   window.addEventListener('resize', updatePlaceholder);
+  window.addEventListener('resize', autoResize);
 
   // Call the function on initial load
   window.addEventListener('load', updatePlaceholder);
+  window.addEventListener('load', autoResize);

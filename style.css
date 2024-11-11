@@ -28,7 +28,7 @@ a, a * {
     font-family: 'Cake4Freaks-Regular';
     font-size: 23px;
     box-sizing: border-box;
-    font-feature-settings: "lnum";
+    font-feature-settings: "lnum", "liga";
 }
 h3 {
     font-weight: 400 !important;
@@ -44,6 +44,7 @@ h3 {
 }
 .wip {
     text-transform: lowercase;
+    letter-spacing: 0 !important;
 }
 .invisible {
     visibility: hidden;
@@ -98,7 +99,9 @@ h3 {
 .info .type-design {
     font-size: 22px;
 }
-
+.options label {
+    letter-spacing: 2px;
+}
 /* Contact */
 .contact .desktop.top {
     grid-column: 1 / 23;
@@ -143,7 +146,10 @@ h3 {
 .contact-info p:first-child {
     font-size: 20px;
     margin-right: 35px;
-    letter-spacing: 1px;
+    letter-spacing: 0px;
+}
+.contact-info a.email p {
+    letter-spacing: 3px;
 }
 .email p {
     letter-spacing: 3px;
@@ -234,7 +240,7 @@ body.light-mode .features:hover .features-dropdown {
 
 }
 .features:hover .features-dropdown.c4f {
-    margin-top: 140px;
+    margin-top: 158px;
 }
 .features:hover .features-dropdown * {
     font-size: 23px;
@@ -276,7 +282,7 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
 textarea {
     /* min-height and min-width don't allow text box to get smaller than its container */
     height: 202px;
-    font-size: 75px;
+    font-size: 72px;
     line-height: 120%;
     text-align: center;
     width: 100%;
@@ -314,8 +320,9 @@ h3.title {
     outline: none;
     -webkit-transition: .2s;
     transition: .2s;
-    margin-left: 10px;
-    width: 110px !important;
+    margin-left: 2px;
+    margin-right: 4px;
+    width: 105px !important;
 }
 body.light-mode .slider {
     background-color: black !important;
@@ -377,7 +384,7 @@ body.light-mode .slider::-webkit-slider-thumb {
     margin-top: 20px;
 }
 .heart.halo {
-    margin-top: 60px;
+    margin-top: 120px;
 }
 .bea-image {
     display: grid;
@@ -608,8 +615,9 @@ ol.license-body li {
     }
     .font-area .options.top {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: flex-start;
+        align-items: flex-start;
         margin-bottom: -73px;
     }
     .font-area .title-dropdown {
@@ -623,7 +631,7 @@ ol.license-body li {
     .bea-section {
         width: 100%;
     }
-    .tumblr-web, .heart.bottom {
+    .tumblr-web {
         display: none;
     }
     .tumblr-mobile {
