@@ -83,11 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const elementId = event.target.id;
         const textArea = fontArea.querySelector('.font-input');
         if (classList.contains('hen') && !classList.contains('font-input')) {
-            console.log(classList);
             updateFont(fontArea, textArea, 'hen');
             initFeatures(allFonts);
         } else if (classList.contains('c4f')) {
-            console.log(classList);
             updateFont(fontArea, textArea, 'c4f');
             initFeatures(allFonts);
         }
@@ -97,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (elementId === 'font-leading') {
-            updateLeading(textArea, event.target.value);
+            updateLeading(textArea, event.target.value, fontArea);
         }
 
         if (elementId === 'font-tracking') {
@@ -130,9 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateSize(textArea, fontSize) {
         textArea.style.fontSize = `${fontSize}px`;
     }
-    function updateLeading(textArea, leadingVal) {
-        textArea.style.lineHeight = `${leadingVal}px`;
-    }
+    function updateLeading(textArea, leadingVal, fontArea) {
+        let fontSize = parseInt(fontArea.querySelector('.size-option input').value);
+        let lineHeight = fontSize + (fontSize * (leadingVal / 100));
+        textArea.style.lineHeight = `${lineHeight}px`;
+    }       
     function updateTracking(textArea, trackingVal) {
         textArea.style.letterSpacing = `${trackingVal}px`;
     }
@@ -252,8 +252,8 @@ function updatePlaceholder() {
         textarea1.innerText = "Abc...";
         textarea2.innerText = "Abc...";
     } else if (windowWidth >= 768) {
-        textarea1.innerText = "Alpha Quadrant";
-        textarea2.innerText = "Strange New Worlds";
+        textarea1.innerText = "And the Rock Cried Out, No Hiding Place";
+        textarea2.innerText = "Ceremonies of Light and Dark";
     }
 }
 
@@ -267,7 +267,6 @@ function autoResize(textArea) {
         textarea1.style.height = textarea1.scrollHeight + 'px'; // Adjust based on content
         textarea2.style.height = textarea2.scrollHeight + 'px'; // Adjust based on content
     } else if (windowWidth >= 768) {
-        console.log(textarea1, textarea2)
         textarea1.style.height = '204px'; // Reset the height
         textarea2.style.height = '204px'; // Reset the height
         textarea1.style.height = textarea1.scrollHeight + 'px'; // Adjust based on content

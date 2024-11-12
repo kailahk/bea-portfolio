@@ -145,7 +145,7 @@ h3 {
 }
 .contact-info p:first-child {
     font-size: 20px;
-    margin-right: 35px;
+    margin: 0 15px;
     letter-spacing: 0px;
 }
 .contact-info a.email p {
@@ -282,7 +282,7 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
 textarea {
     /* min-height and min-width don't allow text box to get smaller than its container */
     height: 202px;
-    font-size: 72px;
+    font-size: 78px;
     line-height: 120%;
     text-align: center;
     width: 100%;
@@ -403,7 +403,7 @@ body.light-mode .slider::-webkit-slider-thumb {
 .bea-image .left {
     grid-row: 2 / 12;
     letter-spacing: 2px;
-    line-height: 27px;
+    line-height: 26px;
     display: flex;
     flex-direction: column; 
     justify-content: center;
@@ -413,7 +413,7 @@ body.light-mode .slider::-webkit-slider-thumb {
     grid-row: 2 / 12;
     grid-column: 9;
     letter-spacing: 2px;
-    line-height: 27px;
+    line-height: 26px;
     display: flex;
     flex-direction: column; 
     justify-content: center;
@@ -432,58 +432,14 @@ body.light-mode .slider::-webkit-slider-thumb {
 }
 
 /* License Page */
-
-p.license-body {
-    color: black;
-    text-align: left;
-    font-size: 16px;
-    margin: 10px 0;
+.license-container iframe {
+    width: 100%;
+    height: 100vh;
 }
-span.license-body-strong {
-    font-weight: bold;
-    font-size: 16px;
-}
-.columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+iframe::-webkit-scrollbar { 
+    display: none; 
 }
 
-/* Title Section Styling */
-.license-title {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.license-title-1 {
-    font-family: 'Henmania-black';
-    font-size: 42px;
-    font-weight: bold;
-    color: #000;
-    text-transform: uppercase;
-    margin-top: 60px;
-    margin-bottom: 0px;
-}
-.license-title-2 {
-    font-family: 'Henmania-black';
-    font-size: 32px;
-    font-weight: bold;
-    margin: 20px 0 0px 0;
-    color: black;
-}
-.license-title .license-title-2 {
-    margin-top: 0px;
-    margin-bottom: 40px;
-}
-ol.license-body li {
-    margin-bottom: 5px;
-    text-align: left;
-    font-size: 16px;
-}
-
-.column-2 .license-title-2:first-child {
-    margin-top: 0;
-}
 /* Responsive Styling */
 
 .mobile-heading {
@@ -595,7 +551,10 @@ ol.license-body li {
     }
     .contact .contact-info *, .contact .contact-info p {
         text-align: center;
-        margin: 0;
+        margin: 0 2px;
+    }
+    .contact-info a.email p {
+        letter-spacing: 1px;
     }
 
     /* Font Areas */
