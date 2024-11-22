@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     moon.addEventListener('click', updateMode);
     fontArea1.addEventListener('click', (event) => updateTextArea(fontArea1, event));
     fontArea2.addEventListener('click', (event) => updateTextArea(fontArea2, event));
-
+    fontArea1.addEventListener('input', (event) => updateTextArea(fontArea1, event));
     // Helper Functions
 
     // initialize features
@@ -92,10 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (elementId === 'font-size') {
             updateSize(textArea, event.target.value);
+            let lineHeight = parseInt(fontArea.querySelector('.leading-option input').value)
+            updateLeading(textArea, lineHeight, fontArea);
+            console.log('font size function running', 'lineHeight:', lineHeight)
         }
 
         if (elementId === 'font-leading') {
             updateLeading(textArea, event.target.value, fontArea);
+            console.log('leading function running', 'new line height', event.target.value)
         }
 
         if (elementId === 'font-tracking') {
@@ -129,10 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
         textArea.style.fontSize = `${fontSize}px`;
     }
     function updateLeading(textArea, leadingVal, fontArea) {
-        let fontSize = parseInt(fontArea.querySelector('.size-option input').value);
-        let lineHeight = fontSize + (fontSize * (leadingVal / 100));
-        textArea.style.lineHeight = `${lineHeight}px`;
-    }       
+        let lineHeight = parseInt(fontArea.querySelector('.size-option input').value)  * 1.2 + parseInt(leadingVal) + 'px';
+        console.log('lineheight', lineHeight)
+       /* let lineHeight = fontSize + (fontSize * (leadingVal / 100));*/
+        textArea.style.lineHeight = lineHeight;
+    } 
     function updateTracking(textArea, trackingVal) {
         textArea.style.letterSpacing = `${trackingVal}px`;
     }

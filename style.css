@@ -283,7 +283,6 @@ textarea {
     /* min-height and min-width don't allow text box to get smaller than its container */
     height: 202px;
     font-size: 78px;
-    line-height: 120%;
     text-align: center;
     width: 100%;
     box-sizing: border-box;
