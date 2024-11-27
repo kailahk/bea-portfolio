@@ -1,12 +1,16 @@
 /* Global Styles */
 @font-face {
     font-family: 'Cake4Freaks-Regular';
-    src: url('./assets/fonts/Cake4Freaks-RegularText.otf') format('opentype');
+    src: url('./assets/fonts/Cake4Freaksv0.1-RegularText.otf') format('opentype');
     font-weight: 400;
 } 
 @font-face {
+    font-family: 'Cake4Freaks-Narrow';
+    src: url('./assets/fonts/Cake4Freaksv0.1-Regular.otf') format('opentype');
+} 
+@font-face {
     font-family: 'Henmania-Black';
-    src: url('./assets/fonts/Henmania-Black.otf') format('opentype');
+    src: url('./assets/fonts/HenmaniaV0.1-Black.otf') format('opentype');
     font-weight: 400;
 } 
 body {
@@ -565,6 +569,7 @@ iframe::-webkit-scrollbar {
     }
     .contact-info a.email p {
         letter-spacing: 1px;
+        margin-top: -10px;
     }
 
     /* Font Areas */
@@ -633,7 +638,8 @@ iframe::-webkit-scrollbar {
         margin: 30px 0;
     }
     .bea-info * {
-        font-size: 21px !important;
+        text-wrap: balance;
+        font-size: 20px !important;
     }
     .heart.halo {
         margin-top: 100px;
