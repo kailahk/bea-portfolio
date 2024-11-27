@@ -128,14 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(chosenFont)
             titleElement.innerHTML = 'Henmania <span class="wip hen">(wip) </span>&#x2195;';
             textArea.style.fontFamily = 'Henmania-Black';
-            console.log(fontArea.classList.contains('font-area-1'))
-            titleElement.style.marginBottom = '0px';
-            titleElement.style.paddingBottom = '0px';
             if (fontArea.classList.contains('font-area-1')) {
-                buyLink.style.display = 'block';
+                buyLink.style.visibility = 'visible';
             }
             if (fontArea.classList.contains('font-area-2')) {
-                buyLink2.style.display = 'block';
+                buyLink2.style.visibility = 'visible';
             }
         } else if (chosenFont === 'c4f') {
             console.log(chosenFont)
@@ -144,10 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
             titleElement.style.paddingBottom = '5px';
             textArea.style.fontFamily = 'Cake4Freaks-Regular';
             if (fontArea.classList.contains('font-area-1')) {
-                buyLink.style.display = 'none';
+                buyLink.style.visibility = 'hidden';
             }
             if (fontArea.classList.contains('font-area-2')) {
-                buyLink2.style.display = 'none';
+                buyLink2.style.visibility = 'hidden';
             }
         }
     }
