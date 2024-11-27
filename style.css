@@ -469,7 +469,7 @@ iframe::-webkit-scrollbar {
         display: flex;
         position: absolute;
         top: 752px;
-        left: calc(50% - 30px);
+        left: calc(50% - 29px);
     }
 
     /* Header */
