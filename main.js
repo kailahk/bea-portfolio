@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const c4fFeatures = {
         'none': [false, 'none'],
-        'lining figures': [true, 'lnum'],
+        'lining figures': [false, 'lnum'],
         'oldstyle figures': [false, 'onum'],
         'case sensitive': [false, 'case'],
         'short ascenders': [false, 'ss01'],
@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const fontArea1 = document.querySelector('.font-area-1');
     const fontArea2 = document.querySelector('.font-area-2');
     const allFonts = [...document.querySelectorAll('.all-fonts section.font-area')];
+    const buyLink = document.querySelector('.buy-link');
+    const buyLink2 = document.querySelector('.buy-link-2');
     // Event Listeners
     sun.addEventListener('click', updateMode);
     moon.addEventListener('click', updateMode);
@@ -126,10 +128,27 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(chosenFont)
             titleElement.innerHTML = 'Henmania <span class="wip hen">(wip) </span>&#x2195;';
             textArea.style.fontFamily = 'Henmania-Black';
+            console.log(fontArea.classList.contains('font-area-1'))
+            titleElement.style.marginBottom = '0px';
+            titleElement.style.paddingBottom = '0px';
+            if (fontArea.classList.contains('font-area-1')) {
+                buyLink.style.display = 'block';
+            }
+            if (fontArea.classList.contains('font-area-2')) {
+                buyLink2.style.display = 'block';
+            }
         } else if (chosenFont === 'c4f') {
             console.log(chosenFont)
             titleElement.innerHTML = 'Cake4Freaks <span class="wip c4f">(wip) </span>&#x2195;';
+            titleElement.style.marginBottom = '2px';
+            titleElement.style.paddingBottom = '5px';
             textArea.style.fontFamily = 'Cake4Freaks-Regular';
+            if (fontArea.classList.contains('font-area-1')) {
+                buyLink.style.display = 'none';
+            }
+            if (fontArea.classList.contains('font-area-2')) {
+                buyLink2.style.display = 'none';
+            }
         }
     }
     function updateSize(textArea, fontSize) {

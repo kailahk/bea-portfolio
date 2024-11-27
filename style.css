@@ -355,8 +355,15 @@ body.light-mode .slider::-webkit-slider-thumb {
     justify-content: space-between;
     align-items: flex-end;
 }
-.title-and-buy-link .buy-link {
+.title-and-buy-link .buy-link, .title-and-buy-link .buy-link-2 {
     margin-bottom: 7px;
+}
+.title-and-buy-link .buy-link-2 {
+    display: none;
+}
+.font-area-1 .title {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
 
 /* Bea Section */
@@ -381,7 +388,6 @@ body.light-mode .slider::-webkit-slider-thumb {
 .tumblr-web {
     display: flex;
     justify-content: space-between;
-    letter-spacing: 3px;
     margin: 40px 0;
 }
 .tumblr-web a {
@@ -394,7 +400,7 @@ body.light-mode .slider::-webkit-slider-thumb {
     margin-top: 20px;
 }
 .heart.halo {
-    margin-top: 100px;
+    margin-top: 60px;
 }
 .bea-image {
     display: grid;
@@ -465,8 +471,8 @@ iframe::-webkit-scrollbar {
     #sun-and-moon {
         display: flex;
         position: absolute;
-        top: 722px;
-        left: 45%;
+        top: 752px;
+        left: calc(50% - 30px);
     }
 
     /* Header */
@@ -605,15 +611,11 @@ iframe::-webkit-scrollbar {
         flex-direction: column;
         align-items: flex-start;
     }
-    .title-and-buy-link .buy-link a {
-        font-size: 22px !important;
-    }
-    .title-and-buy-link h3.title {
-        margin-bottom: 0px;
-        padding: 0px 0;
+    .title-and-buy-link .buy-link a, .title-and-buy-link .buy-link-2 a {
+        font-size: 16px !important;
     }
     .font-area-1 .title-dropdown:hover .titles.dropdown-content {
-        margin-top: -98px !important;
+        margin-top: -105px !important;
     }
 
     /* Bea Section */
@@ -625,11 +627,14 @@ iframe::-webkit-scrollbar {
     }
     .tumblr-mobile {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         margin: 30px 0;
     }
     .bea-info * {
         font-size: 21px !important;
+    }
+    .heart.halo {
+        margin-top: 100px;
     }
 
     /* License Page */
