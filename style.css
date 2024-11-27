@@ -350,6 +350,14 @@ body.light-mode .slider::-webkit-slider-thumb {
     background: white;
     cursor: pointer;
 }
+.title-and-buy-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.title-and-buy-link .buy-link {
+    margin-bottom: 7px;
+}
 
 /* Bea Section */
 .bea {
@@ -386,7 +394,7 @@ body.light-mode .slider::-webkit-slider-thumb {
     margin-top: 20px;
 }
 .heart.halo {
-    margin-top: 60px;
+    margin-top: 100px;
 }
 .bea-image {
     display: grid;
@@ -451,7 +459,7 @@ iframe::-webkit-scrollbar {
 @media screen and (max-width:768px) {
     /* Global */
     body {
-        max-width: 320px;
+        max-width: 300px;
         padding: 0 15px;
     }
     #sun-and-moon {
@@ -569,7 +577,7 @@ iframe::-webkit-scrollbar {
         margin-top: 2px;
     }
     .all-fonts {
-        margin-top: 100px;
+        margin-top: 60px;
     }
     .font-area-2 {
         margin-top: 100px;
@@ -582,10 +590,30 @@ iframe::-webkit-scrollbar {
         margin-bottom: -73px;
     }
     .font-area .title-dropdown {
-        margin-bottom: 20px;
+        margin-bottom: 0px;
     }
     h3.title {
         font-size: 20px;
+    }
+    .slider {
+        margin-right: 0;
+    }
+    .alignment-option {
+        margin-top: 5px !important;
+    }
+    .title-and-buy-link {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .title-and-buy-link .buy-link a {
+        font-size: 22px !important;
+    }
+    .title-and-buy-link h3.title {
+        margin-bottom: 0px;
+        padding: 0px 0;
+    }
+    .font-area-1 .title-dropdown:hover .titles.dropdown-content {
+        margin-top: -98px !important;
     }
 
     /* Bea Section */
@@ -599,6 +627,9 @@ iframe::-webkit-scrollbar {
         display: flex;
         justify-content: center;
         margin: 30px 0;
+    }
+    .bea-info * {
+        font-size: 21px !important;
     }
 
     /* License Page */

@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
     fontArea1.addEventListener('click', (event) => updateTextArea(fontArea1, event));
     fontArea2.addEventListener('click', (event) => updateTextArea(fontArea2, event));
     fontArea1.addEventListener('input', (event) => updateTextArea(fontArea1, event));
+    fontArea2.addEventListener('input', (event) => updateTextArea(fontArea2, event));
+    fontArea1.addEventListener('touchstart', (event) => updateTextArea(fontArea1, event));
+    fontArea2.addEventListener('touchstart', (event) => updateTextArea(fontArea2, event));
     // Helper Functions
 
     // initialize features
