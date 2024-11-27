@@ -440,7 +440,7 @@ body.light-mode .slider::-webkit-slider-thumb {
 
 /* License Page */
 .license-container iframe {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 }
 iframe::-webkit-scrollbar { 
