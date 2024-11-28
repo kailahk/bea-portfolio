@@ -124,10 +124,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // update textArea
     function updateFont(fontArea, textArea, chosenFont) {
         const titleElement = fontArea.querySelector('.title');
+        const windowWidth = window.innerWidth;
         if (chosenFont === 'hen') {
             console.log(chosenFont)
             titleElement.innerHTML = 'Henmania <span class="wip hen">(wip) </span>&#x2195;';
             textArea.style.fontFamily = 'Henmania-Black';
+            if (windowWidth >= 768) {
+                textArea.innerText = "And the Rock Cried Out, No Hiding Place";
+            }
             if (fontArea.classList.contains('font-area-1')) {
                 buyLink.style.visibility = 'visible';
             }
@@ -140,6 +144,9 @@ document.addEventListener('DOMContentLoaded', () => {
             titleElement.style.marginBottom = '2px';
             titleElement.style.paddingBottom = '5px';
             textArea.style.fontFamily = 'Cake4Freaks-Regular';
+            if (windowWidth >= 768) {
+                textArea.innerText = "Ceremonies of Light and Dark";
+            }
             if (fontArea.classList.contains('font-area-1')) {
                 buyLink.style.visibility = 'hidden';
             }
@@ -152,11 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
         textArea.style.fontSize = `${fontSize}px`;
     }
     function updateLeading(textArea, leadingVal, fontArea) {
-        let lineHeight = parseInt(fontArea.querySelector('.size-option input').value)  * 1.2 + parseInt(leadingVal) + 'px';
+        let lineHeight = parseInt(fontArea.querySelector('.size-option input').value) * 1.2 + parseInt(leadingVal) + 'px';
         console.log('lineheight', lineHeight)
-       /* let lineHeight = fontSize + (fontSize * (leadingVal / 100));*/
+        /* let lineHeight = fontSize + (fontSize * (leadingVal / 100));*/
         textArea.style.lineHeight = lineHeight;
-    } 
+    }
     function updateTracking(textArea, trackingVal) {
         textArea.style.letterSpacing = `${trackingVal}px`;
     }
