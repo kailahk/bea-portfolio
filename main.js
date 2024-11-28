@@ -283,8 +283,6 @@ function updatePlaceholder() {
         textarea1.innerText = "Abc...";
         textarea2.innerText = "Abc...";
     } else if (windowWidth >= 768) {
-        console.log('textarea1 font:', textarea1.style.fontFamily)
-        console.log('textarea2 font:', textarea2.style.fontFamily)
         if (textarea1.style.fontFamily === 'Cake4Freaks-Regular') {
             textarea1.innerText = "Ceremonies of Light and Dark";
         } else {
