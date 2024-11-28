@@ -283,8 +283,18 @@ function updatePlaceholder() {
         textarea1.innerText = "Abc...";
         textarea2.innerText = "Abc...";
     } else if (windowWidth >= 768) {
-        textarea1.innerText = "And the Rock Cried Out, No Hiding Place";
-        textarea2.innerText = "Ceremonies of Light and Dark";
+        console.log('textarea1 font:', textarea1.style.fontFamily)
+        console.log('textarea2 font:', textarea2.style.fontFamily)
+        if (textarea1.style.fontFamily === 'Cake4Freaks-Regular') {
+            textarea1.innerText = "Ceremonies of Light and Dark";
+        } else {
+            textarea1.innerText = "And the Rock Cried Out, No Hiding Place";
+        }
+        if (textarea2.style.fontFamily === 'Henmania-Black') {
+            textarea2.innerText = "And the Rock Cried Out, No Hiding Place";
+        } else {
+            textarea2.innerText = "Ceremonies of Light and Dark";
+        }
     }
 }
 
