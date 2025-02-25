@@ -204,6 +204,10 @@ body.dark-mode #moon {
 }
 
 /* Font Areas */
+.font-area textarea {
+    font-family: 'Cake4Freaks-Optical';
+    font-variation-settings: "opsz" 10;
+}
 .title-dropdown, .titles.dropdown-content, .alignment-option, .alignment-option label, .features, .features label {
     cursor: pointer;
     width: fit-content;
@@ -650,9 +654,4 @@ iframe::-webkit-scrollbar {
     .columns {
         grid-template-columns: 1fr;
     }
-}
-
-#test {
-    font-family: 'Cake4Freaks-Optical';
-    font-variation-settings: 'opsz' 10;
 }

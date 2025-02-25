@@ -116,11 +116,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (elementId === 'font-leading') {
             updateLeading(textArea, event.target.value, fontArea);
         }
-
+        /*
         if (elementId === 'font-tracking') {
             updateTracking(textArea, event.target.value);
         }
-
+        */
+        if (elementId === 'font-opsz') {
+            updateOpsz(textArea, event.target.value);
+        }
         if (event.target.classList.contains('fas')) {
             updateAlignment(textArea, classList);
         }
@@ -156,10 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 link2.innerHTML = 'Buy/$15 ↗';
             }
         } else if (chosenFont === 'c4f') {
+            updateOpsz(textArea, `opsz ${fontArea.querySelector('.opsz-option')}`);
             titleElement.innerHTML = 'Cake4Freaks &#x2195;';
             titleElement.style.marginBottom = '2px';
             titleElement.style.paddingBottom = '5px';
-            textArea.style.fontFamily = 'Cake4Freaks-Regular';
+            textArea.style.fontFamily = 'Cake4Freaks-Optical';
             titleElement.classList.add('c4f');
             titleElement.classList.remove('hen');
             if (windowWidth >= 768) {
@@ -186,11 +190,15 @@ document.addEventListener('DOMContentLoaded', () => {
         let lineHeight = parseInt(fontArea.querySelector('.size-option input').value) * 1.2 + parseInt(leadingVal) + 'px';
         textArea.style.lineHeight = lineHeight;
     }
-
+    /*
     function updateTracking(textArea, trackingVal) {
         textArea.style.letterSpacing = `${trackingVal}px`;
     }
-
+    */
+    function updateOpsz(textArea, opszVal) {
+        textArea.style.fontVariationSettings = `"opsz" ${opszVal}`;
+        console.log(textArea, textArea.style.fontVariationSettings);
+    }
     function updateAlignment(textArea, classList) {
         if (classList.contains('right')) {
             textArea.style.textAlign = 'right';
@@ -283,7 +291,7 @@ function updatePlaceholder() {
         textarea1.innerText = "Abc...";
         textarea2.innerText = "Abc...";
     } else if (windowWidth >= 768) {
-        if (textarea1.style.fontFamily === 'Cake4Freaks-Regular') {
+        if (textarea1.style.fontFamily === 'Cake4Freaks-Optical') {
             textarea1.innerText = "Ceremonies of Light and Dark";
         } else {
             textarea1.innerText = "And the Rock Cried Out, No Hiding Place";
