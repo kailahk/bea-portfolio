@@ -364,9 +364,6 @@ body.light-mode .slider::-webkit-slider-thumb {
     justify-content: space-between;
     align-items: flex-end;
 }
-.title-and-buy-link .buy-link-2 {
-    visibility: hidden;
-}
 .title-and-buy-link .buy-link, .title-and-buy-link .buy-link-2 {
     margin-bottom: 7px;
 }

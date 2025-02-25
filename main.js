@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initFeatures(allFonts) {
         allFonts.forEach((fontSection) => {
             const features = fontSection.querySelector('.features-dropdown');
-            const currFont = fontSection.querySelector('.title .wip').classList[1];
+            const currFont = fontSection.querySelector('.title').classList[1];
             features.innerHTML = '';
 
             if (currFont === 'c4f') {
@@ -127,20 +127,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const windowWidth = window.innerWidth;
         if (chosenFont === 'hen') {
             console.log(chosenFont)
-            titleElement.innerHTML = 'Henmania <span class="wip hen">(wip) </span>&#x2195;';
+            titleElement.innerHTML = 'Henmania &#x2195;';
             textArea.style.fontFamily = 'Henmania-Black';
             if (windowWidth >= 768) {
                 textArea.innerText = "And the Rock Cried Out, No Hiding Place";
             }
             if (fontArea.classList.contains('font-area-1')) {
-                buyLink.style.visibility = 'visible';
+                buyLink.querySelector('a').href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
             }
             if (fontArea.classList.contains('font-area-2')) {
-                buyLink2.style.visibility = 'visible';
+                buyLink2.querySelector('a').href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
             }
         } else if (chosenFont === 'c4f') {
             console.log(chosenFont)
-            titleElement.innerHTML = 'Cake4Freaks <span class="wip c4f">(wip) </span>&#x2195;';
+            titleElement.innerHTML = 'Cake4Freaks &#x2195;';
             titleElement.style.marginBottom = '2px';
             titleElement.style.paddingBottom = '5px';
             textArea.style.fontFamily = 'Cake4Freaks-Regular';
@@ -148,10 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 textArea.innerText = "Ceremonies of Light and Dark";
             }
             if (fontArea.classList.contains('font-area-1')) {
-                buyLink.style.visibility = 'hidden';
+                buyLink.querySelector('a').href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
             }
             if (fontArea.classList.contains('font-area-2')) {
-                buyLink2.style.visibility = 'hidden';
+                console.log('buyLink2',buyLink2);
+                buyLink2.querySelector('a').href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
             }
         }
     }
