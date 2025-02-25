@@ -116,10 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (elementId === 'font-leading') {
             updateLeading(textArea, event.target.value, fontArea);
         }
-        /*
+
         if (elementId === 'font-tracking') {
             updateTracking(textArea, event.target.value);
-        }*/
+        }
 
         if (event.target.classList.contains('fas')) {
             updateAlignment(textArea, classList);
@@ -186,11 +186,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let lineHeight = parseInt(fontArea.querySelector('.size-option input').value) * 1.2 + parseInt(leadingVal) + 'px';
         textArea.style.lineHeight = lineHeight;
     }
-    /*
+
     function updateTracking(textArea, trackingVal) {
         textArea.style.letterSpacing = `${trackingVal}px`;
     }
-    */
+
     function updateAlignment(textArea, classList) {
         if (classList.contains('right')) {
             textArea.style.textAlign = 'right';
@@ -213,6 +213,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     features['none'][0] = false; // Ensure 'none' is cleared when any other feature is activated
                 }
             });
+
+            // Handle mutually exclusive features
+            if (features['lining figures'] && features['oldstyle figures']) {
+                if (fontCode === 'lnum' && features['oldstyle figures'][0]) {
+                    features['oldstyle figures'][0] = false;
+                } else if (fontCode === 'onum' && features['lining figures'][0]) {
+                    features['lining figures'][0] = false;
+                }
+            }
         }
     }
 
