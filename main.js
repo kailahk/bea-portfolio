@@ -133,10 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 textArea.innerText = "And the Rock Cried Out, No Hiding Place";
             }
             if (fontArea.classList.contains('font-area-1')) {
-                buyLink.querySelector('a').href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
+                let link = buyLink.querySelector('a')
+                link.href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
+                link.innerHTML = 'Buy/$15 ↗'
             }
             if (fontArea.classList.contains('font-area-2')) {
-                buyLink2.querySelector('a').href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
+                let link2 = buyLink2.querySelector('a')
+                link2.href  = 'https://www.futurefonts.xyz/bea-korsh/henmania';
+                link2.innerHTML = 'Buy/$15 ↗'
             }
         } else if (chosenFont === 'c4f') {
             console.log(chosenFont)
@@ -148,11 +152,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 textArea.innerText = "Ceremonies of Light and Dark";
             }
             if (fontArea.classList.contains('font-area-1')) {
-                buyLink.querySelector('a').href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
+                let link = buyLink.querySelector('a')
+                link.href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
+                link.innerHTML = 'Buy/$10 ↗'
+                
             }
             if (fontArea.classList.contains('font-area-2')) {
-                console.log('buyLink2',buyLink2);
-                buyLink2.querySelector('a').href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
+                let link2 = buyLink2.querySelector('a')
+                link2.href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
+                link2.innerHTML = 'Buy/$10 ↗'
             }
         }
     }
