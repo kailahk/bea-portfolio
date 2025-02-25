@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     const c4fFeatures = {
         'none': [false, 'none'],
         'lining figures': [false, 'lnum'],
@@ -16,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let activeFeaturesC4f = [];
     let activeFeaturesHen = [];
+    let currFont = '';
 
     // DOM Elements
     let body = document.getElementsByTagName('body')[0];
@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const allFonts = [...document.querySelectorAll('.all-fonts section.font-area')];
     const buyLink = document.querySelector('.buy-link');
     const buyLink2 = document.querySelector('.buy-link-2');
+
     // Event Listeners
     sun.addEventListener('click', updateMode);
     moon.addEventListener('click', updateMode);
@@ -35,15 +36,22 @@ document.addEventListener('DOMContentLoaded', () => {
     fontArea2.addEventListener('input', (event) => updateTextArea(fontArea2, event));
     fontArea1.addEventListener('touchstart', (event) => updateTextArea(fontArea1, event));
     fontArea2.addEventListener('touchstart', (event) => updateTextArea(fontArea2, event));
+
+    // Initialize features on load
+    initFeatures(allFonts);
+
     // Helper Functions
 
-    // initialize features
     function initFeatures(allFonts) {
         allFonts.forEach((fontSection) => {
             const features = fontSection.querySelector('.features-dropdown');
-            const currFont = fontSection.querySelector('.title').classList[1];
+            const titleElement = fontSection.querySelector('.title');
+            if (!titleElement) {
+                console.error('Title element not found in fontSection', fontSection);
+                return;
+            }
+            currFont = titleElement.classList.contains('hen') ? 'hen' : 'c4f';
             features.innerHTML = '';
-
             if (currFont === 'c4f') {
                 appendFeatures(features, c4fFeatures);
                 features.classList.add('c4f');
@@ -70,11 +78,15 @@ document.addEventListener('DOMContentLoaded', () => {
             fontFeature.innerHTML = `<span class="check ${visibilityClass}">&#x2713; </span>${featureName}`;
 
             container.appendChild(fontFeature);
+
+            // Add event listener for feature toggling
+            fontFeature.addEventListener('click', () => {
+                toggleFeature(featureSet, featureCode);
+                updateFeatures(container.closest('.font-area'), container.closest('.font-area').querySelector('.font-input'));
+            });
         });
     }
 
-
-    // switch between light and dark mode
     function updateMode(event) {
         if (event.target.id === 'sun') {
             body.setAttribute('class', 'light-mode');
@@ -88,23 +100,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const elementId = event.target.id;
         const textArea = fontArea.querySelector('.font-input');
         if (classList.contains('hen') && !classList.contains('font-input')) {
+            currFont = 'hen';
             updateFont(fontArea, textArea, 'hen');
-            initFeatures(allFonts);
         } else if (classList.contains('c4f')) {
+            currFont = 'c4f';
             updateFont(fontArea, textArea, 'c4f');
-            initFeatures(allFonts);
         }
 
         if (elementId === 'font-size') {
             updateSize(textArea, event.target.value);
-            let lineHeight = parseInt(fontArea.querySelector('.leading-option input').value)
+            let lineHeight = parseInt(fontArea.querySelector('.leading-option input').value);
             updateLeading(textArea, lineHeight, fontArea);
-            console.log('font size function running', 'lineHeight:', lineHeight)
         }
 
         if (elementId === 'font-leading') {
             updateLeading(textArea, event.target.value, fontArea);
-            console.log('leading function running', 'new line height', event.target.value)
         }
 
         if (elementId === 'font-tracking') {
@@ -115,69 +125,74 @@ document.addEventListener('DOMContentLoaded', () => {
             updateAlignment(textArea, classList);
         }
 
-        if (event.target.classList.contains('feature')) {
-            updateFeatures(fontArea, textArea, classList);
-        }
+        initFeatures(allFonts);
+        updateFeatures(fontArea, textArea);
         autoResize(textArea);
     }
 
-    // update textArea
     function updateFont(fontArea, textArea, chosenFont) {
         const titleElement = fontArea.querySelector('.title');
+        if (!titleElement) {
+            console.error('Title element not found in updateFont', fontArea);
+            return;
+        }
         const windowWidth = window.innerWidth;
         if (chosenFont === 'hen') {
-            console.log(chosenFont)
             titleElement.innerHTML = 'Henmania &#x2195;';
             textArea.style.fontFamily = 'Henmania-Black';
+            titleElement.classList.add('hen');
+            titleElement.classList.remove('c4f');
             if (windowWidth >= 768) {
                 textArea.innerText = "And the Rock Cried Out, No Hiding Place";
             }
             if (fontArea.classList.contains('font-area-1')) {
-                let link = buyLink.querySelector('a')
+                let link = buyLink.querySelector('a');
                 link.href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
-                link.innerHTML = 'Buy/$15 ↗'
+                link.innerHTML = 'Buy/$15 ↗';
             }
             if (fontArea.classList.contains('font-area-2')) {
-                let link2 = buyLink2.querySelector('a')
-                link2.href  = 'https://www.futurefonts.xyz/bea-korsh/henmania';
-                link2.innerHTML = 'Buy/$15 ↗'
+                let link2 = buyLink2.querySelector('a');
+                link2.href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
+                link2.innerHTML = 'Buy/$15 ↗';
             }
         } else if (chosenFont === 'c4f') {
-            console.log(chosenFont)
             titleElement.innerHTML = 'Cake4Freaks &#x2195;';
             titleElement.style.marginBottom = '2px';
             titleElement.style.paddingBottom = '5px';
             textArea.style.fontFamily = 'Cake4Freaks-Regular';
+            titleElement.classList.add('c4f');
+            titleElement.classList.remove('hen');
             if (windowWidth >= 768) {
                 textArea.innerText = "Ceremonies of Light and Dark";
             }
             if (fontArea.classList.contains('font-area-1')) {
-                let link = buyLink.querySelector('a')
+                let link = buyLink.querySelector('a');
                 link.href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
-                link.innerHTML = 'Buy/$10 ↗'
-                
+                link.innerHTML = 'Buy/$10 ↗';
             }
             if (fontArea.classList.contains('font-area-2')) {
-                let link2 = buyLink2.querySelector('a')
+                let link2 = buyLink2.querySelector('a');
                 link2.href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
-                link2.innerHTML = 'Buy/$10 ↗'
+                link2.innerHTML = 'Buy/$10 ↗';
             }
         }
     }
+
     function updateSize(textArea, fontSize) {
         textArea.style.fontSize = `${fontSize}px`;
     }
+
     function updateLeading(textArea, leadingVal, fontArea) {
         let lineHeight = parseInt(fontArea.querySelector('.size-option input').value) * 1.2 + parseInt(leadingVal) + 'px';
-        console.log('lineheight', lineHeight)
-        /* let lineHeight = fontSize + (fontSize * (leadingVal / 100));*/
         textArea.style.lineHeight = lineHeight;
     }
+
     function updateTracking(textArea, trackingVal) {
         textArea.style.letterSpacing = `${trackingVal}px`;
     }
+
     function updateAlignment(textArea, classList) {
-        if (classList[2] === 'right') {
+        if (classList.contains('right')) {
             textArea.style.textAlign = 'right';
         } else if (classList.contains('center')) {
             textArea.style.textAlign = 'center';
@@ -186,102 +201,69 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function toggleFeature(features, activeFeatures, fontCode) {
-        // Check if 'none' is clicked
+    function toggleFeature(features, fontCode) {
         if (fontCode === 'none') {
-            // Set 'none' to true and all other features to false
             Object.keys(features).forEach(featureName => {
-                if (features[featureName][1] === 'none') {
-                    features['none'][0] = true;
-                } else {
-                    features[featureName][0] = false; // Set all other features to false
-                }
+                features[featureName][0] = featureName === 'none';
             });
-
-            // Clear the activeFeatures and set only 'none'
-            activeFeatures = ['none'];
         } else {
-            // Toggle the specific feature based on the font code
             Object.entries(features).forEach(([featureName, featureValue]) => {
-                if (fontCode === featureValue[1] && !featureValue[0]) {
-                    features[featureName][0] = true;
-                    features['none'][0] = false;
-                } else if (fontCode === featureValue[1] && featureValue[0]) {
-                    features[featureName][0] = false;
+                if (fontCode === featureValue[1]) {
+                    features[featureName][0] = !featureValue[0];
+                    features['none'][0] = false; // Ensure 'none' is cleared when any other feature is activated
                 }
             });
-
-            // Manage the active features
-            let hasOtherActiveFeatures = false;
-
-            for (const [key, [isActive, featureCode]] of Object.entries(features)) {
-                const featureString = `${featureCode}`;
-
-                if (isActive && featureString !== 'none' && !activeFeatures.includes(featureString)) {
-                    activeFeatures.push(featureString);
-                } else if (!isActive && activeFeatures.includes(featureString)) {
-                    activeFeatures = activeFeatures.filter(item => item !== featureString);
-                }
-
-                if (isActive && featureString !== 'none') {
-                    hasOtherActiveFeatures = true;
-                }
-            }
-
-            // Handle 'none' visibility: Remove 'none' if any other feature is active
-            if (hasOtherActiveFeatures) {
-                activeFeatures = activeFeatures.filter(item => item !== 'none'); // Remove 'none' if any other feature is active
-            } else if (!activeFeatures.includes('none')) {
-                activeFeatures.push('none');  // Add 'none' if no other feature is active
-                features['none'][0] = true;
-            }
         }
-        console.log(activeFeatures)
-        return activeFeatures;
     }
 
-    function updateFeatures(fontArea, textArea, classList) {
-        const titleElement = fontArea.querySelector('.title .wip');
-        const fontCode = [...classList][1];
+    function updateFeatures(fontArea, textArea) {
+        const titleElement = fontArea.querySelector('.title');
+        if (!titleElement) {
+            console.error('Title element not found in updateFeatures', fontArea);
+            return;
+        }
 
+        let activeFeatures = [];
         let featureSet;
+
         if (titleElement.classList.contains('c4f')) {
-            activeFeaturesC4f = toggleFeature(c4fFeatures, activeFeaturesC4f, fontCode);
             featureSet = c4fFeatures;
         } else if (titleElement.classList.contains('hen')) {
-            activeFeaturesHen = toggleFeature(henFeatures, activeFeaturesHen, fontCode);
             featureSet = henFeatures;
         }
 
-        // Update the font feature settings
-        const activeFeatures = titleElement.classList.contains('c4f') ? activeFeaturesC4f : activeFeaturesHen;
-        textArea.style.fontFeatureSettings = activeFeatures.map(feature => `'${feature}'`).join(', ');
+        if (!featureSet) {
+            console.error('Feature set not found');
+            return;
+        }
 
-        // Update the visibility of check marks dynamically
+        Object.entries(featureSet).forEach(([featureName, featureValue]) => {
+            if (featureValue[0]) {
+                activeFeatures.push(featureValue[1]);
+            }
+        });
+
+        textArea.style.fontFeatureSettings = activeFeatures.map(feature => `'${feature}'`).join(', ');
+        console.log(textArea.style.fontFeatureSettings);
         updateCheckMarks(featureSet, fontArea);
     }
 
     function updateCheckMarks(featureSet, fontArea) {
         Object.entries(featureSet).forEach(([featureName, featureValue]) => {
             const [isActive, featureCode] = featureValue;
-
-            // Find the feature element by its data attribute
             const featureElement = fontArea.querySelector(`.feature[data-feature-code="${featureCode}"] .check`);
 
-            // Update the visibility class based on whether the feature is active
-            if (featureElement) {  // Ensure featureElement exists before trying to update it
-                if (isActive) {
-                    featureElement.classList.remove('invisible');
-                    featureElement.classList.add('visible');
-                } else {
-                    featureElement.classList.remove('visible');
-                    featureElement.classList.add('invisible');
-                }
+            if (featureElement) {
+                featureElement.classList.toggle('visible', isActive);
+                featureElement.classList.toggle('invisible', !isActive);
             }
         });
     }
 
-    initFeatures(allFonts);
+    window.addEventListener('resize', updatePlaceholder);
+    window.addEventListener('resize', autoResize);
+    window.addEventListener('load', updatePlaceholder);
+    window.addEventListener('load', autoResize);
 });
 
 function updatePlaceholder() {
@@ -310,22 +292,14 @@ function autoResize(textArea) {
     const textarea1 = document.getElementById('first-input');
     const textarea2 = document.getElementById('second-input');
     if (windowWidth < 768) {
-        textarea1.style.height = '152px'; // Reset the height
-        textarea2.style.height = '152px'; // Reset the height
-        textarea1.style.height = textarea1.scrollHeight + 'px'; // Adjust based on content
-        textarea2.style.height = textarea2.scrollHeight + 'px'; // Adjust based on content
+        textarea1.style.height = '152px';
+        textarea2.style.height = '152px';
+        textarea1.style.height = textarea1.scrollHeight + 'px';
+        textarea2.style.height = textarea2.scrollHeight + 'px';
     } else if (windowWidth >= 768) {
-        textarea1.style.height = '204px'; // Reset the height
-        textarea2.style.height = '204px'; // Reset the height
-        textarea1.style.height = textarea1.scrollHeight + 'px'; // Adjust based on content
-        textarea2.style.height = textarea2.scrollHeight + 'px'; // Adjust based on content
+        textarea1.style.height = '204px';
+        textarea2.style.height = '204px';
+        textarea1.style.height = textarea1.scrollHeight + 'px';
+        textarea2.style.height = textarea2.scrollHeight + 'px';
     }
 }
-
-// Call the function on window resize
-window.addEventListener('resize', updatePlaceholder);
-window.addEventListener('resize', autoResize);
-
-// Call the function on initial load
-window.addEventListener('load', updatePlaceholder);
-window.addEventListener('load', autoResize);
