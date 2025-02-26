@@ -13,8 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
         'ligatures': [true, 'liga']
     };
 
-    let activeFeaturesC4f = [];
-    let activeFeaturesHen = [];
+    const c4fOpszVals = {
+        'text regular': [true, 'text regular'],
+        'regular': [false, 'regular'],
+        'display regular': [false, 'display regular']
+    }
+
+    const OPSZ_VALUES = {
+        'text regular': 10,
+        'regular': 24,
+        'display regular': 48
+    };
+
     let currFont = '';
 
     // DOM Elements
@@ -39,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize features on load
     initFeatures(allFonts);
+    initOpszVals(allFonts);
 
     // Helper Functions
 
@@ -84,6 +95,184 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggleFeature(featureSet, featureCode);
                 updateFeatures(container.closest('.font-area'), container.closest('.font-area').querySelector('.font-input'));
             });
+        });
+    }
+
+    function appendOpszVals(container, opszVals) {
+        const dropdownTitle = container.querySelector('.opsz-title');
+        const dropdownContent = container.querySelector('.dropdown-content');
+        const fontArea = container.closest('.font-area');
+        const slider = fontArea.querySelector('.opsz-option input');
+    
+        dropdownContent.innerHTML = '';
+    
+        Object.entries(opszVals).forEach(([opszName, opszValue]) => {
+            const [isActive, displayName] = opszValue;
+            const visibilityClass = isActive ? 'visible' : 'invisible';
+    
+            const opszOption = document.createElement('p');
+            opszOption.setAttribute('id', opszName.replace(/\s+/g, '-').toLowerCase());
+            opszOption.innerHTML = `<span class="check ${visibilityClass}">&#x2713; </span>${displayName}`;
+    
+            opszOption.addEventListener('click', () => {
+                updateAllOpszElements(
+                    fontArea,
+                    opszName,
+                    displayName,
+                    OPSZ_VALUES[opszName.toLowerCase()]
+                );
+            });
+    
+            dropdownContent.appendChild(opszOption);
+        });
+    
+        // Add slider event listener
+        slider.addEventListener('input', () => {
+            const value = parseInt(slider.value);
+            const closestOpsz = findClosestOpszValue(value);
+            updateAllOpszElements(
+                fontArea,
+                closestOpsz.name,
+                closestOpsz.displayName,
+                value
+            );
+        });
+    
+        dropdownTitle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownContent.classList.toggle('hidden');
+        });
+    
+        document.addEventListener('click', () => {
+            dropdownContent.classList.add('hidden');
+        });
+    }
+    
+    function updateAllOpszElements(fontArea, opszName, displayName, value) {
+        // 1. Update the title after Cake4Freaks
+        const titleElement = fontArea.querySelector('.title');
+        if (titleElement.classList.contains('c4f')) {
+            titleElement.innerHTML = `Cake4Freaks &#x2195;&nbsp;</span>`;
+        }
+    
+        // 2. Update dropdown title and checkmarks
+        const dropdownTitle = fontArea.querySelector('.opsz-title');
+        dropdownTitle.innerHTML = `${displayName} &#x2195;`;
+        
+        // Update active state in c4fOpszVals
+        Object.keys(c4fOpszVals).forEach(key => {
+            c4fOpszVals[key][0] = (key.toLowerCase() === opszName.toLowerCase());
+        });
+        
+        // Update checkmarks visibility in dropdown
+        const dropdownContent = fontArea.querySelector('.opsz-dropdown .dropdown-content');
+        const checkmarks = dropdownContent.querySelectorAll('.check');
+        checkmarks.forEach(check => {
+            const optionName = check.parentElement.id.replace(/-/g, ' ');
+            check.classList.toggle('visible', optionName === opszName.toLowerCase());
+            check.classList.toggle('invisible', optionName !== opszName.toLowerCase());
+        });
+    
+        // 3. Update slider value
+        const slider = fontArea.querySelector('.opsz-option input');
+        slider.value = value;
+    
+        // 4. Update font-variation-settings
+        const textArea = fontArea.querySelector('.font-input');
+        textArea.style.fontVariationSettings = `"opsz" ${value}`;
+    }
+
+    function findClosestOpszValue(value) {
+        let closestName = 'text regular';
+        let minDiff = Math.abs(OPSZ_VALUES['text regular'] - value);
+    
+        Object.entries(OPSZ_VALUES).forEach(([name, opszValue]) => {
+            const diff = Math.abs(opszValue - value);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closestName = name;
+            }
+        });
+    
+        return {
+            name: closestName,
+            displayName: closestName.split(' ').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ')
+        };
+    }
+
+    function updateOpszCheckmarks(container, opszVals) {
+        const dropdownContent = container.querySelector('.dropdown-content');
+        const options = dropdownContent.querySelectorAll('p');
+
+        options.forEach(option => {
+            const opszName = option.id.replace(/-/g, ' ');
+            const isActive = opszVals[opszName][0];
+            option.innerHTML = `${isActive ? '&#x2713; ' : ''}${opszVals[opszName][1]}`;
+        });
+    }
+
+    function updateOpszFromSlider(value, container, fontArea) {
+        const dropdownTitle = container.querySelector('.opsz-title');
+        let closestName = 'text regular';
+        let minDiff = Math.abs(OPSZ_VALUES['text regular'] - value);
+    
+        // Find the closest optical size value
+        Object.entries(OPSZ_VALUES).forEach(([name, opszValue]) => {
+            const diff = Math.abs(opszValue - value);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closestName = name;
+            }
+        });
+    
+        // Update the active state in c4fOpszVals
+        Object.keys(c4fOpszVals).forEach(key => {
+            c4fOpszVals[key][0] = (key.toLowerCase() === closestName);
+        });
+    
+        // Update dropdown title and checkmarks
+        const displayName = closestName.charAt(0).toUpperCase() + closestName.slice(1);
+        dropdownTitle.innerHTML = `${displayName} &#x2195;`;
+        updateOpszCheckmarks(container, c4fOpszVals);
+    
+        // Update font variation settings
+        const textArea = fontArea.querySelector('.font-input');
+        updateOpsz(textArea, value);
+    }
+
+    function initOpszVals(allFonts) {
+        allFonts.forEach((fontSection) => {
+            const opszVals = fontSection.querySelector('.opsz-dropdown');
+            const titleElement = fontSection.querySelector('.title');
+            
+            if (!titleElement) {
+                console.error('Title element not found in fontSection', fontSection);
+                return;
+            }
+            
+            currFont = titleElement.classList.contains('hen') ? 'hen' : 'c4f';
+            if (currFont === 'c4f') {
+                // Set initial values
+                const activeOpsz = Object.entries(c4fOpszVals).find(([_, value]) => value[0])?.[0] || 'text regular';
+                const value = OPSZ_VALUES[activeOpsz.toLowerCase()];
+                const displayName = activeOpsz.split(' ').map(word => 
+                    word.charAt(0).toUpperCase() + word.slice(1)
+                ).join(' ');
+    
+                updateAllOpszElements(
+                    fontSection,
+                    activeOpsz,
+                    displayName,
+                    value
+                );
+                
+                appendOpszVals(opszVals, c4fOpszVals);
+                opszVals.classList.remove('hidden');
+            } else {
+                opszVals.classList.add('hidden');
+            }
         });
     }
 
@@ -141,7 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const windowWidth = window.innerWidth;
         if (chosenFont === 'hen') {
-            titleElement.innerHTML = 'Henmania &#x2195;';
+            const opszDropdown = fontArea.querySelector('.opsz-dropdown');
+            opszDropdown.classList.add('hidden'); // Use classList instead of style.display
+            fontArea.querySelector('.opsz-option').style.opacity = '0';
+            fontArea.querySelector('.opsz-option').classList.add('hidden')
+            titleElement.innerHTML = 'Henmania &#x2195; <span id="hen-black">Black</span>';
             textArea.style.fontFamily = 'Henmania-Black';
             titleElement.classList.add('hen');
             titleElement.classList.remove('c4f');
@@ -159,8 +352,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 link2.innerHTML = 'Buy/$15 ↗';
             }
         } else if (chosenFont === 'c4f') {
-            updateOpsz(textArea, `opsz ${fontArea.querySelector('.opsz-option')}`);
-            titleElement.innerHTML = 'Cake4Freaks &#x2195;';
+            const opszDropdown = fontArea.querySelector('.opsz-dropdown');
+            opszDropdown.classList.remove('hidden'); // Use classList instead of style.display
+            fontArea.querySelector('.opsz-option').style.opacity = '1';
+            fontArea.querySelector('.opsz-option').classList.remove('hidden')
+            titleElement.innerHTML = 'Cake4Freaks &#x2195;&nbsp;';
+            // Initialize with default optical size
+            const activeOpsz = Object.entries(c4fOpszVals).find(([_, value]) => value[0])?.[0] || 'text regular';
+            const value = OPSZ_VALUES[activeOpsz.toLowerCase()];
+            const displayName = activeOpsz.split(' ').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+    
+            // Update all optical size elements
+            updateAllOpszElements(
+                fontArea,
+                activeOpsz,
+                displayName,
+                value
+            );
+    
             titleElement.style.marginBottom = '2px';
             titleElement.style.paddingBottom = '5px';
             textArea.style.fontFamily = 'Cake4Freaks-Optical';
@@ -179,6 +390,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 link2.href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
                 link2.innerHTML = 'Buy/$10 ↗';
             }
+    
+            // Reinitialize the optical size dropdown
+            appendOpszVals(opszDropdown, c4fOpszVals);
         }
     }
 
@@ -195,9 +409,8 @@ document.addEventListener('DOMContentLoaded', () => {
         textArea.style.letterSpacing = `${trackingVal}px`;
     }
     */
-    function updateOpsz(textArea, opszVal) {
-        textArea.style.fontVariationSettings = `"opsz" ${opszVal}`;
-        console.log(textArea, textArea.style.fontVariationSettings);
+    function updateOpsz(textArea, value) {
+        textArea.style.fontVariationSettings = `"opsz" ${value}`;
     }
     function updateAlignment(textArea, classList) {
         if (classList.contains('right')) {
@@ -261,7 +474,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         textArea.style.fontFeatureSettings = activeFeatures.map(feature => `'${feature}'`).join(', ');
-        console.log(textArea.style.fontFeatureSettings);
         updateCheckMarks(featureSet, fontArea);
     }
 
@@ -314,8 +526,7 @@ function autoResize(textArea) {
         textarea1.style.height = textarea1.scrollHeight + 'px';
         textarea2.style.height = textarea2.scrollHeight + 'px';
     } else if (windowWidth >= 768) {
-        textarea1.style.height = '204px';
-        textarea2.style.height = '204px';
+
         textarea1.style.height = textarea1.scrollHeight + 'px';
         textarea2.style.height = textarea2.scrollHeight + 'px';
     }

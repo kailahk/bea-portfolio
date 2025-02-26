@@ -44,6 +44,9 @@ h3 {
 .hen.font-input {
     font-family: 'Henmania-Black';
 }
+#hen-black {
+    font-size: 16px;
+}
 .hidden {
     display: none !important;
 }
@@ -59,6 +62,10 @@ h3 {
 }
 .visible {
     visibility: visible !important;
+}
+.font-area-1 .opsz-option {
+    opacity: 0;
+    transition: opacity 0.3s
 }
 
 /* Header */
@@ -226,7 +233,7 @@ body.light-mode .title-dropdown:hover .titles.dropdown-content  {
     border: 1px solid black;
 }
 .font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content {
-    margin-top: -105px !important;
+    margin-top: -100px !important;
 }
 .title-dropdown:hover .titles.dropdown-content p {
     margin: 10px;
@@ -370,6 +377,37 @@ body.light-mode .slider::-webkit-slider-thumb {
 }
 .title-and-buy-link .buy-link, .title-and-buy-link .buy-link-2 {
     margin-bottom: 7px;
+}
+.hide-opsz {
+    display: none;
+}
+.title-and-opsz {
+    display: flex;
+    align-items: flex-end;
+    cursor: pointer;
+    position: relative;
+}
+#opsz-dropdown-title {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.opsz-dropdown .dropdown-content {
+    width: 190px;
+}
+.opsz-dropdown .dropdown-content * {
+    font-size: 16px !important;
+    letter-spacing: 2px;
+    margin: 0px;
+}
+.opsz-dropdown:hover .dropdown-content.hide-opsz {
+    display: flex !important;
+    position: absolute;
+    border: 1px solid white;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: -110px;
 }
 
 /* Bea Section */
@@ -627,8 +665,15 @@ iframe::-webkit-scrollbar {
         margin-bottom: 0px;
     }
     .font-area-1 .title-dropdown:hover .titles.dropdown-content {
-        margin-top: -105px !important;
+        margin-top: -100px !important;
     }
+    .title-and-opsz {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .opsz-dropdown:hover .dropdown-content.hide-opsz {
+        margin-top: -10px;
+    }    
 
     /* Bea Section */
     .bea-section {
