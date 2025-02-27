@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const henFeatures = {
         'none': [false, 'none'],
-        'contextual alternate': [false, 'calt'],
+        'contextual alternates': [false, 'calt'],
         'ligatures': [true, 'liga']
     };
 
@@ -333,30 +333,42 @@ document.addEventListener('DOMContentLoaded', () => {
             const opszDropdown = fontArea.querySelector('.opsz-dropdown');
             opszDropdown.classList.add('hidden'); // Use classList instead of style.display
             fontArea.querySelector('.opsz-option').style.opacity = '0';
-            fontArea.querySelector('.opsz-option').classList.add('hidden')
             titleElement.innerHTML = 'Henmania &#x2195; <span id="hen-black">Black</span>';
             textArea.style.fontFamily = 'Henmania-Black';
             titleElement.classList.add('hen');
             titleElement.classList.remove('c4f');
             if (windowWidth >= 768) {
                 textArea.innerText = "And the Rock Cried Out, No Hiding Place";
+                fontArea.querySelector('.opsz-option').style.visibility = 'hidden'
+                fontArea.querySelector('.opsz-option').style.display = 'flex'
+            } else {
+                fontArea.querySelector('.opsz-option').classList.add('hidden')
+                fontArea.querySelector('.opsz-option').style.display = 'none'
             }
             if (fontArea.classList.contains('font-area-1')) {
                 let link = buyLink.querySelector('a');
                 link.href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
-                link.innerHTML = 'Buy/$15 ↗';
+                link.innerHTML = 'Buy/$10 ↗';
             }
             if (fontArea.classList.contains('font-area-2')) {
                 let link2 = buyLink2.querySelector('a');
                 link2.href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
-                link2.innerHTML = 'Buy/$15 ↗';
+                link2.innerHTML = 'Buy/$10 ↗';
             }
         } else if (chosenFont === 'c4f') {
             const opszDropdown = fontArea.querySelector('.opsz-dropdown');
             opszDropdown.classList.remove('hidden'); // Use classList instead of style.display
             fontArea.querySelector('.opsz-option').style.opacity = '1';
-            fontArea.querySelector('.opsz-option').classList.remove('hidden')
             titleElement.innerHTML = 'Cake4Freaks &#x2195;&nbsp;';
+            if (windowWidth < 768) {
+                fontArea.querySelector('.opsz-option').classList.remove('hidden')
+                fontArea.querySelector('.opsz-option').style.display = 'flex'
+                fontArea.querySelector('.opsz-option').style.visibility = 'visible'
+            } else {
+                fontArea.querySelector('.opsz-option').classList.remove('hidden')
+                fontArea.querySelector('.opsz-option').style.display = 'flex'
+                fontArea.querySelector('.opsz-option').style.visibility = 'visible'
+            }
             // Initialize with default optical size
             const activeOpsz = Object.entries(c4fOpszVals).find(([_, value]) => value[0])?.[0] || 'text regular';
             const value = OPSZ_VALUES[activeOpsz.toLowerCase()];
@@ -383,12 +395,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (fontArea.classList.contains('font-area-1')) {
                 let link = buyLink.querySelector('a');
                 link.href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
-                link.innerHTML = 'Buy/$10 ↗';
+                link.innerHTML = 'Buy/$15 ↗';
             }
             if (fontArea.classList.contains('font-area-2')) {
                 let link2 = buyLink2.querySelector('a');
                 link2.href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
-                link2.innerHTML = 'Buy/$10 ↗';
+                link2.innerHTML = 'Buy/$15 ↗';
             }
     
             // Reinitialize the optical size dropdown

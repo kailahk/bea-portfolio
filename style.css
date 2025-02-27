@@ -63,9 +63,8 @@ h3 {
 .visible {
     visibility: visible !important;
 }
-.font-area-1 .opsz-option {
-    opacity: 0;
-    transition: opacity 0.3s
+.opsz-dropdown {
+    text-transform: capitalize;
 }
 
 /* Header */
@@ -394,7 +393,7 @@ body.light-mode .slider::-webkit-slider-thumb {
     text-transform: uppercase;
 }
 .opsz-dropdown .dropdown-content {
-    width: 190px;
+    width: 195px;
 }
 .opsz-dropdown .dropdown-content * {
     font-size: 16px !important;
@@ -408,6 +407,9 @@ body.light-mode .slider::-webkit-slider-thumb {
     flex-direction: column;
     padding: 10px;
     margin-top: -110px;
+}
+.font-area-1 .opsz-option {
+    visibility: hidden;
 }
 
 /* Bea Section */
@@ -673,7 +675,10 @@ iframe::-webkit-scrollbar {
     }
     .opsz-dropdown:hover .dropdown-content.hide-opsz {
         margin-top: -10px;
-    }    
+    }  
+    .font-area-1 .opsz-option {
+        display: none;
+    }
 
     /* Bea Section */
     .bea-section {
