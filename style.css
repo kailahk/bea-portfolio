@@ -1,7 +1,7 @@
 /* Global Styles */
 @font-face {
     font-family: 'Cake4Freaks-Regular';
-    src: url('./assets/fonts/Cake4Freaksv0.1-RegularText.otf') format('opentype');
+    src: url('./assets/fonts/Cake4Freaksv0.1-TextRegular.otf') format('opentype');
     font-weight: 400;
 } 
 @font-face {
@@ -118,7 +118,7 @@ h3 {
 }
 /* Contact */
 .contact .desktop.top {
-    grid-column: 1 / 23;
+    grid-column: 1 / 24;
     grid-row: 1;
 }
 .contact .desktop.top, .contact .desktop.bottom {
@@ -127,6 +127,7 @@ h3 {
 }
 .contact .desktop.bottom {
     grid-row: 7;
+    grid-column: 1 / 24;
 }
 .contact .left {
     grid-column: 1;
@@ -411,6 +412,20 @@ body.light-mode .slider::-webkit-slider-thumb {
 .font-area-1 .opsz-option {
     visibility: hidden;
 }
+.opsz-option-hen:hover .dropdown-content.hide-opsz{
+    display: flex;
+    position: absolute;
+    border: 1px solid white;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: -70px;
+    width: 150px;
+}
+.opsz-option-hen:hover .dropdown-content.hide-opsz p {
+    font-size: 16px;
+    margin: 0;
+    letter-spacing: 2px;
+}
 
 /* Bea Section */
 .bea {
@@ -439,6 +454,10 @@ body.light-mode .slider::-webkit-slider-thumb {
 .tumblr-web a {
     margin-left: 10px;
 }
+.tumblr-web *:not(a) {
+    letter-spacing: 2.16px;
+    line-height: 28.5px;
+}
 .heart {
     text-align: center;
 }
@@ -456,6 +475,7 @@ body.light-mode .slider::-webkit-slider-thumb {
 }
 .bea-image .top {
     grid-row: 1;
+    grid-column: 1 / 10;
     letter-spacing: 2.11px;
     line-height: 28.5px;
 }
@@ -482,6 +502,7 @@ body.light-mode .slider::-webkit-slider-thumb {
     grid-row: 12;
     letter-spacing: 2.11px;
     line-height: 28.5px;
+    grid-column: 1 / 10;
 }
 .bea-image .image-container {
     grid-row: 2 / 11;
@@ -630,10 +651,13 @@ iframe::-webkit-scrollbar {
         margin-top: 2px;
     }
     .all-fonts {
-        margin-top: 60px;
+        margin-top: 40px;
     }
     .font-area-2 {
         margin-top: 100px;
+    }
+    .font-area-1 {
+        margin-top: 130px;
     }
     .font-area .options.top {
         display: flex;
