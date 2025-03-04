@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const henFeatures = {
         'none': [false, 'none'],
-        'contextual alternates': [false, 'calt'],
+        'contextual alternate': [false, 'calt'],
         'ligatures': [true, 'liga']
     };
 
@@ -18,11 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
         'regular': [false, 'regular'],
         'display regular': [false, 'display regular']
     }
+    const henOpszVals = {
+        'black': [true, 'black']
+    }
 
     const OPSZ_VALUES = {
         'text regular': 10,
-        'regular': 24,
-        'display regular': 48
+        'regular': 30,
+        'display regular': 50
     };
 
     let currFont = '';
@@ -129,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add slider event listener
         slider.addEventListener('input', () => {
             const value = parseInt(slider.value);
-            const closestOpsz = findClosestOpszValue(value);
+            const closestOpsz = findOpszName(value);
             updateAllOpszElements(
                 fontArea,
                 closestOpsz.name,
@@ -182,66 +185,30 @@ document.addEventListener('DOMContentLoaded', () => {
         textArea.style.fontVariationSettings = `"opsz" ${value}`;
     }
 
-    function findClosestOpszValue(value) {
-        let closestName = 'text regular';
-        let minDiff = Math.abs(OPSZ_VALUES['text regular'] - value);
+    function findOpszName(value) {
+        let name;
     
-        Object.entries(OPSZ_VALUES).forEach(([name, opszValue]) => {
-            const diff = Math.abs(opszValue - value);
-            if (diff < minDiff) {
-                minDiff = diff;
-                closestName = name;
-            }
-        });
+        if (value === 10) {
+            name = 'text regular';
+        } else if (value >= 11 && value <= 29) {
+            name = 'custom';
+        } else if (value === 30) {
+            name = 'regular';
+        } else if (value >= 31 && value <= 49) {
+            name = 'custom';
+        } else if (value === 50) {
+            name = 'display regular';
+        } else {
+            name = 'unknown'; // Fallback for values outside the range
+        }
     
         return {
-            name: closestName,
-            displayName: closestName.split(' ').map(word => 
+            name,
+            displayName: name.split(' ').map(word => 
                 word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' ')
         };
     }
-
-    function updateOpszCheckmarks(container, opszVals) {
-        const dropdownContent = container.querySelector('.dropdown-content');
-        const options = dropdownContent.querySelectorAll('p');
-
-        options.forEach(option => {
-            const opszName = option.id.replace(/-/g, ' ');
-            const isActive = opszVals[opszName][0];
-            option.innerHTML = `${isActive ? '&#x2713; ' : ''}${opszVals[opszName][1]}`;
-        });
-    }
-
-    function updateOpszFromSlider(value, container, fontArea) {
-        const dropdownTitle = container.querySelector('.opsz-title');
-        let closestName = 'text regular';
-        let minDiff = Math.abs(OPSZ_VALUES['text regular'] - value);
-    
-        // Find the closest optical size value
-        Object.entries(OPSZ_VALUES).forEach(([name, opszValue]) => {
-            const diff = Math.abs(opszValue - value);
-            if (diff < minDiff) {
-                minDiff = diff;
-                closestName = name;
-            }
-        });
-    
-        // Update the active state in c4fOpszVals
-        Object.keys(c4fOpszVals).forEach(key => {
-            c4fOpszVals[key][0] = (key.toLowerCase() === closestName);
-        });
-    
-        // Update dropdown title and checkmarks
-        const displayName = closestName.charAt(0).toUpperCase() + closestName.slice(1);
-        dropdownTitle.innerHTML = `${displayName} &#x2195;`;
-        updateOpszCheckmarks(container, c4fOpszVals);
-    
-        // Update font variation settings
-        const textArea = fontArea.querySelector('.font-input');
-        updateOpsz(textArea, value);
-    }
-
     function initOpszVals(allFonts) {
         allFonts.forEach((fontSection) => {
             const opszVals = fontSection.querySelector('.opsz-dropdown');
