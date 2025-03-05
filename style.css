@@ -240,10 +240,13 @@ body.light-mode .title-dropdown:hover .titles.dropdown-content  {
     border: 1px solid black;
 }
 .font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content {
-    margin-top: -100px !important;
+    padding: 10px 0px !important;
+}
+.font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content {
+    margin-top: -94px !important;
 }
 .title-dropdown:hover .titles.dropdown-content p {
-    margin: 10px;
+    margin: 0px 10px;
     font-size: 16px;
 }
 .title-dropdown:hover .titles.dropdown-content .wip {
