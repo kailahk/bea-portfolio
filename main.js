@@ -368,8 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 value
             );
 
-            titleElement.style.marginBottom = '2px';
-            titleElement.style.paddingBottom = '5px';
             textArea.style.fontFamily = 'Cake4Freaks-Optical';
             titleElement.classList.add('c4f');
             titleElement.classList.remove('hen');

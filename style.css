@@ -639,6 +639,12 @@ iframe::-webkit-scrollbar {
     }
 
     /* Font Areas */
+    .font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content {
+        margin-top: -95px !important;
+    }
+    #opsz-dropdown-title {
+        margin-bottom:7px;
+    }
     .font-area textarea {
         height: 152px;
         padding: 30px 5px;
@@ -672,7 +678,7 @@ iframe::-webkit-scrollbar {
     h3.title {
         font-size: 20px;
         margin-top: 0;
-        padding-top: 0;
+        padding: 0;
     }
     .slider {
         margin-right: 0;
@@ -698,7 +704,7 @@ iframe::-webkit-scrollbar {
         align-items: flex-start;
     }
     .opsz-dropdown:hover .dropdown-content.hide-opsz {
-        margin-top: -10px;
+        margin-top: -5px;
     }  
     .font-area-1 .opsz-option {
         display: none;
