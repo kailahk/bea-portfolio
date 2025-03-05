@@ -1,4 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const textareas = document.querySelectorAll('.font-area textarea');
+    
+    function logFontVariationSettings() {
+        textareas.forEach((textarea, index) => {
+            console.log(`Textarea ${index + 1} font-variation-settings:`, getComputedStyle(textarea).fontVariationSettings);
+        });
+    }
+
+    // Log settings on page load
+    logFontVariationSettings();
+
+    // Add event listeners to log settings on any update
+    textareas.forEach((textarea) => {
+        textarea.addEventListener('input', logFontVariationSettings);
+        textarea.addEventListener('change', logFontVariationSettings);
+    });
+
     const c4fFeatures = {
         'none': [false, 'none'],
         'lining figures': [false, 'lnum'],
@@ -283,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target.classList.contains('fas')) {
             updateAlignment(textArea, classList);
         }
-
+        logFontVariationSettings();
         initFeatures(allFonts);
         updateFeatures(fontArea, textArea);
         autoResize(textArea);
