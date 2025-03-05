@@ -639,8 +639,8 @@ iframe::-webkit-scrollbar {
     }
 
     /* Font Areas */
-    textarea {
-        height: 150px;
+    .font-area textarea {
+        height: 152px;
         padding: 30px 5px;
     }
     .options {

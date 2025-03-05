@@ -106,17 +106,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const dropdownContent = container.querySelector('.dropdown-content');
         const fontArea = container.closest('.font-area');
         const slider = fontArea.querySelector('.opsz-option input');
-    
+
         dropdownContent.innerHTML = '';
-    
+
         Object.entries(opszVals).forEach(([opszName, opszValue]) => {
             const [isActive, displayName] = opszValue;
             const visibilityClass = isActive ? 'visible' : 'invisible';
-    
+
             const opszOption = document.createElement('p');
             opszOption.setAttribute('id', opszName.replace(/\s+/g, '-').toLowerCase());
             opszOption.innerHTML = `<span class="check ${visibilityClass}">&#x2713; </span>${displayName}`;
-    
+
             opszOption.addEventListener('click', () => {
                 updateAllOpszElements(
                     fontArea,
@@ -125,10 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     OPSZ_VALUES[opszName.toLowerCase()]
                 );
             });
-    
+
             dropdownContent.appendChild(opszOption);
         });
-    
+
         // Add slider event listener
         slider.addEventListener('input', () => {
             const value = parseInt(slider.value);
@@ -140,33 +140,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 value
             );
         });
-    
+
         dropdownTitle.addEventListener('click', (e) => {
             e.stopPropagation();
             dropdownContent.classList.toggle('hidden');
         });
-    
+
         document.addEventListener('click', () => {
             dropdownContent.classList.add('hidden');
         });
     }
-    
+
     function updateAllOpszElements(fontArea, opszName, displayName, value) {
         // 1. Update the title after Cake4Freaks
         const titleElement = fontArea.querySelector('.title');
         if (titleElement.classList.contains('c4f')) {
             titleElement.innerHTML = `Cake4Freaks &#x2195;&nbsp;</span>`;
         }
-    
+
         // 2. Update dropdown title and checkmarks
         const dropdownTitle = fontArea.querySelector('.opsz-title');
         dropdownTitle.innerHTML = `${displayName} &#x2195;`;
-        
+
         // Update active state in c4fOpszVals
         Object.keys(c4fOpszVals).forEach(key => {
             c4fOpszVals[key][0] = (key.toLowerCase() === opszName.toLowerCase());
         });
-        
+
         // Update checkmarks visibility in dropdown
         const dropdownContent = fontArea.querySelector('.opsz-dropdown .dropdown-content');
         const checkmarks = dropdownContent.querySelectorAll('.check');
@@ -175,11 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
             check.classList.toggle('visible', optionName === opszName.toLowerCase());
             check.classList.toggle('invisible', optionName !== opszName.toLowerCase());
         });
-    
+
         // 3. Update slider value
         const slider = fontArea.querySelector('.opsz-option input');
         slider.value = value;
-    
+
         // 4. Update font-variation-settings
         const textArea = fontArea.querySelector('.font-input');
         textArea.style.fontVariationSettings = `"opsz" ${value}`;
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function findOpszName(value) {
         let name;
-    
+
         if (value === 10) {
             name = 'text regular';
         } else if (value >= 11 && value <= 29) {
@@ -201,10 +201,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             name = 'unknown'; // Fallback for values outside the range
         }
-    
+
         return {
             name,
-            displayName: name.split(' ').map(word => 
+            displayName: name.split(' ').map(word =>
                 word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' ')
         };
@@ -213,28 +213,28 @@ document.addEventListener('DOMContentLoaded', () => {
         allFonts.forEach((fontSection) => {
             const opszVals = fontSection.querySelector('.opsz-dropdown');
             const titleElement = fontSection.querySelector('.title');
-            
+
             if (!titleElement) {
                 console.error('Title element not found in fontSection', fontSection);
                 return;
             }
-            
+
             currFont = titleElement.classList.contains('hen') ? 'hen' : 'c4f';
             if (currFont === 'c4f') {
                 // Set initial values
                 const activeOpsz = Object.entries(c4fOpszVals).find(([_, value]) => value[0])?.[0] || 'text regular';
                 const value = OPSZ_VALUES[activeOpsz.toLowerCase()];
-                const displayName = activeOpsz.split(' ').map(word => 
+                const displayName = activeOpsz.split(' ').map(word =>
                     word.charAt(0).toUpperCase() + word.slice(1)
                 ).join(' ');
-    
+
                 updateAllOpszElements(
                     fontSection,
                     activeOpsz,
                     displayName,
                     value
                 );
-                
+
                 appendOpszVals(opszVals, c4fOpszVals);
                 opszVals.classList.remove('hidden');
             } else {
@@ -339,10 +339,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Initialize with default optical size
             const activeOpsz = Object.entries(c4fOpszVals).find(([_, value]) => value[0])?.[0] || 'text regular';
             const value = OPSZ_VALUES[activeOpsz.toLowerCase()];
-            const displayName = activeOpsz.split(' ').map(word => 
+            const displayName = activeOpsz.split(' ').map(word =>
                 word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' ');
-    
+
             // Update all optical size elements
             updateAllOpszElements(
                 fontArea,
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 displayName,
                 value
             );
-    
+
             titleElement.style.marginBottom = '2px';
             titleElement.style.paddingBottom = '5px';
             textArea.style.fontFamily = 'Cake4Freaks-Optical';
@@ -369,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 link2.href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
                 link2.innerHTML = 'Buy/$15 ↗';
             }
-    
+
             // Reinitialize the optical size dropdown
             appendOpszVals(opszDropdown, c4fOpszVals);
         }
@@ -505,7 +505,8 @@ function autoResize(textArea) {
         textarea1.style.height = textarea1.scrollHeight + 'px';
         textarea2.style.height = textarea2.scrollHeight + 'px';
     } else if (windowWidth >= 768) {
-
+        textarea1.style.height = 'auto';
+        textarea2.style.height = 'auto';
         textarea1.style.height = textarea1.scrollHeight + 'px';
         textarea2.style.height = textarea2.scrollHeight + 'px';
     }
