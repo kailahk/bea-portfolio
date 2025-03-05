@@ -1,21 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const textareas = document.querySelectorAll('.font-area textarea');
-    
-    function logFontVariationSettings() {
-        textareas.forEach((textarea, index) => {
-            console.log(`Textarea ${index + 1} font-variation-settings:`, getComputedStyle(textarea).fontVariationSettings);
-        });
-    }
-
-    // Log settings on page load
-    logFontVariationSettings();
-
-    // Add event listeners to log settings on any update
-    textareas.forEach((textarea) => {
-        textarea.addEventListener('input', logFontVariationSettings);
-        textarea.addEventListener('change', logFontVariationSettings);
-    });
-
     const c4fFeatures = {
         'none': [false, 'none'],
         'lining figures': [false, 'lnum'],
@@ -229,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initOpszVals(allFonts) {
         allFonts.forEach((fontSection) => {
             const opszVals = fontSection.querySelector('.opsz-dropdown');
+            const opszValsHen = fontSection.querySelector('.opsz-dropdown-hen');
             const titleElement = fontSection.querySelector('.title');
 
             if (!titleElement) {
@@ -254,8 +238,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 appendOpszVals(opszVals, c4fOpszVals);
                 opszVals.classList.remove('hidden');
-            } else {
+                opszValsHen.classList.add('hidden');
+            } else if (currFont === 'hen') {
                 opszVals.classList.add('hidden');
+                opszValsHen.classList.remove('hidden');
             }
         });
     }
@@ -300,7 +286,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target.classList.contains('fas')) {
             updateAlignment(textArea, classList);
         }
-        logFontVariationSettings();
         initFeatures(allFonts);
         updateFeatures(fontArea, textArea);
         autoResize(textArea);
@@ -314,10 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const windowWidth = window.innerWidth;
         if (chosenFont === 'hen') {
-            const opszDropdown = fontArea.querySelector('.opsz-dropdown');
-            opszDropdown.classList.add('hidden'); // Use classList instead of style.display
+            let opszDropdown = fontArea.querySelector('.opsz-dropdown');
+            let opszDropdownHen = fontArea.querySelector('.opsz-dropdown-hen');
+            opszDropdown.classList.add('hidden');
+            opszDropdownHen.classList.remove('hidden'); 
             fontArea.querySelector('.opsz-option').style.opacity = '0';
-            titleElement.innerHTML = 'Henmania &#x2195; <span id="hen-black">Black</span>';
+            titleElement.innerHTML = 'Henmania &#x2195;';
             textArea.style.fontFamily = 'Henmania-Black';
             titleElement.classList.add('hen');
             titleElement.classList.remove('c4f');
@@ -339,9 +326,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 link2.href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
                 link2.innerHTML = 'Buy/$10 ↗';
             }
+            appendOpszVals(opszDropdown, henOpszVals);
         } else if (chosenFont === 'c4f') {
-            const opszDropdown = fontArea.querySelector('.opsz-dropdown');
-            opszDropdown.classList.remove('hidden'); // Use classList instead of style.display
+            let opszDropdown = fontArea.querySelector('.opsz-dropdown');
+            let opszDropdownHen = fontArea.querySelector('.opsz-dropdown-hen');
+            opszDropdown.classList.remove('hidden');
+            opszDropdownHen.classList.add('hidden'); 
             fontArea.querySelector('.opsz-option').style.opacity = '1';
             titleElement.innerHTML = 'Cake4Freaks &#x2195;&nbsp;';
             if (windowWidth < 768) {

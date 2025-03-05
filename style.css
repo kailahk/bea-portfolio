@@ -387,7 +387,7 @@ body.light-mode .slider::-webkit-slider-thumb {
     cursor: pointer;
     position: relative;
 }
-#opsz-dropdown-title {
+#opsz-dropdown-title, #opsz-dropdown-title-hen {
     margin: 0 0 10px 0;
     font-size: 16px;
     letter-spacing: 2px;
@@ -396,7 +396,7 @@ body.light-mode .slider::-webkit-slider-thumb {
 .opsz-dropdown .dropdown-content {
     width: 195px;
 }
-.opsz-dropdown .dropdown-content * {
+.opsz-dropdown .dropdown-content *, .opsz-dropdown-hen .dropdown-content * {
     font-size: 16px !important;
     letter-spacing: 2px;
     margin: 0px;
@@ -412,7 +412,7 @@ body.light-mode .slider::-webkit-slider-thumb {
 .font-area-1 .opsz-option {
     visibility: hidden;
 }
-.opsz-option-hen:hover .dropdown-content.hide-opsz{
+.opsz-dropdown-hen:hover .dropdown-content.hide-opsz{
     display: flex;
     position: absolute;
     border: 1px solid white;
@@ -421,10 +421,13 @@ body.light-mode .slider::-webkit-slider-thumb {
     margin-top: -70px;
     width: 150px;
 }
-.opsz-option-hen:hover .dropdown-content.hide-opsz p {
+.opsz-dropdown-hen:hover .dropdown-content.hide-opsz p {
     font-size: 16px;
     margin: 0;
     letter-spacing: 2px;
+}
+.features-dropdown {
+    z-index: 5;
 }
 
 /* Bea Section */
@@ -642,7 +645,7 @@ iframe::-webkit-scrollbar {
     .font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content {
         margin-top: -95px !important;
     }
-    #opsz-dropdown-title {
+    #opsz-dropdown-title, #opsz-dropdown-title-hen {
         margin-bottom:7px;
     }
     .font-area textarea {
@@ -697,7 +700,7 @@ iframe::-webkit-scrollbar {
         margin-bottom: 0px;
     }
     .font-area-1 .title-dropdown:hover .titles.dropdown-content {
-        margin-top: -100px !important;
+        margin-top: -95px !important;
     }
     .title-and-opsz {
         flex-direction: column;
