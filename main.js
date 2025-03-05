@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
             opszDropdown.classList.add('hidden');
             opszDropdownHen.classList.remove('hidden'); 
             fontArea.querySelector('.opsz-option').style.opacity = '0';
-            titleElement.innerHTML = 'Henmania &#x2195;';
+            titleElement.innerHTML = 'Henmania &#x2195;&nbsp;';
             textArea.style.fontFamily = 'Henmania-Black';
             titleElement.classList.add('hen');
             titleElement.classList.remove('c4f');

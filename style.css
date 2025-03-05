@@ -51,7 +51,7 @@ h3 {
     display: none !important;
 }
 .title, .titles p {
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 .wip {
     text-transform: lowercase;
@@ -65,6 +65,13 @@ h3 {
 }
 .opsz-dropdown {
     text-transform: capitalize;
+    padding-top: 5px;
+}
+.features-dropdown .feature {
+    text-transform: capitalize;
+}
+.title {
+    text-transform: uppercase;
 }
 
 /* Header */
@@ -642,6 +649,9 @@ iframe::-webkit-scrollbar {
     }
 
     /* Font Areas */
+    .opsz-dropdown {
+        padding-top: 0px;
+    }
     .font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content {
         margin-top: -95px !important;
     }
