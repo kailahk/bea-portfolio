@@ -293,6 +293,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateFont(fontArea, textArea, chosenFont) {
         const titleElement = fontArea.querySelector('.title');
+        let henCheckbox = fontArea.querySelector('p.hen span');
+        let c4fCheckbox = fontArea.querySelector('p.c4f span');
         if (!titleElement) {
             console.error('Title element not found in updateFont', fontArea);
             return;
@@ -301,6 +303,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chosenFont === 'hen') {
             let opszDropdown = fontArea.querySelector('.opsz-dropdown');
             let opszDropdownHen = fontArea.querySelector('.opsz-dropdown-hen');
+            console.log('test:',henCheckbox, c4fCheckbox);
+            henCheckbox.classList.add('show-title-check');
+            henCheckbox.classList.remove('hide-title-check');
+            c4fCheckbox.classList.remove('show-title-check');
+            c4fCheckbox.classList.add('hide-title-check');
             opszDropdown.classList.add('hidden');
             opszDropdownHen.classList.remove('hidden'); 
             fontArea.querySelector('.opsz-option').style.opacity = '0';
@@ -332,6 +339,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let opszDropdownHen = fontArea.querySelector('.opsz-dropdown-hen');
             opszDropdown.classList.remove('hidden');
             opszDropdownHen.classList.add('hidden'); 
+            henCheckbox.classList.add('hide-title-check');
+            henCheckbox.classList.remove('show-title-check');
+            c4fCheckbox.classList.remove('hide-title-check');
+            c4fCheckbox.classList.add('show-title-check');
             fontArea.querySelector('.opsz-option').style.opacity = '1';
             titleElement.innerHTML = 'Cake4Freaks &#x2195;&nbsp;';
             if (windowWidth < 768) {

@@ -436,6 +436,15 @@ body.light-mode .slider::-webkit-slider-thumb {
 .features-dropdown {
     z-index: 5;
 }
+.hide-title-check {
+    visibility: hidden;
+}
+.show-title-check {
+    visibility: visible;
+}
+.hide-title-check,.show-title-check {
+    font-size: 16px;
+}
 
 /* Bea Section */
 .bea {
