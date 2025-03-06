@@ -228,13 +228,11 @@ body.dark-mode #moon {
 }
 .features .features-dropdown * {
     font-size: 16px !important;
-    letter-spacing: 2px;
 }
 .title-dropdown:hover .titles.dropdown-content {
     display: block !important;
     position: absolute;
     border: 1px solid white;
-    letter-spacing: 2px;
 }
 body.light-mode .title-dropdown:hover .titles.dropdown-content  {
     border: 1px solid black;
@@ -408,7 +406,6 @@ body.light-mode .slider::-webkit-slider-thumb {
 }
 .opsz-dropdown .dropdown-content *, .opsz-dropdown-hen .dropdown-content * {
     font-size: 16px !important;
-    letter-spacing: 2px;
     margin: 0px;
 }
 .opsz-dropdown:hover .dropdown-content.hide-opsz {
