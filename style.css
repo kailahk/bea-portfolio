@@ -665,7 +665,7 @@ iframe::-webkit-scrollbar {
         padding-top: 0px;
     }
     .font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content {
-        margin-top: -95px !important;
+        margin-top: -87px !important;
     }
     #opsz-dropdown-title, #opsz-dropdown-title-hen {
         margin-bottom:7px;
@@ -721,14 +721,11 @@ iframe::-webkit-scrollbar {
     .title-and-buy-link .buy-link, .title-and-buy-link .buy-link-2 {
         margin-bottom: 0px;
     }
-    .font-area-1 .title-dropdown:hover .titles.dropdown-content {
-        margin-top: -95px !important;
-    }
     .title-and-opsz {
         flex-direction: column;
         align-items: flex-start;
     }
-    .opsz-dropdown:hover .dropdown-content.hide-opsz {
+    .opsz-dropdown:hover .dropdown-content.hide-opsz, .opsz-dropdown-hen:hover .dropdown-content.hide-opsz {
         margin-top: -5px;
     }  
     .font-area-1 .opsz-option {
