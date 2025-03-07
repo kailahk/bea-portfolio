@@ -303,13 +303,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chosenFont === 'hen') {
             let opszDropdown = fontArea.querySelector('.opsz-dropdown');
             let opszDropdownHen = fontArea.querySelector('.opsz-dropdown-hen');
-            console.log('test:',henCheckbox, c4fCheckbox);
+            console.log('test:', henCheckbox, c4fCheckbox);
             henCheckbox.classList.add('show-title-check');
             henCheckbox.classList.remove('hide-title-check');
             c4fCheckbox.classList.remove('show-title-check');
             c4fCheckbox.classList.add('hide-title-check');
             opszDropdown.classList.add('hidden');
-            opszDropdownHen.classList.remove('hidden'); 
+            opszDropdownHen.classList.remove('hidden');
             fontArea.querySelector('.opsz-option').style.opacity = '0';
             titleElement.innerHTML = 'Henmania &#x2195;&nbsp;';
             textArea.style.fontFamily = 'Henmania-Black';
@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let opszDropdown = fontArea.querySelector('.opsz-dropdown');
             let opszDropdownHen = fontArea.querySelector('.opsz-dropdown-hen');
             opszDropdown.classList.remove('hidden');
-            opszDropdownHen.classList.add('hidden'); 
+            opszDropdownHen.classList.add('hidden');
             henCheckbox.classList.add('hide-title-check');
             henCheckbox.classList.remove('show-title-check');
             c4fCheckbox.classList.remove('hide-title-check');
@@ -393,6 +393,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateSize(textArea, fontSize) {
         textArea.style.fontSize = `${fontSize}px`;
+        const optionsContainer = textArea.parentElement.querySelector('.options');
+        if (!optionsContainer) {
+            console.error("No '.options' sibling found.");
+        } else {
+            const opszSlider = optionsContainer.querySelector('.opsz-option .slider');
+            if (!opszSlider) {
+                console.error("No '.slider' found inside '.opsz-option'.");
+            } else {
+                textArea.style.fontVariationSettings = `"opsz" ${opszSlider.value}`;
+            }
+        }
     }
 
     function updateLeading(textArea, leadingVal, fontArea) {
