@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const henFeatures = {
         'none': [false, 'none'],
-        'contextual alternate': [false, 'calt'],
+        'contextual alternates': [false, 'calt'],
         'ligatures': [true, 'liga']
     };
 
