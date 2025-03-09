@@ -532,7 +532,7 @@ function autoResize(textArea) {
         textarea1.style.height = textarea1.scrollHeight + 'px';
         textarea2.style.height = textarea2.scrollHeight + 'px';
     } else if (windowWidth >= 768) {
-        textarea1.style.height = 'auto';
+        textarea1.style.height = 'auto';;
         textarea2.style.height = 'auto';
         textarea1.style.height = textarea1.scrollHeight + 'px';
         textarea2.style.height = textarea2.scrollHeight + 'px';

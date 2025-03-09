@@ -218,6 +218,9 @@ body.dark-mode #moon {
 }
 
 /* Font Areas */
+.buy-link *, .buy-link-2 * {
+    font-feature-settings: "onum" !important;
+}
 .font-area textarea {
     font-family: 'Cake4Freaks-Optical';
     font-variation-settings: "opsz" 10;
@@ -245,7 +248,7 @@ body.light-mode .title-dropdown:hover .titles.dropdown-content  {
     margin-top: -94px !important;
 }
 .title-dropdown:hover .titles.dropdown-content p {
-    margin: 0px 10px;
+    margin: 0px 15px;
     font-size: 16px;
 }
 .title-dropdown:hover .titles.dropdown-content .wip {
@@ -258,7 +261,7 @@ body.light-mode .title-dropdown:hover .titles.dropdown-content  {
     display: block !important;
     position: absolute;
     border: 1px solid white;
-    padding: 10px;
+    padding: 10px 15px;
 }
 body.light-mode .features:hover .features-dropdown {
     border: 1px solid black;
@@ -403,7 +406,7 @@ body.light-mode .slider::-webkit-slider-thumb {
     text-transform: uppercase;
 }
 .opsz-dropdown .dropdown-content {
-    width: 195px;
+    width: 168px;
 }
 .opsz-dropdown .dropdown-content *, .opsz-dropdown-hen .dropdown-content * {
     font-size: 16px !important;
