@@ -22,7 +22,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    max-width: 714px;
+    max-width: 690px;
     margin: 0 auto;
 }
 a:hover, a *:hover {
