@@ -221,6 +221,7 @@ body.dark-mode #moon {
 .font-area textarea {
     font-family: 'Cake4Freaks-Optical';
     font-variation-settings: "opsz" 10;
+    font-optical-sizing: none;
 }
 .title-dropdown, .titles.dropdown-content, .alignment-option, .alignment-option label, .features, .features label {
     cursor: pointer;
