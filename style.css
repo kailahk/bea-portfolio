@@ -462,6 +462,7 @@ body.light-mode .dropdown-content {
 }
 .bea-info * {
     font-size: 23px !important;
+    text-wrap: balance;
 }
 .bea-section {
     margin: 40px auto;
@@ -750,7 +751,7 @@ iframe::-webkit-scrollbar {
     }
     .bea-info * {
         text-wrap: balance;
-        font-size: 20px !important;
+        font-size: 19px !important;
     }
     .heart.halo {
         margin-top: 100px;
