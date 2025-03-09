@@ -972,7 +972,7 @@ iframe::-webkit-scrollbar {
         margin-bottom: 10px;
     }
 
-    .review-hide-on-mobile {
+    .hide-on-mobile {
         display: none;
     }
 
@@ -1082,9 +1082,47 @@ iframe::-webkit-scrollbar {
     }
 
     .tumblr-mobile {
+        display: grid;
+        grid-template-columns: repeat(23, 30px);
+        grid-template-rows: repeat(5, 28.5px);
+    }
+    .tumblr-mobile .top {
+        grid-row: 1;
+        grid-column: 1 / 10;
+        letter-spacing: 2.11px;
+        line-height: 28.5px;
+    }
+    .tumblr-mobile .left {
+        grid-row: 2 / 5;
+        letter-spacing: 2px;
+        line-height: 28.5px;
         display: flex;
-        justify-content: space-between;
-        margin: 30px 0;
+        flex-direction: column;
+        justify-content: center;
+        word-wrap: break-word;
+    }
+    .tumblr-mobile .right {
+        grid-row: 2 / 5;
+        grid-column: 9;
+        letter-spacing: 2px;
+        line-height: 28.5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        word-wrap: break-word;
+    }
+    .tumblr-mobile .bottom {
+        grid-row: 5;
+        letter-spacing: 2.11px;
+        line-height: 28.5px;
+        grid-column: 1 / 10;
+    }
+    .tumblr-mobile a {
+        grid-column: 2 / 9;
+        grid-row: 2 / 5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .bea-info * {
@@ -1133,7 +1171,7 @@ iframe::-webkit-scrollbar {
     .kk-box .left {
         grid-row: 2 / 5;
         letter-spacing: 2px;
-        line-height: 26px;
+        line-height: 28.5px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -1144,7 +1182,7 @@ iframe::-webkit-scrollbar {
         grid-row: 2 / 5;
         grid-column: 9;
         letter-spacing: 2px;
-        line-height: 26px;
+        line-height: 28.5px;
         display: flex;
         flex-direction: column;
         justify-content: center;
