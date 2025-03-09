@@ -664,17 +664,17 @@ body.light-mode .dropdown-content {
     overflow: hidden;
 }
 
-.tumblr-web {
+.license-web {
     display: flex;
     justify-content: space-between;
     margin: 40px 0;
 }
 
-.tumblr-web a {
+.license-web a {
     margin-left: 10px;
 }
 
-.tumblr-web *:not(a) {
+.license-web *:not(a) {
     letter-spacing: 2.16px;
     line-height: 28.5px;
 }
@@ -774,7 +774,7 @@ iframe::-webkit-scrollbar {
 .mobile.right,
 .mobile.top,
 .mobile.bottom,
-.tumblr-mobile {
+.license-mobile {
     display: none;
 }
 
@@ -1077,22 +1077,23 @@ iframe::-webkit-scrollbar {
         width: 100%;
     }
 
-    .tumblr-web {
+    .license-web {
         display: none;
     }
 
-    .tumblr-mobile {
+    .license-mobile {
         display: grid;
-        grid-template-columns: repeat(23, 30px);
+        grid-template-columns: repeat(9, 30px);
         grid-template-rows: repeat(5, 28.5px);
+        margin-top: 25px;
     }
-    .tumblr-mobile .top {
+    .license-mobile .top {
         grid-row: 1;
         grid-column: 1 / 10;
         letter-spacing: 2.11px;
         line-height: 28.5px;
     }
-    .tumblr-mobile .left {
+    .license-mobile .left {
         grid-row: 2 / 5;
         letter-spacing: 2px;
         line-height: 28.5px;
@@ -1101,7 +1102,7 @@ iframe::-webkit-scrollbar {
         justify-content: center;
         word-wrap: break-word;
     }
-    .tumblr-mobile .right {
+    .license-mobile .right {
         grid-row: 2 / 5;
         grid-column: 9;
         letter-spacing: 2px;
@@ -1111,13 +1112,13 @@ iframe::-webkit-scrollbar {
         justify-content: center;
         word-wrap: break-word;
     }
-    .tumblr-mobile .bottom {
+    .license-mobile .bottom {
         grid-row: 5;
         letter-spacing: 2.11px;
         line-height: 28.5px;
         grid-column: 1 / 10;
     }
-    .tumblr-mobile a {
+    .license-mobile a {
         grid-column: 2 / 9;
         grid-row: 2 / 5;
         display: flex;
