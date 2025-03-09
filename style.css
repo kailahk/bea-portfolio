@@ -75,12 +75,15 @@ h3 {
 }
 
 /* Header */
-.desktop-heading, .contact {
+.desktop-heading, .contact, .review {
     display: grid;
     grid-template-columns: repeat(23, 30px);
     grid-template-rows: repeat(7, 28.5px);
     margin-top: 60px;
     grid-auto-flow: column;
+}
+.contact {
+    margin-top: 120px;
 }
 .desktop-heading .top {
     letter-spacing: 2.11px;
@@ -176,6 +179,58 @@ h3 {
 .email p {
     letter-spacing: 3px;
     font-size: 23px !important;
+}
+/* Review */
+.review .desktop.top {
+    grid-column: 1 / 24;
+    grid-row: 1;
+}
+.review .desktop.top, .review .desktop.bottom {
+    letter-spacing: 2.16px;
+    line-height: 28.5px;
+}
+.review .desktop.bottom {
+    grid-row: 7;
+    grid-column: 1 / 24;
+}
+.review .left {
+    grid-column: 1;
+    grid-row: 2 / 7;
+    letter-spacing: 2px;
+    line-height: 28.5px;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    word-wrap: break-word;
+}
+.review .right {
+    grid-column: 23;
+    grid-row: 2 / 7;
+    letter-spacing: 2px;
+    line-height: 28.5px;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    word-wrap: break-word;
+}
+.review .review-info {
+    grid-row: 2 / 7;
+    grid-column: 2 / 23;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.review-info p {
+    font-size: 20px;
+    margin: 0 15px;
+    letter-spacing: 0px;
+    text-align: center;
+}
+.review-info p:first-child {
+    text-transform: uppercase;
+    margin: 0 70px 10px 70px;
+    letter-spacing: 2px;
 }
 
 /* Sun and Moon */
@@ -664,6 +719,60 @@ iframe::-webkit-scrollbar {
         letter-spacing: 1px;
         margin-top: -10px;
     }
+    /* Review Section */
+    .desktop.top, .desktop.bottom, .desktop.left, .desktop.right {
+        display: none;
+    }
+    .review {
+        grid-template-columns: repeat(9, 30px);
+        grid-template-rows: auto;
+    }
+    .mobile.top {
+        display: flex;
+        grid-row: 1;
+        grid-column: 1 / 10;
+        letter-spacing: 2.11px;
+        line-height: 29px;
+    }
+    .mobile.bottom {
+        display: flex;
+        grid-row: 10;
+        grid-column: 1 / 10;
+        letter-spacing: 2.11px;
+        line-height: 29px;
+    }
+    .mobile.left {
+        display: flex;
+        grid-row: 2 / 9;
+        line-height: 27px;
+    }
+    .mobile.right {
+        display: flex;
+        grid-row: 2 / 9;
+        grid-column: 9;
+        line-height: 27px;
+    }
+    .review .review-info {
+        grid-row: 2 / 10;
+        grid-column: 2 / 9;
+        flex-direction: column;
+        justify-content: space-around;
+        margin: 0 25px;
+    }
+    .review .review-info *, .review .review-info p {
+        text-align: center;
+        margin: 0;
+    }
+    .review .review-info p:first-child {
+        font-size: 23px;
+        margin: 10px 10px 0 10px;
+    }
+    .review .review-info p:last-child {
+        margin-bottom: 10px;
+    }
+    .review-hide-on-mobile {
+        display: none;
+    }
 
     /* Font Areas */
     .opsz-dropdown {
@@ -754,7 +863,7 @@ iframe::-webkit-scrollbar {
         font-size: 19px !important;
     }
     .heart.halo {
-        margin-top: 100px;
+        margin-top: 40px;
     }
 
     /* License Page */
