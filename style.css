@@ -650,7 +650,6 @@ body.light-mode .dropdown-content {
 
 .bea-info * {
     font-size: 23px !important;
-    text-wrap: balance;
 }
 
 .bea-section {
@@ -1128,7 +1127,7 @@ iframe::-webkit-scrollbar {
 
     .bea-info * {
         text-wrap: balance;
-        font-size: 19px !important;
+        font-size: 20px !important;
     }
 
     .heart.halo {
