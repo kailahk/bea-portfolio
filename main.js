@@ -478,13 +478,22 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        let inactiveFeatures = [];
+
         Object.entries(featureSet).forEach(([featureName, featureValue]) => {
-            if (featureValue[0]) {
-                activeFeatures.push(featureValue[1]);
+            const [isActive, featureCode] = featureValue;
+            if (featureCode === 'none') return;
+            if (isActive) {
+                activeFeatures.push(`'${featureCode}' 1`);
+            } else {
+                inactiveFeatures.push(`'${featureCode}' 0`);
             }
         });
 
-        textArea.style.fontFeatureSettings = activeFeatures.map(feature => `'${feature}'`).join(', ');
+        const allFeatureSettings = [...activeFeatures, ...inactiveFeatures];
+        textArea.style.fontFeatureSettings = allFeatureSettings.length > 0
+            ? allFeatureSettings.join(', ')
+            : 'normal';
         updateCheckMarks(featureSet, fontArea);
     }
 
