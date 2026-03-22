@@ -1,21 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
     const c4fFeatures = {
-        'none': [false, 'none'],
-        'lining figures': [false, 'lnum'],
-        'oldstyle figures': [false, 'onum'],
-        'case sensitive': [false, 'case'],
-        'short ascenders': [false, 'ss01'],
-        'ligatures': [true, 'liga']
+        'None': [false, 'none'],
+        'Lining Figures': [false, 'lnum'],
+        'Oldstyle Figures': [false, 'onum'],
+        'Case Sensitive': [false, 'case'],
+        'Short Ascenders': [false, 'ss01'],
+        'Ligatures': [true, 'liga']
     };
     const benFeatures = {
-        'none': [false, 'none'],
-        'localized forms': [false, 'locl'],
-        'superscript': [false, 'sups'],
-        'fractions': [false, 'frac'],
-        'ordinals': [false, 'ordn'],
-        'ligatures': [true, 'liga'],
-        'contextual alternates': [true, 'calt'],
-        'SS01 (alternate "u")': [false, 'ss01']
+        'None': [false, 'none'],
+        'Localized Forms': [false, 'locl'],
+        'Superscript': [false, 'sups'],
+        'Fractions': [false, 'frac'],
+        'Ordinals': [false, 'ordn'],
+        'Ligatures': [true, 'liga'],
+        'Contextual Alternates': [true, 'calt'],
+        'SS01 (Alternate “u”)': [false, 'ss01']
     };
 
     const c4fOpszVals = {
