@@ -7,10 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
         'short ascenders': [false, 'ss01'],
         'ligatures': [true, 'liga']
     };
-    const henFeatures = {
+    const benFeatures = {
         'none': [false, 'none'],
-        'contextual alternates': [false, 'calt'],
-        'ligatures': [true, 'liga']
+        'localized forms': [false, 'locl'],
+        'superscript': [false, 'sups'],
+        'fractions': [false, 'frac'],
+        'ordinals': [false, 'ordn'],
+        'ligatures': [true, 'liga'],
+        'contextual alternates': [true, 'calt'],
+        'SS01 (alternate "u")': [false, 'ss01']
     };
 
     const c4fOpszVals = {
@@ -18,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'regular': [false, 'regular'],
         'display regular': [false, 'display regular']
     }
-    const henOpszVals = {
+    const benOpszVals = {
         'black': [true, 'black']
     }
 
@@ -64,15 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Title element not found in fontSection', fontSection);
                 return;
             }
-            currFont = titleElement.classList.contains('hen') ? 'hen' : 'c4f';
+            currFont = titleElement.classList.contains('ben') ? 'ben' : 'c4f';
             features.innerHTML = '';
             if (currFont === 'c4f') {
                 appendFeatures(features, c4fFeatures);
                 features.classList.add('c4f');
-                features.classList.remove('hen');
-            } else if (currFont === 'hen') {
-                appendFeatures(features, henFeatures);
-                features.classList.add('hen');
+                features.classList.remove('ben');
+            } else if (currFont === 'ben') {
+                appendFeatures(features, benFeatures);
+                features.classList.add('ben');
                 features.classList.remove('c4f');
             }
         });
@@ -212,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initOpszVals(allFonts) {
         allFonts.forEach((fontSection) => {
             const opszVals = fontSection.querySelector('.opsz-dropdown');
-            const opszValsHen = fontSection.querySelector('.opsz-dropdown-hen');
+            const opszValsben = fontSection.querySelector('.opsz-dropdown-ben');
             const titleElement = fontSection.querySelector('.title');
 
             if (!titleElement) {
@@ -220,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            currFont = titleElement.classList.contains('hen') ? 'hen' : 'c4f';
+            currFont = titleElement.classList.contains('ben') ? 'ben' : 'c4f';
             if (currFont === 'c4f') {
                 // Set initial values
                 const activeOpsz = Object.entries(c4fOpszVals).find(([_, value]) => value[0])?.[0] || 'text regular';
@@ -238,10 +243,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 appendOpszVals(opszVals, c4fOpszVals);
                 opszVals.classList.remove('hidden');
-                opszValsHen.classList.add('hidden');
-            } else if (currFont === 'hen') {
+                opszValsben.classList.add('hidden');
+            } else if (currFont === 'ben') {
                 opszVals.classList.add('hidden');
-                opszValsHen.classList.remove('hidden');
+                opszValsben.classList.remove('hidden');
             }
         });
     }
@@ -258,9 +263,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const classList = event.target.classList;
         const elementId = event.target.id;
         const textArea = fontArea.querySelector('.font-input');
-        if (classList.contains('hen') && !classList.contains('font-input')) {
-            currFont = 'hen';
-            updateFont(fontArea, textArea, 'hen');
+        if (classList.contains('ben') && !classList.contains('font-input')) {
+            currFont = 'ben';
+            updateFont(fontArea, textArea, 'ben');
         } else if (classList.contains('c4f')) {
             currFont = 'c4f';
             updateFont(fontArea, textArea, 'c4f');
@@ -293,27 +298,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateFont(fontArea, textArea, chosenFont) {
         const titleElement = fontArea.querySelector('.title');
-        let henCheckbox = fontArea.querySelector('p.hen span');
+        let benCheckbox = fontArea.querySelector('p.ben span');
         let c4fCheckbox = fontArea.querySelector('p.c4f span');
         if (!titleElement) {
             console.error('Title element not found in updateFont', fontArea);
             return;
         }
         const windowWidth = window.innerWidth;
-        if (chosenFont === 'hen') {
+        if (chosenFont === 'ben') {
             let opszDropdown = fontArea.querySelector('.opsz-dropdown');
-            let opszDropdownHen = fontArea.querySelector('.opsz-dropdown-hen');
-            console.log('test:', henCheckbox, c4fCheckbox);
-            henCheckbox.classList.add('show-title-check');
-            henCheckbox.classList.remove('hide-title-check');
+            let opszDropdownben = fontArea.querySelector('.opsz-dropdown-ben');
+            console.log('test:', benCheckbox, c4fCheckbox);
+            benCheckbox.classList.add('show-title-check');
+            benCheckbox.classList.remove('hide-title-check');
             c4fCheckbox.classList.remove('show-title-check');
             c4fCheckbox.classList.add('hide-title-check');
             opszDropdown.classList.add('hidden');
-            opszDropdownHen.classList.remove('hidden');
+            opszDropdownben.classList.remove('hidden');
             fontArea.querySelector('.opsz-option').style.opacity = '0';
             titleElement.innerHTML = 'Benmania &#x2195;&nbsp;';
             textArea.style.fontFamily = 'Benmania-Black';
-            titleElement.classList.add('hen');
+            titleElement.classList.add('ben');
             titleElement.classList.remove('c4f');
             if (windowWidth >= 768) {
                 textArea.innerText = "And the Rock Cried Out, No Hiding Place";
@@ -325,22 +330,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (fontArea.classList.contains('font-area-1')) {
                 let link = buyLink.querySelector('a');
-                link.href = 'https://www.futurefonts.xyz/bea-korsh/benmania';
-                link.innerHTML = 'Buy/$10 ↗';
+                link.href = 'https://www.futurefonts.com/bea-korsh/benmania';
+                link.innerHTML = 'Buy/$20 ↗';
             }
             if (fontArea.classList.contains('font-area-2')) {
                 let link2 = buyLink2.querySelector('a');
-                link2.href = 'https://www.futurefonts.xyz/bea-korsh/benmania';
-                link2.innerHTML = 'Buy/$10 ↗';
+                link2.href = 'https://www.futurefonts.com/bea-korsh/benmania';
+                link2.innerHTML = 'Buy/$20 ↗';
             }
-            appendOpszVals(opszDropdown, henOpszVals);
+            appendOpszVals(opszDropdown, benOpszVals);
         } else if (chosenFont === 'c4f') {
             let opszDropdown = fontArea.querySelector('.opsz-dropdown');
-            let opszDropdownHen = fontArea.querySelector('.opsz-dropdown-hen');
+            let opszDropdownben = fontArea.querySelector('.opsz-dropdown-ben');
             opszDropdown.classList.remove('hidden');
-            opszDropdownHen.classList.add('hidden');
-            henCheckbox.classList.add('hide-title-check');
-            henCheckbox.classList.remove('show-title-check');
+            opszDropdownben.classList.add('hidden');
+            benCheckbox.classList.add('hide-title-check');
+            benCheckbox.classList.remove('show-title-check');
             c4fCheckbox.classList.remove('hide-title-check');
             c4fCheckbox.classList.add('show-title-check');
             fontArea.querySelector('.opsz-option').style.opacity = '1';
@@ -371,18 +376,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             textArea.style.fontFamily = 'Cake4Freaks-Optical';
             titleElement.classList.add('c4f');
-            titleElement.classList.remove('hen');
+            titleElement.classList.remove('ben');
             if (windowWidth >= 768) {
                 textArea.innerText = "Ceremonies of Light and Dark";
             }
             if (fontArea.classList.contains('font-area-1')) {
                 let link = buyLink.querySelector('a');
-                link.href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
+                link.href = 'https://www.futurefonts.com/bea-korsh/cake4freaks';
                 link.innerHTML = 'Buy/$15 ↗';
             }
             if (fontArea.classList.contains('font-area-2')) {
                 let link2 = buyLink2.querySelector('a');
-                link2.href = 'https://www.futurefonts.xyz/bea-korsh/cake4freaks?v=0.1';
+                link2.href = 'https://www.futurefonts.com/bea-korsh/cake4freaks';
                 link2.innerHTML = 'Buy/$15 ↗';
             }
 
@@ -437,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Object.entries(features).forEach(([featureName, featureValue]) => {
                 if (fontCode === featureValue[1]) {
                     features[featureName][0] = !featureValue[0];
-                    features['none'][0] = false; // Ensure 'none' is cleared when any other feature is activated
+                    features['none'][0] = false; // Ensure 'none' is cleared wben any other feature is activated
                 }
             });
 
@@ -464,8 +469,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (titleElement.classList.contains('c4f')) {
             featureSet = c4fFeatures;
-        } else if (titleElement.classList.contains('hen')) {
-            featureSet = henFeatures;
+        } else if (titleElement.classList.contains('ben')) {
+            featureSet = benFeatures;
         }
 
         if (!featureSet) {
