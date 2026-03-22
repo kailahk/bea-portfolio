@@ -442,7 +442,7 @@ body.light-mode .slider::-webkit-slider-thumb {
 .opsz-dropdown-ben:hover .dropdown-content.hide-opsz p {
     font-size: 16px;
     margin: 0;
-    letter-spacing: 2px;
+    letter-spacing: 0px;
 }
 .features-dropdown {
     z-index: 5;
