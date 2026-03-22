@@ -311,8 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
             opszDropdown.classList.add('hidden');
             opszDropdownHen.classList.remove('hidden');
             fontArea.querySelector('.opsz-option').style.opacity = '0';
-            titleElement.innerHTML = 'Henmania &#x2195;&nbsp;';
-            textArea.style.fontFamily = 'Henmania-Black';
+            titleElement.innerHTML = 'Benmania &#x2195;&nbsp;';
+            textArea.style.fontFamily = 'Benmania-Black';
             titleElement.classList.add('hen');
             titleElement.classList.remove('c4f');
             if (windowWidth >= 768) {
@@ -325,12 +325,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (fontArea.classList.contains('font-area-1')) {
                 let link = buyLink.querySelector('a');
-                link.href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
+                link.href = 'https://www.futurefonts.xyz/bea-korsh/benmania';
                 link.innerHTML = 'Buy/$10 ↗';
             }
             if (fontArea.classList.contains('font-area-2')) {
                 let link2 = buyLink2.querySelector('a');
-                link2.href = 'https://www.futurefonts.xyz/bea-korsh/henmania';
+                link2.href = 'https://www.futurefonts.xyz/bea-korsh/benmania';
                 link2.innerHTML = 'Buy/$10 ↗';
             }
             appendOpszVals(opszDropdown, henOpszVals);
@@ -514,7 +514,7 @@ function updatePlaceholder() {
         } else {
             textarea1.innerText = "And the Rock Cried Out, No Hiding Place";
         }
-        if (textarea2.style.fontFamily === 'Henmania-Black') {
+        if (textarea2.style.fontFamily === 'Benmania-Black') {
             textarea2.innerText = "And the Rock Cried Out, No Hiding Place";
         } else {
             textarea2.innerText = "Ceremonies of Light and Dark";
