@@ -83,35 +83,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function ensureToolbar(fontArea) {
-        let toolbar = fontArea.querySelector('.font-area-toolbar');
-        if (!toolbar) {
-            toolbar = document.createElement('div');
-            toolbar.className = 'font-area-toolbar';
-            fontArea.prepend(toolbar);
-        }
-        return toolbar;
+        // The Copy/Remove controls now live inline in the sidebar, in the
+        // same cluster as Features and Paragraph, rather than as a floating
+        // top-right toolbar.
+        return fontArea.querySelector('.options.top');
     }
 
     function addCopyButton(fontArea) {
         const toolbar = ensureToolbar(fontArea);
-        if (toolbar.querySelector('.copy-font-area')) return;
+        if (!toolbar || toolbar.querySelector('.copy-font-area')) return;
         const copyBtn = document.createElement('button');
         copyBtn.type = 'button';
         copyBtn.className = 'copy-font-area';
-        copyBtn.textContent = 'Copy HTML';
+        copyBtn.innerHTML = 'Copy HTML &#x2193;';
         copyBtn.addEventListener('click', (event) => {
             event.stopPropagation();
             copyFontAreaHtml(fontArea, copyBtn);
         });
-        toolbar.prepend(copyBtn);
+        toolbar.appendChild(copyBtn);
     }
 
     function copyFontAreaHtml(fontArea, triggerBtn) {
         const clone = fontArea.cloneNode(true);
 
-        // Strip the toolbar (Copy/Remove controls) out of the exported markup.
-        const toolbar = clone.querySelector('.font-area-toolbar');
-        if (toolbar) toolbar.remove();
+        // Strip the Copy/Remove controls out of the exported markup.
+        clone.querySelectorAll('.copy-font-area, .remove-font-area').forEach(el => el.remove());
 
         // A typed value only ever lives in the textarea's live "value"
         // property, never in its HTML source — so bake the current live
@@ -135,12 +131,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const html = clone.outerHTML;
 
         navigator.clipboard.writeText(html).then(() => {
-            const original = triggerBtn.textContent;
+            const original = triggerBtn.innerHTML;
             triggerBtn.textContent = 'Copied!';
-            setTimeout(() => { triggerBtn.textContent = original; }, 1500);
+            setTimeout(() => { triggerBtn.innerHTML = original; }, 1500);
         }).catch(() => {
+            const original = triggerBtn.innerHTML;
             triggerBtn.textContent = 'Copy failed';
-            setTimeout(() => { triggerBtn.textContent = 'Copy HTML'; }, 1500);
+            setTimeout(() => { triggerBtn.innerHTML = original; }, 1500);
         });
     }
 
@@ -174,10 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
         textArea.id = `dynamic-input-${dynamicFontAreaCount}`;
         textArea.removeAttribute('style');
 
-        // Drop any toolbar copied over from the template — wireFontArea()
-        // will build a fresh one for this section below.
-        const copiedToolbar = clone.querySelector('.font-area-toolbar');
-        if (copiedToolbar) copiedToolbar.remove();
+        // Strip any Copy HTML button copied over from the template —
+        // wireFontArea() will attach a fresh one for this section below.
+        const copiedCopyBtn = clone.querySelector('.copy-font-area');
+        if (copiedCopyBtn) copiedCopyBtn.remove();
 
         // Remove control so dynamically-added boxes can be cleared out again.
         const toolbar = ensureToolbar(clone);
@@ -503,12 +500,9 @@ document.addEventListener('DOMContentLoaded', () => {
             titleElement.classList.remove('c4f');
             if (windowWidth >= 768) {
                 textArea.innerText = "And the Rock Cried Out, No Hiding Place";
-                fontArea.querySelector('.opsz-option').style.visibility = 'hidden'
-                fontArea.querySelector('.opsz-option').style.display = 'flex'
-            } else {
-                fontArea.querySelector('.opsz-option').classList.add('hidden')
-                fontArea.querySelector('.opsz-option').style.display = 'none'
             }
+            fontArea.querySelector('.opsz-option').classList.add('hidden')
+            fontArea.querySelector('.opsz-option').style.display = 'none'
             if (buyLinkContainer) {
                 let link = buyLinkContainer.querySelector('a');
                 link.href = 'https://www.futurefonts.com/bea-korsh/benmania';
@@ -569,7 +563,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateSize(textArea, fontSize) {
         textArea.style.fontSize = `${fontSize}px`;
-        const optionsContainer = textArea.parentElement.querySelector('.options');
+        const fontArea = textArea.closest('.font-area');
+        const optionsContainer = fontArea ? fontArea.querySelector('.options') : null;
         if (!optionsContainer) {
             console.error("No '.options' sibling found.");
         } else {

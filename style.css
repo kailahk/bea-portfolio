@@ -24,6 +24,7 @@ body {
     align-items: center;
     max-width: 690px;
     margin: 0 auto;
+    overflow-x: hidden;
 }
 a:hover, a *:hover {
     color: pink !important;
@@ -65,7 +66,7 @@ h3 {
 }
 .opsz-dropdown {
     text-transform: capitalize;
-    padding-top: 5px;
+    padding-top: 0px;
 }
 .features-dropdown .feature {
     text-transform: capitalize;
@@ -252,7 +253,7 @@ body.light-mode .title-dropdown:hover .titles.dropdown-content  {
     padding: 10px 0px !important;
 }
 .font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content, .font-area-3 .title-dropdown:hover .titles.dropdown-content, .font-area-dynamic .title-dropdown:hover .titles.dropdown-content {
-    margin-top: -94px !important;
+    margin-top: 10px !important;
 }
 .title-dropdown:hover .titles.dropdown-content p {
     margin: 0px 15px;
@@ -269,16 +270,10 @@ body.light-mode .title-dropdown:hover .titles.dropdown-content  {
     position: absolute;
     border: 1px solid white;
     padding: 10px 15px;
+    margin-top: 10px;
 }
 body.light-mode .features:hover .features-dropdown {
     border: 1px solid black;
-}
-.features:hover .features-dropdown.ben {
-    margin-top: 100px;
-
-}
-.features:hover .features-dropdown.c4f {
-    margin-top: 158px;
 }
 .features:hover .features-dropdown * {
     font-size: 23px;
@@ -287,7 +282,7 @@ div.alignment-option:hover > .alignment-dropdown {
     display: flex !important;
     position: absolute;
     border: 1px solid white;
-    margin-top: 60px;
+    margin-top: 10px;
 }
 body.light-mode div.alignment-option:hover > .alignment-dropdown {
     border: 1px solid black;
@@ -301,39 +296,69 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
     flex-direction: column;
 }
 .font-area {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     margin-top: 60px;
+    padding: 40px 0;
+}
+
+/* Sidebar + big specimen text, side by side */
+.specimen-row {
+    position: relative;
+}
+.specimen-sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 18px;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 665px);
+    width: 260px;
+}
+.specimen-text {
+    width: 690px;
+    display: block;
+    margin: 0 auto;
+    box-sizing: border-box;
+    border: none;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    background: transparent;
+    height: 202px;
+    font-size: 78px;
+    padding: 50px 5px;
+    text-align: center;
+}
+body.light-mode .specimen-text {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 .font-area .options {
     display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.font-area .options > div {
+    display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .font-area .options.top {
     display: flex;
-    justify-content: flex-end;
-}
-.font-area .options .features {
-    margin-right: 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
 }
 .options label {
     text-transform: uppercase;
 }
 textarea {
-    /* min-height and min-width don't allow text box to get smaller than its container */
-    height: 202px;
     font-size: 78px;
-    text-align: center;
-    width: 100%;
+    resize: none;
     box-sizing: border-box;
-    padding: 50px 5px;
-    resize:none;
-    border-left: 0px;
-    border-right: 0px;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
-}
-body.light-mode textarea {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
 }
 ::-webkit-resizer {
     display: none;
@@ -342,12 +367,17 @@ textarea:focus {
     outline: 0;
 }
 .font-area label, .alignment-option * {
-    font-size: 16px;
+    font-size: 12px;
+}
+#txt-align-icon {
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 h3.title {
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     margin-bottom: 2px;
-    padding: 5px 0;
+    padding: 4px 0;
+    font-size: 18px;
 }
 .slider {
     -webkit-appearance: none;
@@ -377,38 +407,26 @@ body.light-mode .slider {
 body.light-mode .slider::-webkit-slider-thumb {
     border: 1px solid black;
 }
-.options > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .slider::-moz-range-thumb {
     width: 14px;
     height: 14px;
     background: white;
     cursor: pointer;
 }
-.title-and-buy-link {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-.title-and-buy-link .buy-link, .title-and-buy-link .buy-link-2, .title-and-buy-link .buy-link-3 {
-    margin-bottom: 7px;
-}
 .hide-opsz {
     display: none;
 }
 .title-and-opsz {
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0px;
     cursor: pointer;
     position: relative;
 }
 #opsz-dropdown-title, #opsz-dropdown-title-ben {
-    margin: 0 0 10px 0;
-    font-size: 16px;
+    margin: 0 0 0 0;
+    font-size: 14px;
     letter-spacing: 2px;
     text-transform: uppercase;
 }
@@ -425,10 +443,10 @@ body.light-mode .slider::-webkit-slider-thumb {
     border: 1px solid white;
     flex-direction: column;
     padding: 10px;
-    margin-top: -110px;
+    margin-top: 10px;
 }
 .font-area-1 .opsz-option {
-    visibility: hidden;
+    display: none;
 }
 .opsz-dropdown-ben:hover .dropdown-content.hide-opsz{
     display: flex;
@@ -436,7 +454,7 @@ body.light-mode .slider::-webkit-slider-thumb {
     border: 1px solid white;
     flex-direction: column;
     padding: 10px;
-    margin-top: -70px;
+    margin-top: 10px;
     width: 150px;
 }
 .opsz-dropdown-ben:hover .dropdown-content.hide-opsz p {
@@ -482,22 +500,16 @@ body.light-mode #add-font-area {
 #add-font-area:hover {
     color: pink;
 }
-.font-area-toolbar {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-}
 .copy-font-area,
 .remove-font-area {
     background: transparent;
     border: none;
     color: inherit;
-    font-size: 16px;
+    font-size: 12px;
     letter-spacing: 2px;
     text-transform: uppercase;
     cursor: pointer;
     padding: 0;
-    margin-bottom: 10px;
 }
 .copy-font-area:hover,
 .remove-font-area:hover {
@@ -723,47 +735,36 @@ iframe::-webkit-scrollbar {
     .opsz-dropdown {
         padding-top: 0px;
     }
-    .font-area-2 .title-dropdown:hover .titles.dropdown-content, .font-area-1 .title-dropdown:hover .titles.dropdown-content, .font-area-3 .title-dropdown:hover .titles.dropdown-content, .font-area-dynamic .title-dropdown:hover .titles.dropdown-content {
-        margin-top: -87px !important;
-    }
     #opsz-dropdown-title, #opsz-dropdown-title-ben {
         margin-bottom:7px;
     }
-    .font-area textarea {
+    .font-area {
+        width: auto;
+        position: static;
+        left: auto;
+        transform: none;
+    }
+    .specimen-row {
+        position: static;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        max-width: 100%;
+    }
+    .specimen-sidebar {
+        position: static;
+        width: 100%;
+    }
+    .specimen-text {
+        width: 100%;
         height: 152px;
         padding: 30px 5px;
-    }
-    .options {
-        flex-direction: column;
-    }
-    .options > div {
-        justify-content: space-between;
-        margin-top: 2px;
     }
     .all-fonts {
         margin-top: 40px;
     }
-    .font-area-2 {
-        margin-top: 100px;
-    }
-    .font-area-1 {
-        margin-top: 130px;
-    }
-    .font-area-3 {
-        margin-top: 130px;
-    }
-    .font-area-dynamic {
-        margin-top: 130px;
-    }
     .add-font-area-wrap {
         margin-top: 40px;
-    }
-    .font-area .options.top {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        margin-bottom: -73px;
     }
     .font-area .title-dropdown {
         margin-bottom: 0px;
@@ -776,28 +777,11 @@ iframe::-webkit-scrollbar {
     .slider {
         margin-right: 0;
     }
-    .alignment-option {
-        margin-top: 5px !important;
-    }
-    .title-and-buy-link {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .title-and-buy-link .buy-link a, .title-and-buy-link .buy-link-2 a, .title-and-buy-link .buy-link-3 a {
-        font-size: 16px !important;
-    }
-    .title-and-buy-link .buy-link, .title-and-buy-link .buy-link-2, .title-and-buy-link .buy-link-3 {
-        margin-bottom: 0px;
-    }
-    .title-and-opsz {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .opsz-dropdown:hover .dropdown-content.hide-opsz, .opsz-dropdown-ben:hover .dropdown-content.hide-opsz {
-        margin-top: -5px;
-    }  
     .font-area-1 .opsz-option {
         display: none;
+    }
+    .specimen-sidebar [class*="buy-link"] a {
+        font-size: 16px !important;
     }
 
     /* Bea Section */
