@@ -301,10 +301,13 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
     left: 50%;
     transform: translateX(-50%);
     margin-top: 60px;
-    padding: 40px 0;
+    padding: 0px 0;
 }
 
 /* Sidebar + big specimen text, side by side */
+.specimen-sidebar [class*="buy-link"] a {
+    font-size: 18px;
+}
 .specimen-row {
     position: relative;
 }
@@ -312,11 +315,19 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 18px;
+    gap: 10px;
     position: absolute;
     top: 0;
     left: calc(50% - 665px);
     width: 260px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
+}
+.font-area:hover .specimen-sidebar,
+.font-area:focus-within .specimen-sidebar {
+    opacity: 1;
+    visibility: visible;
 }
 .specimen-text {
     width: 690px;
@@ -343,8 +354,15 @@ body.light-mode .specimen-text {
 }
 .font-area .options > div {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    gap: 10px;
+}
+.size-option label,
+.leading-option label,
+.opsz-option label {
+    display: inline-block;
+    width: 45px;
 }
 .font-area .options.top {
     display: flex;
@@ -510,6 +528,7 @@ body.light-mode #add-font-area {
     text-transform: uppercase;
     cursor: pointer;
     padding: 0;
+    margin: 0;
 }
 .copy-font-area:hover,
 .remove-font-area:hover {
@@ -754,6 +773,8 @@ iframe::-webkit-scrollbar {
     .specimen-sidebar {
         position: static;
         width: 100%;
+        opacity: 1;
+        visibility: visible;
     }
     .specimen-text {
         width: 100%;
