@@ -1,21 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
     const c4fFeatures = {
-        'None': [false, 'none'],
-        'Lining Figures': [false, 'lnum'],
-        'Oldstyle Figures': [false, 'onum'],
-        'Case Sensitive': [false, 'case'],
-        'Short Ascenders': [false, 'ss01'],
-        'Ligatures': [true, 'liga']
+        'none': [false, 'none'],
+        'lining figures': [false, 'lnum'],
+        'oldstyle figures': [false, 'onum'],
+        'case sensitive': [false, 'case'],
+        'short ascenders': [false, 'ss01'],
+        'ligatures': [true, 'liga']
     };
     const benFeatures = {
-        'None': [false, 'none'],
-        'Localized Forms': [false, 'locl'],
-        'Superscript': [false, 'sups'],
-        'Fractions': [false, 'frac'],
-        'Ordinals': [false, 'ordn'],
-        'Ligatures': [true, 'liga'],
-        'Contextual Alternates': [true, 'calt'],
-        'SS01 (Alternate “u”)': [false, 'ss01']
+        'none': [false, 'none'],
+        'localized forms': [false, 'locl'],
+        'superscript': [false, 'sups'],
+        'fractions': [false, 'frac'],
+        'ordinals': [false, 'ordn'],
+        'ligatures': [true, 'liga'],
+        'contextual alternates': [true, 'calt'],
+        'SS01 (alternate "u")': [false, 'ss01']
     };
 
     const c4fOpszVals = {
@@ -33,31 +33,210 @@ document.addEventListener('DOMContentLoaded', () => {
         'display regular': 50
     };
 
+    // Tunable ranges for "+ Add Text Area" — adjust these to change how wild
+    // or subtle the randomly-generated boxes feel. Nothing else in the file
+    // needs to change when these values are edited.
+    const RANDOM_BOUNDS = {
+        c4f: {
+            size: { min: 40, max: 140 },
+            leading: { min: -20, max: 30 },
+            opsz: ['text regular', 'regular', 'display regular'],
+            alignment: ['left', 'center', 'right']
+        },
+        ben: {
+            size: { min: 40, max: 140 },
+            leading: { min: -20, max: 30 },
+            alignment: ['left', 'center', 'right']
+        }
+    };
+
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function pickRandom(list) {
+        return list[Math.floor(Math.random() * list.length)];
+    }
+
     let currFont = '';
+    let dynamicFontAreaCount = 0;
+    // Alternates typeface on each new box; the last static section (font-area-3)
+    // starts as Cake4Freaks, so the first dynamically-added box is Benmania.
+    let nextRandomFont = 'ben';
 
     // DOM Elements
     let body = document.getElementsByTagName('body')[0];
     const sun = document.getElementById('sun');
     const moon = document.getElementById('moon');
-    const fontArea1 = document.querySelector('.font-area-1');
-    const fontArea2 = document.querySelector('.font-area-2');
     const allFonts = [...document.querySelectorAll('.all-fonts section.font-area')];
-    const buyLink = document.querySelector('.buy-link');
-    const buyLink2 = document.querySelector('.buy-link-2');
 
     // Event Listeners
     sun.addEventListener('click', updateMode);
     moon.addEventListener('click', updateMode);
-    fontArea1.addEventListener('click', (event) => updateTextArea(fontArea1, event));
-    fontArea2.addEventListener('click', (event) => updateTextArea(fontArea2, event));
-    fontArea1.addEventListener('input', (event) => updateTextArea(fontArea1, event));
-    fontArea2.addEventListener('input', (event) => updateTextArea(fontArea2, event));
-    fontArea1.addEventListener('touchstart', (event) => updateTextArea(fontArea1, event));
-    fontArea2.addEventListener('touchstart', (event) => updateTextArea(fontArea2, event));
+
+    function wireFontArea(fontArea) {
+        const handler = (event) => updateTextArea(fontArea, event);
+        fontArea.addEventListener('click', handler);
+        fontArea.addEventListener('input', handler);
+        fontArea.addEventListener('touchstart', handler);
+        addCopyButton(fontArea);
+    }
+
+    function ensureToolbar(fontArea) {
+        let toolbar = fontArea.querySelector('.font-area-toolbar');
+        if (!toolbar) {
+            toolbar = document.createElement('div');
+            toolbar.className = 'font-area-toolbar';
+            fontArea.prepend(toolbar);
+        }
+        return toolbar;
+    }
+
+    function addCopyButton(fontArea) {
+        const toolbar = ensureToolbar(fontArea);
+        if (toolbar.querySelector('.copy-font-area')) return;
+        const copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'copy-font-area';
+        copyBtn.textContent = 'Copy HTML';
+        copyBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            copyFontAreaHtml(fontArea, copyBtn);
+        });
+        toolbar.prepend(copyBtn);
+    }
+
+    function copyFontAreaHtml(fontArea, triggerBtn) {
+        const clone = fontArea.cloneNode(true);
+
+        // Strip the toolbar (Copy/Remove controls) out of the exported markup.
+        const toolbar = clone.querySelector('.font-area-toolbar');
+        if (toolbar) toolbar.remove();
+
+        // A typed value only ever lives in the textarea's live "value"
+        // property, never in its HTML source — so bake the current live
+        // text in as real text content before serializing, or a pasted
+        // copy would always revert to the box's original default phrase.
+        const liveTextArea = fontArea.querySelector('.font-input');
+        const cloneTextArea = clone.querySelector('.font-input');
+        if (liveTextArea && cloneTextArea) {
+            cloneTextArea.textContent = liveTextArea.value;
+        }
+
+        // Likewise, bake each slider's current live position in as its
+        // "value" attribute, so the pasted markup starts in the same state
+        // instead of resetting to each slider's original default.
+        const liveSliders = fontArea.querySelectorAll('input[type="range"]');
+        const cloneSliders = clone.querySelectorAll('input[type="range"]');
+        cloneSliders.forEach((input, i) => {
+            input.setAttribute('value', liveSliders[i].value);
+        });
+
+        const html = clone.outerHTML;
+
+        navigator.clipboard.writeText(html).then(() => {
+            const original = triggerBtn.textContent;
+            triggerBtn.textContent = 'Copied!';
+            setTimeout(() => { triggerBtn.textContent = original; }, 1500);
+        }).catch(() => {
+            triggerBtn.textContent = 'Copy failed';
+            setTimeout(() => { triggerBtn.textContent = 'Copy HTML'; }, 1500);
+        });
+    }
+
+    // Wire up every font-area section found on the page (not just two),
+    // so duplicating/adding sections "just works".
+    allFonts.forEach(wireFontArea);
 
     // Initialize features on load
     initFeatures(allFonts);
     initOpszVals(allFonts);
+
+    // "+ Add Text Area" button
+    const addFontAreaBtn = document.getElementById('add-font-area');
+    if (addFontAreaBtn) {
+        addFontAreaBtn.addEventListener('click', createRandomFontArea);
+    }
+
+    function createRandomFontArea() {
+        const container = document.querySelector('.all-fonts');
+        const template = container.querySelector('section.font-area');
+        const clone = template.cloneNode(true);
+
+        // Drop any numbered font-area-N class from the source template and
+        // mark this section as dynamically added (its own mobile spacing rule).
+        clone.classList.remove('font-area-1', 'font-area-2', 'font-area-3');
+        clone.classList.add('font-area-dynamic');
+
+        // Give the textarea a fresh, unique id and clear any inline styles
+        // (size/leading/opsz/alignment/custom text) copied from the template.
+        const textArea = clone.querySelector('.font-input');
+        textArea.id = `dynamic-input-${dynamicFontAreaCount}`;
+        textArea.removeAttribute('style');
+
+        // Drop any toolbar copied over from the template — wireFontArea()
+        // will build a fresh one for this section below.
+        const copiedToolbar = clone.querySelector('.font-area-toolbar');
+        if (copiedToolbar) copiedToolbar.remove();
+
+        // Remove control so dynamically-added boxes can be cleared out again.
+        const toolbar = ensureToolbar(clone);
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-font-area';
+        removeBtn.innerHTML = '&#x2715; Remove';
+        removeBtn.addEventListener('click', () => {
+            clone.remove();
+            allFonts.splice(allFonts.indexOf(clone), 1);
+        });
+        toolbar.appendChild(removeBtn);
+
+        container.appendChild(clone);
+        allFonts.push(clone);
+        wireFontArea(clone);
+        initFeatures([clone]);
+        initOpszVals([clone]);
+
+        // Alternate typeface from whichever was used last time.
+        const chosenFont = nextRandomFont;
+        nextRandomFont = nextRandomFont === 'c4f' ? 'ben' : 'c4f';
+        updateFont(clone, textArea, chosenFont);
+
+        // Randomize size, leading, (opsz for c4f), and alignment within
+        // the configured bounds, and keep the sliders in sync with them.
+        const bounds = RANDOM_BOUNDS[chosenFont];
+        const size = randomInt(bounds.size.min, bounds.size.max);
+        const leading = randomInt(bounds.leading.min, bounds.leading.max);
+
+        const sizeSlider = clone.querySelector('.size-option input');
+        const leadingSlider = clone.querySelector('.leading-option input');
+        sizeSlider.value = size;
+        leadingSlider.value = leading;
+
+        if (chosenFont === 'c4f') {
+            const opszName = pickRandom(bounds.opsz);
+            const opszValue = OPSZ_VALUES[opszName];
+            const displayName = opszName.split(' ').map(word =>
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+            updateAllOpszElements(clone, opszName, displayName, opszValue);
+        }
+
+        updateSize(textArea, size);
+        updateLeading(textArea, leading, clone);
+
+        const alignment = pickRandom(bounds.alignment);
+        textArea.style.textAlign = alignment;
+
+        if (window.innerWidth < 768) {
+            textArea.innerText = "Abc...";
+        }
+
+        updateFeatures(clone, textArea);
+        autoResize(textArea);
+
+        dynamicFontAreaCount++;
+    }
 
     // Helper Functions
 
@@ -300,6 +479,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const titleElement = fontArea.querySelector('.title');
         let benCheckbox = fontArea.querySelector('p.ben span');
         let c4fCheckbox = fontArea.querySelector('p.c4f span');
+        // Buy-link container is scoped to this section, whatever number it's suffixed with
+        // (buy-link, buy-link-2, buy-link-3, ...), so duplicating a section keeps working.
+        const buyLinkContainer = fontArea.querySelector('[class*="buy-link"]');
         if (!titleElement) {
             console.error('Title element not found in updateFont', fontArea);
             return;
@@ -308,7 +490,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chosenFont === 'ben') {
             let opszDropdown = fontArea.querySelector('.opsz-dropdown');
             let opszDropdownben = fontArea.querySelector('.opsz-dropdown-ben');
-            console.log('test:', benCheckbox, c4fCheckbox);
             benCheckbox.classList.add('show-title-check');
             benCheckbox.classList.remove('hide-title-check');
             c4fCheckbox.classList.remove('show-title-check');
@@ -328,15 +509,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 fontArea.querySelector('.opsz-option').classList.add('hidden')
                 fontArea.querySelector('.opsz-option').style.display = 'none'
             }
-            if (fontArea.classList.contains('font-area-1')) {
-                let link = buyLink.querySelector('a');
+            if (buyLinkContainer) {
+                let link = buyLinkContainer.querySelector('a');
                 link.href = 'https://www.futurefonts.com/bea-korsh/benmania';
                 link.innerHTML = 'Buy/$20 ↗';
-            }
-            if (fontArea.classList.contains('font-area-2')) {
-                let link2 = buyLink2.querySelector('a');
-                link2.href = 'https://www.futurefonts.com/bea-korsh/benmania';
-                link2.innerHTML = 'Buy/$20 ↗';
             }
             appendOpszVals(opszDropdown, benOpszVals);
         } else if (chosenFont === 'c4f') {
@@ -380,15 +556,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (windowWidth >= 768) {
                 textArea.innerText = "Ceremonies of Light and Dark";
             }
-            if (fontArea.classList.contains('font-area-1')) {
-                let link = buyLink.querySelector('a');
+            if (buyLinkContainer) {
+                let link = buyLinkContainer.querySelector('a');
                 link.href = 'https://www.futurefonts.com/bea-korsh/cake4freaks';
                 link.innerHTML = 'Buy/$15 ↗';
-            }
-            if (fontArea.classList.contains('font-area-2')) {
-                let link2 = buyLink2.querySelector('a');
-                link2.href = 'https://www.futurefonts.com/bea-korsh/cake4freaks';
-                link2.innerHTML = 'Buy/$15 ↗';
             }
 
             // Reinitialize the optical size dropdown
@@ -478,22 +649,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        let inactiveFeatures = [];
-
         Object.entries(featureSet).forEach(([featureName, featureValue]) => {
-            const [isActive, featureCode] = featureValue;
-            if (featureCode === 'none') return;
-            if (isActive) {
-                activeFeatures.push(`'${featureCode}' 1`);
-            } else {
-                inactiveFeatures.push(`'${featureCode}' 0`);
+            if (featureValue[0]) {
+                activeFeatures.push(featureValue[1]);
             }
         });
 
-        const allFeatureSettings = [...activeFeatures, ...inactiveFeatures];
-        textArea.style.fontFeatureSettings = allFeatureSettings.length > 0
-            ? allFeatureSettings.join(', ')
-            : 'normal';
+        textArea.style.fontFeatureSettings = activeFeatures.map(feature => `'${feature}'`).join(', ');
         updateCheckMarks(featureSet, fontArea);
     }
 
@@ -516,39 +678,43 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function updatePlaceholder() {
-    const textarea1 = document.getElementById('first-input');
-    const textarea2 = document.getElementById('second-input');
+    // Runs for every .font-input textarea on the page, however many there are.
+    const textareas = document.querySelectorAll('.font-input');
     const windowWidth = window.innerWidth;
-    if (windowWidth < 768) {
-        textarea1.innerText = "Abc...";
-        textarea2.innerText = "Abc...";
-    } else if (windowWidth >= 768) {
-        if (textarea1.style.fontFamily === 'Cake4Freaks-Optical') {
-            textarea1.innerText = "Ceremonies of Light and Dark";
-        } else {
-            textarea1.innerText = "And the Rock Cried Out, No Hiding Place";
+    textareas.forEach((textarea) => {
+        if (windowWidth < 768) {
+            textarea.innerText = "Abc...";
+            return;
         }
-        if (textarea2.style.fontFamily === 'Benmania-Black') {
-            textarea2.innerText = "And the Rock Cried Out, No Hiding Place";
-        } else {
-            textarea2.innerText = "Ceremonies of Light and Dark";
-        }
-    }
+
+        // Determine the section's current font from its title element's class
+        // ('c4f' or 'ben'), which is always kept accurate — rather than the
+        // inline fontFamily style, which stays unset until the user manually
+        // switches fonts and would otherwise wrongly default every section
+        // to the Benmania phrase on load/resize.
+        const fontArea = textarea.closest('.font-area');
+        const titleElement = fontArea ? fontArea.querySelector('.title') : null;
+        const isCake4Freaks = titleElement
+            ? titleElement.classList.contains('c4f')
+            : textarea.style.fontFamily === 'Cake4Freaks-Optical';
+
+        textarea.innerText = isCake4Freaks
+            ? "Ceremonies of Light and Dark"
+            : "And the Rock Cried Out, No Hiding Place";
+    });
 }
 
-function autoResize(textArea) {
+function autoResize() {
+    // Runs for every .font-input textarea on the page, however many there are.
     const windowWidth = window.innerWidth;
-    const textarea1 = document.getElementById('first-input');
-    const textarea2 = document.getElementById('second-input');
-    if (windowWidth < 768) {
-        textarea1.style.height = '152px';
-        textarea2.style.height = '152px';
-        textarea1.style.height = textarea1.scrollHeight + 'px';
-        textarea2.style.height = textarea2.scrollHeight + 'px';
-    } else if (windowWidth >= 768) {
-        textarea1.style.height = 'auto';;
-        textarea2.style.height = 'auto';
-        textarea1.style.height = (textarea1.scrollHeight + 2) + 'px';
-        textarea2.style.height = (textarea2.scrollHeight + 2) + 'px';
-    }
+    const textareas = document.querySelectorAll('.font-input');
+    textareas.forEach((textarea) => {
+        if (windowWidth < 768) {
+            textarea.style.height = '152px';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        } else {
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight + 2) + 'px';
+        }
+    });
 }
