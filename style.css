@@ -17,6 +17,11 @@
     src: url('./assets/fonts/BenmaniaV0.2-Black.otf') format('opentype');
     font-weight: 400;
 } 
+@font-face {
+    font-family: 'SquareCapitals-Regular';
+    src: url('../../../../Library/Fonts/SquareCapitals-Regular.otf') format('opentype');
+    font-weight: 400;
+} 
 body {
     display: flex;
     flex-direction: column;
@@ -300,8 +305,11 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 60px;
+    margin-top: 0;
     padding: 0px 0;
+}
+.all-fonts > .font-area:first-child {
+    margin-top: 60px;
 }
 
 /* Sidebar + big specimen text, side by side */
@@ -318,7 +326,7 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
     gap: 10px;
     position: absolute;
     top: 0;
-    left: calc(50% - 665px);
+    left: calc(50% + 405px);
     width: 260px;
     opacity: 0;
     visibility: hidden;
@@ -335,17 +343,11 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
     margin: 0 auto;
     box-sizing: border-box;
     border: none;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
     background: transparent;
     height: 202px;
     font-size: 78px;
     padding: 50px 5px;
     text-align: center;
-}
-body.light-mode .specimen-text {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
 }
 .font-area .options {
     display: flex;
@@ -504,16 +506,13 @@ body.light-mode .dropdown-content {
 }
 #add-font-area {
     background: transparent;
-    border: 1px solid white;
+    border: none;
     color: inherit;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 48px;
     letter-spacing: 2px;
     text-transform: uppercase;
     cursor: pointer;
-}
-body.light-mode #add-font-area {
-    border: 1px solid black;
 }
 #add-font-area:hover {
     color: pink;
@@ -535,7 +534,7 @@ body.light-mode #add-font-area {
     color: pink;
 }
 .font-area-dynamic {
-    margin-top: 100px;
+    margin-top: 0;
 }
 
 /* Bea Section */
