@@ -1,55 +1,225 @@
+// ---------------------------------------------------------------------------
+// Font registry — every typeface available in the title-dropdown ("Cake4Freaks
+// ⇕") and in the "+ Add Text Area" random pool is described here. To add
+// another font later:
+//   1. Add an @font-face rule (and a ".key.font-input { font-family: ... }"
+//      rule) for it in style.css.
+//   2. Add an entry below with that same key, and a matching entry in
+//      RANDOM_BOUNDS.
+// Nothing else in this file needs to change — the dropdown, the feature
+// list, the optical-size UI, the buy link, and the "+" button's random pool
+// all read from this registry.
+// ---------------------------------------------------------------------------
+const c4fFeatures = {
+    'none': [false, 'none'],
+    'lining figures': [false, 'lnum'],
+    'oldstyle figures': [false, 'onum'],
+    'case sensitive': [false, 'case'],
+    'short ascenders': [false, 'ss01'],
+    'ligatures': [true, 'liga'],
+    'All Caps': [false, 'allcaps']
+};
+const benFeatures = {
+    'none': [false, 'none'],
+    'localized forms': [false, 'locl'],
+    'superscript': [false, 'sups'],
+    'fractions': [false, 'frac'],
+    'ordinals': [false, 'ordn'],
+    'ligatures': [true, 'liga'],
+    'contextual alternates': [true, 'calt'],
+    'SS01 (alternate "u")': [false, 'ss01'],
+    'All Caps': [false, 'allcaps']
+};
+// Feature sets below were read directly out of each font's GSUB table, so
+// only tags each font actually supports are offered as toggles. "All Caps"
+// isn't a real OpenType feature — it's a plain text-transform toggle — but
+// it's added to every font here so it shows up alongside the rest and is
+// handled the same way (see updateFeatures()).
+const blockvarFeatures = {
+    'none': [true, 'none'],
+    'SS01 (alternate)': [false, 'ss01'],
+    'All Caps': [false, 'allcaps']
+};
+const cmdcutFeatures = {
+    'none': [false, 'none'],
+    'localized forms': [false, 'locl'],
+    'superscript': [false, 'sups'],
+    'fractions': [false, 'frac'],
+    'ordinals': [false, 'ordn'],
+    'ligatures': [true, 'liga'],
+    'SS01 (alternate)': [false, 'ss01'],
+    'All Caps': [false, 'allcaps']
+};
+const cursiveFeatures = {
+    'none': [false, 'none'],
+    'ligatures': [true, 'liga'],
+    'SS01 (alternate)': [false, 'ss01'],
+    'All Caps': [false, 'allcaps']
+};
+const squarecapFeatures = {
+    'none': [false, 'none'],
+    'contextual alternates': [true, 'calt'],
+    'All Caps': [false, 'allcaps']
+};
+const sweetbabyFeatures = {
+    'none': [false, 'none'],
+    'ligatures': [true, 'liga'],
+    'All Caps': [false, 'allcaps']
+};
+
+const c4fOpszVals = {
+    'text regular': [true, 'text regular'],
+    'regular': [false, 'regular'],
+    'display regular': [false, 'display regular']
+};
+const OPSZ_VALUES = {
+    'text regular': 10,
+    'regular': 30,
+    'display regular': 50
+};
+
+// Every typeface on the site, keyed by the short id also used as its CSS
+// class (".c4f", ".ben", ".blockvar", ...). `hasOpsz: true` is reserved for
+// Cake4Freaks, the only font with a real optical-size axis wired into the
+// UI; every other font instead shows a single static style label
+// (`staticLabel`) in that same slot.
+const FONTS = {
+    c4f: {
+        displayName: 'Cake4Freaks',
+        family: 'Cake4Freaks-Optical',
+        defaultText: 'Ceremonies of Light and Dark',
+        hasOpsz: true,
+        features: c4fFeatures,
+        buyLink: { url: 'https://www.futurefonts.com/bea-korsh/cake4freaks', label: 'Buy/$15 ↗' }
+    },
+    ben: {
+        displayName: 'Benmania',
+        family: 'Benmania-Black',
+        defaultText: 'And the Rock Cried Out, No Hiding Place',
+        hasOpsz: false,
+        staticLabel: 'Black',
+        features: benFeatures,
+        buyLink: { url: 'https://www.futurefonts.com/bea-korsh/benmania', label: 'Buy/$20 ↗' }
+    },
+    blockvar: {
+        displayName: 'Block Condensed',
+        family: 'BlockVariable-Condensed',
+        defaultText: 'Concrete Blocks Stacked Tall',
+        hasOpsz: false,
+        staticLabel: 'Condensed',
+        features: blockvarFeatures,
+        buyLink: null
+    },
+    cmdcut: {
+        displayName: 'Cmd Cut Black',
+        family: 'CmdCut-Black',
+        defaultText: 'Execute Command Now',
+        hasOpsz: false,
+        staticLabel: 'Regular',
+        features: cmdcutFeatures,
+        buyLink: null
+    },
+    cursive: {
+        displayName: 'Cursive',
+        family: 'Cursive-Regular',
+        defaultText: 'Handwritten Notes and Letters',
+        hasOpsz: false,
+        staticLabel: 'Regular',
+        features: cursiveFeatures,
+        buyLink: null
+    },
+    squarecap: {
+        displayName: 'Square Capitals',
+        family: 'SquareCapitals-Regular',
+        defaultText: 'ALL CAPS ALL SQUARE',
+        hasOpsz: false,
+        staticLabel: 'Regular',
+        features: squarecapFeatures,
+        buyLink: null
+    },
+    sweetbaby: {
+        displayName: 'Sweet Baby Boy Bold',
+        family: 'SweetBabyBoy-Bold',
+        defaultText: 'Sweet Dreams Little One',
+        hasOpsz: false,
+        staticLabel: 'Regular',
+        features: sweetbabyFeatures,
+        buyLink: null
+    }
+};
+const FONT_KEYS = Object.keys(FONTS);
+
+// Tunable ranges for "+ Add Text Area" — adjust these to change how wild
+// or subtle the randomly-generated boxes feel. Nothing else in the file
+// needs to change when these values are edited.
+// `size` is split by which kind of Frankenstein snippet the box ends up
+// with: a single sentence reads fine set large, while a full paragraph
+// needs to run smaller or it overwhelms the box. See pickRandomFrankensteinText
+// and createRandomFontArea below.
+const RANDOM_BOUNDS = {
+    c4f: {
+        size: { sentence: { min: 55, max: 95 }, paragraph: { min: 20, max: 42 } },
+        leading: { min: -20, max: 30 },
+        opsz: ['text regular', 'regular', 'display regular'],
+        alignment: ['left', 'center', 'right']
+    },
+    ben: {
+        size: { sentence: { min: 55, max: 95 }, paragraph: { min: 20, max: 42 } },
+        leading: { min: -20, max: 30 },
+        alignment: ['left', 'center', 'right']
+    },
+    blockvar: {
+        size: { sentence: { min: 55, max: 95 }, paragraph: { min: 20, max: 42 } },
+        leading: { min: -20, max: 30 },
+        alignment: ['left', 'center', 'right']
+    },
+    cmdcut: {
+        size: { sentence: { min: 55, max: 95 }, paragraph: { min: 20, max: 42 } },
+        leading: { min: -20, max: 30 },
+        alignment: ['left', 'center', 'right']
+    },
+    cursive: {
+        size: { sentence: { min: 55, max: 95 }, paragraph: { min: 20, max: 42 } },
+        leading: { min: -20, max: 30 },
+        alignment: ['left', 'center', 'right']
+    },
+    squarecap: {
+        size: { sentence: { min: 55, max: 95 }, paragraph: { min: 20, max: 42 } },
+        leading: { min: -20, max: 30 },
+        alignment: ['left', 'center', 'right']
+    },
+    sweetbaby: {
+        size: { sentence: { min: 55, max: 95 }, paragraph: { min: 20, max: 42 } },
+        leading: { min: -20, max: 30 },
+        alignment: ['left', 'center', 'right']
+    }
+};
+
+// Picks a random snippet from the Frankenstein pool (loaded via
+// assets/frankenstein-text.js) for the "+ Add Text Area" button — a 50/50
+// coin flip between a single sentence and a full paragraph each time.
+// Returns { text, kind } where kind is 'sentence' or 'paragraph' (used to
+// pick a matching font-size range), or null if that file hasn't loaded for
+// some reason, so callers can fall back to the font's normal sample phrase.
+function pickRandomFrankensteinText() {
+    const pool = window.FRANKENSTEIN_TEXT;
+    if (!pool) return null;
+    const kind = Math.random() < 0.5 ? 'sentence' : 'paragraph';
+    const list = kind === 'sentence' ? pool.sentences : pool.paragraphs;
+    if (!list || !list.length) return null;
+    return { text: list[Math.floor(Math.random() * list.length)], kind };
+}
+
+// Reads which font a given .font-area is currently set to, straight off its
+// <h3 class="title KEY"> element — this is the single source of truth used
+// everywhere below instead of tracking font state separately.
+function getFontKey(fontArea) {
+    const titleElement = fontArea.querySelector('.title');
+    if (!titleElement) return null;
+    return FONT_KEYS.find((key) => titleElement.classList.contains(key)) || null;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    const c4fFeatures = {
-        'none': [false, 'none'],
-        'lining figures': [false, 'lnum'],
-        'oldstyle figures': [false, 'onum'],
-        'case sensitive': [false, 'case'],
-        'short ascenders': [false, 'ss01'],
-        'ligatures': [true, 'liga']
-    };
-    const benFeatures = {
-        'none': [false, 'none'],
-        'localized forms': [false, 'locl'],
-        'superscript': [false, 'sups'],
-        'fractions': [false, 'frac'],
-        'ordinals': [false, 'ordn'],
-        'ligatures': [true, 'liga'],
-        'contextual alternates': [true, 'calt'],
-        'SS01 (alternate "u")': [false, 'ss01']
-    };
-
-    const c4fOpszVals = {
-        'text regular': [true, 'text regular'],
-        'regular': [false, 'regular'],
-        'display regular': [false, 'display regular']
-    }
-    const benOpszVals = {
-        'black': [true, 'black']
-    }
-
-    const OPSZ_VALUES = {
-        'text regular': 10,
-        'regular': 30,
-        'display regular': 50
-    };
-
-    // Tunable ranges for "+ Add Text Area" — adjust these to change how wild
-    // or subtle the randomly-generated boxes feel. Nothing else in the file
-    // needs to change when these values are edited.
-    const RANDOM_BOUNDS = {
-        c4f: {
-            size: { min: 40, max: 140 },
-            leading: { min: -20, max: 30 },
-            opsz: ['text regular', 'regular', 'display regular'],
-            alignment: ['left', 'center', 'right']
-        },
-        ben: {
-            size: { min: 40, max: 140 },
-            leading: { min: -20, max: 30 },
-            alignment: ['left', 'center', 'right']
-        }
-    };
-
     function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -58,11 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return list[Math.floor(Math.random() * list.length)];
     }
 
-    let currFont = '';
     let dynamicFontAreaCount = 0;
-    // Alternates typeface on each new box; the last static section (font-area-3)
-    // starts as Cake4Freaks, so the first dynamically-added box is Benmania.
-    let nextRandomFont = 'ben';
 
     // DOM Elements
     let body = document.getElementsByTagName('body')[0];
@@ -145,7 +311,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // so duplicating/adding sections "just works".
     allFonts.forEach(wireFontArea);
 
-    // Initialize features on load
+    // Build the font-switcher dropdown, the feature list, and the
+    // optical-size UI for every section on load.
+    buildTitlesDropdown(allFonts);
     initFeatures(allFonts);
     initOpszVals(allFonts);
 
@@ -170,13 +338,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const textArea = clone.querySelector('.font-input');
         textArea.id = `dynamic-input-${dynamicFontAreaCount}`;
         textArea.removeAttribute('style');
+        // Strip any stray font-key class the template's textarea happened to
+        // carry (Benmania's static textarea has one baked in) so a clone
+        // never starts out mismatched with whatever font is picked below.
+        FONT_KEYS.forEach((key) => textArea.classList.remove(key));
 
         // Strip any Copy HTML button copied over from the template —
         // wireFontArea() will attach a fresh one for this section below.
         const copiedCopyBtn = clone.querySelector('.copy-font-area');
         if (copiedCopyBtn) copiedCopyBtn.remove();
 
-        // Remove control so dynamically-added boxes can be cleared out again.
+        container.appendChild(clone);
+        allFonts.push(clone);
+        wireFontArea(clone);
+
+        // Remove control so dynamically-added boxes can be cleared out
+        // again — appended after wireFontArea() so it lands below the
+        // Copy HTML button it just attached, not above it.
         const toolbar = ensureToolbar(clone);
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
@@ -188,21 +366,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         toolbar.appendChild(removeBtn);
 
-        container.appendChild(clone);
-        allFonts.push(clone);
-        wireFontArea(clone);
-        initFeatures([clone]);
-        initOpszVals([clone]);
-
-        // Alternate typeface from whichever was used last time.
-        const chosenFont = nextRandomFont;
-        nextRandomFont = nextRandomFont === 'c4f' ? 'ben' : 'c4f';
+        // Pick a font at random from every typeface in FONTS — the random
+        // pool draws from all of them, not just the original two — and
+        // apply it before rebuilding the feature list, so that list matches
+        // whichever font actually got picked.
+        const chosenFont = pickRandom(FONT_KEYS);
         updateFont(clone, textArea, chosenFont);
 
-        // Randomize size, leading, (opsz for c4f), and alignment within
-        // the configured bounds, and keep the sliders in sync with them.
+        // Randomly flip "All Caps" on or off for this new box — a coin
+        // flip independent of everything else being randomized here. Like
+        // every other feature, "All Caps" is stored per font rather than
+        // per box, so this also updates any other box currently on the
+        // same font, same as clicking the checkbox by hand would.
+        const allCapsEntry = FONTS[chosenFont].features['All Caps'];
+        if (allCapsEntry) {
+            allCapsEntry[0] = Math.random() < 0.5;
+        }
+
+        initFeatures([clone]);
+
+        // Pull a random sentence-or-paragraph from Frankenstein for this
+        // box's sample text instead of the font's usual canned phrase.
+        // Tagging it on the element (rather than just setting the text
+        // once) means updatePlaceholder() can keep re-applying this same
+        // snippet on future resizes instead of falling back to the plain
+        // per-font default the way it does for every other box.
+        const randomText = pickRandomFrankensteinText();
+        if (randomText) {
+            textArea.dataset.randomText = randomText.text;
+        }
+
+        // Randomize size, leading, (opsz for Cake4Freaks), and alignment
+        // within the configured bounds, and keep the sliders in sync. Size
+        // depends on which kind of snippet this box got: a single sentence
+        // can run big, a full paragraph needs to run smaller to still fit
+        // comfortably — fonts without a Frankenstein snippet (pool failed
+        // to load) just fall back to the sentence-sized range.
         const bounds = RANDOM_BOUNDS[chosenFont];
-        const size = randomInt(bounds.size.min, bounds.size.max);
+        const sizeBounds = bounds.size[randomText ? randomText.kind : 'sentence'];
+        const size = randomInt(sizeBounds.min, sizeBounds.max);
         const leading = randomInt(bounds.leading.min, bounds.leading.max);
 
         const sizeSlider = clone.querySelector('.size-option input');
@@ -210,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sizeSlider.value = size;
         leadingSlider.value = leading;
 
-        if (chosenFont === 'c4f') {
+        if (FONTS[chosenFont].hasOpsz && bounds.opsz) {
             const opszName = pickRandom(bounds.opsz);
             const opszValue = OPSZ_VALUES[opszName];
             const displayName = opszName.split(' ').map(word =>
@@ -227,6 +429,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (window.innerWidth < 768) {
             textArea.innerText = "Abc...";
+        } else if (randomText) {
+            textArea.innerText = randomText.text;
         }
 
         updateFeatures(clone, textArea);
@@ -237,25 +441,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Helper Functions
 
-    function initFeatures(allFonts) {
-        allFonts.forEach((fontSection) => {
-            const features = fontSection.querySelector('.features-dropdown');
-            const titleElement = fontSection.querySelector('.title');
-            if (!titleElement) {
-                console.error('Title element not found in fontSection', fontSection);
+    // Populates each section's font-switcher dropdown with one row per font
+    // in FONTS, checkmarking whichever one that section is currently set to.
+    function buildTitlesDropdown(fontAreas) {
+        fontAreas.forEach((fontArea) => {
+            const container = fontArea.querySelector('.titles.dropdown-content');
+            if (!container) return;
+            const currentKey = getFontKey(fontArea);
+            container.innerHTML = '';
+            FONT_KEYS.forEach((key) => {
+                const font = FONTS[key];
+                const isActive = key === currentKey;
+                const p = document.createElement('p');
+                p.className = key;
+                p.innerHTML = `<span class="${isActive ? 'show-title-check' : 'hide-title-check'}">&#x2713; </span>${font.displayName}`;
+                container.appendChild(p);
+            });
+        });
+    }
+
+    // Toggles the checkmark next to whichever row in the font-switcher
+    // dropdown matches the newly-chosen font.
+    function updateTitleChecks(fontArea, chosenFont) {
+        fontArea.querySelectorAll('.titles p').forEach((p) => {
+            const span = p.querySelector('span');
+            if (!span) return;
+            const isActive = p.classList.contains(chosenFont);
+            span.classList.toggle('show-title-check', isActive);
+            span.classList.toggle('hide-title-check', !isActive);
+        });
+    }
+
+    function initFeatures(fontAreas) {
+        fontAreas.forEach((fontArea) => {
+            const features = fontArea.querySelector('.features-dropdown');
+            const key = getFontKey(fontArea);
+            const font = key ? FONTS[key] : null;
+            if (!font) {
+                console.error('Could not determine font for section', fontArea);
                 return;
             }
-            currFont = titleElement.classList.contains('ben') ? 'ben' : 'c4f';
             features.innerHTML = '';
-            if (currFont === 'c4f') {
-                appendFeatures(features, c4fFeatures);
-                features.classList.add('c4f');
-                features.classList.remove('ben');
-            } else if (currFont === 'ben') {
-                appendFeatures(features, benFeatures);
-                features.classList.add('ben');
-                features.classList.remove('c4f');
-            }
+            appendFeatures(features, font.features);
+            FONT_KEYS.forEach((k) => features.classList.remove(k));
+            features.classList.add(key);
         });
     }
 
@@ -390,19 +619,20 @@ document.addEventListener('DOMContentLoaded', () => {
             ).join(' ')
         };
     }
-    function initOpszVals(allFonts) {
-        allFonts.forEach((fontSection) => {
-            const opszVals = fontSection.querySelector('.opsz-dropdown');
-            const opszValsben = fontSection.querySelector('.opsz-dropdown-ben');
-            const titleElement = fontSection.querySelector('.title');
 
-            if (!titleElement) {
-                console.error('Title element not found in fontSection', fontSection);
+    function initOpszVals(fontAreas) {
+        fontAreas.forEach((fontArea) => {
+            const opszDropdown = fontArea.querySelector('.opsz-dropdown');
+            const opszDropdownStatic = fontArea.querySelector('.opsz-dropdown-ben');
+            const key = getFontKey(fontArea);
+            const font = key ? FONTS[key] : null;
+
+            if (!font) {
+                console.error('Could not determine font for section', fontArea);
                 return;
             }
 
-            currFont = titleElement.classList.contains('ben') ? 'ben' : 'c4f';
-            if (currFont === 'c4f') {
+            if (font.hasOpsz) {
                 // Set initial values
                 const activeOpsz = Object.entries(c4fOpszVals).find(([_, value]) => value[0])?.[0] || 'text regular';
                 const value = OPSZ_VALUES[activeOpsz.toLowerCase()];
@@ -410,19 +640,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     word.charAt(0).toUpperCase() + word.slice(1)
                 ).join(' ');
 
-                updateAllOpszElements(
-                    fontSection,
-                    activeOpsz,
-                    displayName,
-                    value
-                );
+                updateAllOpszElements(fontArea, activeOpsz, displayName, value);
 
-                appendOpszVals(opszVals, c4fOpszVals);
-                opszVals.classList.remove('hidden');
-                opszValsben.classList.add('hidden');
-            } else if (currFont === 'ben') {
-                opszVals.classList.add('hidden');
-                opszValsben.classList.remove('hidden');
+                appendOpszVals(opszDropdown, c4fOpszVals);
+                opszDropdown.classList.remove('hidden');
+                opszDropdownStatic.classList.add('hidden');
+            } else {
+                // Fonts without a real optical-size axis just show a single
+                // static style label (e.g. "Black", "Regular", "Condensed")
+                // in the same UI slot — no slider, no dropdown listeners.
+                const staticTitle = opszDropdownStatic.querySelector('.opsz-title');
+                const staticEntry = opszDropdownStatic.querySelector('.dropdown-content p');
+                if (staticTitle) staticTitle.innerHTML = `${font.staticLabel} &#x2195;`;
+                if (staticEntry) staticEntry.innerHTML = `&#x2713; ${font.staticLabel}`;
+
+                opszDropdown.classList.add('hidden');
+                opszDropdownStatic.classList.remove('hidden');
             }
         });
     }
@@ -439,12 +672,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const classList = event.target.classList;
         const elementId = event.target.id;
         const textArea = fontArea.querySelector('.font-input');
-        if (classList.contains('ben') && !classList.contains('font-input')) {
-            currFont = 'ben';
-            updateFont(fontArea, textArea, 'ben');
-        } else if (classList.contains('c4f')) {
-            currFont = 'c4f';
-            updateFont(fontArea, textArea, 'c4f');
+
+        // Match whichever font-switcher row (or title) was clicked, but
+        // never treat the textarea's own classes as a click on a row — a
+        // couple of fonts (e.g. Benmania) bake their key straight onto
+        // their default textarea, and clicking/typing there shouldn't
+        // re-trigger a font switch.
+        const clickedFont = FONT_KEYS.find((key) => classList.contains(key) && !classList.contains('font-input'));
+        if (clickedFont) {
+            updateFont(fontArea, textArea, clickedFont);
         }
 
         if (elementId === 'font-size') {
@@ -474,90 +710,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateFont(fontArea, textArea, chosenFont) {
         const titleElement = fontArea.querySelector('.title');
-        let benCheckbox = fontArea.querySelector('p.ben span');
-        let c4fCheckbox = fontArea.querySelector('p.c4f span');
-        // Buy-link container is scoped to this section, whatever number it's suffixed with
-        // (buy-link, buy-link-2, buy-link-3, ...), so duplicating a section keeps working.
-        const buyLinkContainer = fontArea.querySelector('[class*="buy-link"]');
-        if (!titleElement) {
-            console.error('Title element not found in updateFont', fontArea);
+        const font = FONTS[chosenFont];
+        if (!titleElement || !font) {
+            console.error('Unknown font or missing title element', fontArea, chosenFont);
             return;
         }
+
+        // A manual font switch always falls back to that font's own sample
+        // phrase, so drop any random Frankenstein snippet this box had been
+        // tagged with (see createRandomFontArea / updatePlaceholder) — it
+        // no longer applies once the font itself has changed underneath it.
+        delete textArea.dataset.randomText;
+
+        // Buy-link container is scoped to this section, whatever number it's
+        // suffixed with (buy-link, buy-link-2, buy-link-3, ...), so
+        // duplicating a section keeps working.
+        const buyLinkContainer = fontArea.querySelector('[class*="buy-link"]');
+        const opszDropdown = fontArea.querySelector('.opsz-dropdown');
+        const opszDropdownStatic = fontArea.querySelector('.opsz-dropdown-ben');
+        const opszOption = fontArea.querySelector('.opsz-option');
         const windowWidth = window.innerWidth;
-        if (chosenFont === 'ben') {
-            let opszDropdown = fontArea.querySelector('.opsz-dropdown');
-            let opszDropdownben = fontArea.querySelector('.opsz-dropdown-ben');
-            benCheckbox.classList.add('show-title-check');
-            benCheckbox.classList.remove('hide-title-check');
-            c4fCheckbox.classList.remove('show-title-check');
-            c4fCheckbox.classList.add('hide-title-check');
-            opszDropdown.classList.add('hidden');
-            opszDropdownben.classList.remove('hidden');
-            fontArea.querySelector('.opsz-option').style.opacity = '0';
-            titleElement.innerHTML = 'Benmania &#x2195;&nbsp;';
-            textArea.style.fontFamily = 'Benmania-Black';
-            titleElement.classList.add('ben');
-            titleElement.classList.remove('c4f');
-            if (windowWidth >= 768) {
-                textArea.innerText = "And the Rock Cried Out, No Hiding Place";
-            }
-            fontArea.querySelector('.opsz-option').classList.add('hidden')
-            fontArea.querySelector('.opsz-option').style.display = 'none'
-            if (buyLinkContainer) {
-                let link = buyLinkContainer.querySelector('a');
-                link.href = 'https://www.futurefonts.com/bea-korsh/benmania';
-                link.innerHTML = 'Buy/$20 ↗';
-            }
-            appendOpszVals(opszDropdown, benOpszVals);
-        } else if (chosenFont === 'c4f') {
-            let opszDropdown = fontArea.querySelector('.opsz-dropdown');
-            let opszDropdownben = fontArea.querySelector('.opsz-dropdown-ben');
+
+        // 1. Title text + class — this drives every ".title.KEY" and
+        // ".KEY.font-input" rule in style.css.
+        titleElement.innerHTML = `${font.displayName} &#x2195;`;
+        FONT_KEYS.forEach((key) => titleElement.classList.remove(key));
+        titleElement.classList.add(chosenFont);
+
+        // 2. Checkmark in the font-switcher dropdown
+        updateTitleChecks(fontArea, chosenFont);
+
+        // 3. Optical-size UI: only Cake4Freaks has a real opsz axis wired
+        // up; every other font shows a single static style label instead.
+        if (font.hasOpsz) {
             opszDropdown.classList.remove('hidden');
-            opszDropdownben.classList.add('hidden');
-            benCheckbox.classList.add('hide-title-check');
-            benCheckbox.classList.remove('show-title-check');
-            c4fCheckbox.classList.remove('hide-title-check');
-            c4fCheckbox.classList.add('show-title-check');
-            fontArea.querySelector('.opsz-option').style.opacity = '1';
-            titleElement.innerHTML = 'Cake4Freaks &#x2195;&nbsp;';
-            if (windowWidth < 768) {
-                fontArea.querySelector('.opsz-option').classList.remove('hidden')
-                fontArea.querySelector('.opsz-option').style.display = 'flex'
-                fontArea.querySelector('.opsz-option').style.visibility = 'visible'
-            } else {
-                fontArea.querySelector('.opsz-option').classList.remove('hidden')
-                fontArea.querySelector('.opsz-option').style.display = 'flex'
-                fontArea.querySelector('.opsz-option').style.visibility = 'visible'
-            }
-            // Initialize with default optical size
+            opszDropdownStatic.classList.add('hidden');
+            opszOption.style.opacity = '1';
+            opszOption.classList.remove('hidden');
+            opszOption.style.display = 'flex';
+            opszOption.style.visibility = 'visible';
+
             const activeOpsz = Object.entries(c4fOpszVals).find(([_, value]) => value[0])?.[0] || 'text regular';
             const value = OPSZ_VALUES[activeOpsz.toLowerCase()];
             const displayName = activeOpsz.split(' ').map(word =>
                 word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' ');
 
-            // Update all optical size elements
-            updateAllOpszElements(
-                fontArea,
-                activeOpsz,
-                displayName,
-                value
-            );
-
-            textArea.style.fontFamily = 'Cake4Freaks-Optical';
-            titleElement.classList.add('c4f');
-            titleElement.classList.remove('ben');
-            if (windowWidth >= 768) {
-                textArea.innerText = "Ceremonies of Light and Dark";
-            }
-            if (buyLinkContainer) {
-                let link = buyLinkContainer.querySelector('a');
-                link.href = 'https://www.futurefonts.com/bea-korsh/cake4freaks';
-                link.innerHTML = 'Buy/$15 ↗';
-            }
-
-            // Reinitialize the optical size dropdown
+            updateAllOpszElements(fontArea, activeOpsz, displayName, value);
             appendOpszVals(opszDropdown, c4fOpszVals);
+        } else {
+            opszDropdown.classList.add('hidden');
+            opszDropdownStatic.classList.remove('hidden');
+            opszOption.style.opacity = '0';
+            opszOption.classList.add('hidden');
+            opszOption.style.display = 'none';
+
+            const staticTitle = opszDropdownStatic.querySelector('.opsz-title');
+            const staticEntry = opszDropdownStatic.querySelector('.dropdown-content p');
+            if (staticTitle) staticTitle.innerHTML = `${font.staticLabel} &#x2195;`;
+            if (staticEntry) staticEntry.innerHTML = `&#x2713; ${font.staticLabel}`;
+        }
+
+        // 4. Family + sample text
+        textArea.style.fontFamily = font.family;
+        if (windowWidth >= 768) {
+            textArea.innerText = font.defaultText;
+        }
+
+        // 5. Buy link — hidden entirely for fonts without a storefront page
+        if (buyLinkContainer) {
+            if (font.buyLink) {
+                buyLinkContainer.style.display = '';
+                const link = buyLinkContainer.querySelector('a');
+                link.href = font.buyLink.url;
+                link.innerHTML = font.buyLink.label;
+            } else {
+                buyLinkContainer.style.display = 'none';
+            }
         }
     }
 
@@ -624,34 +853,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateFeatures(fontArea, textArea) {
-        const titleElement = fontArea.querySelector('.title');
-        if (!titleElement) {
-            console.error('Title element not found in updateFeatures', fontArea);
+        const key = getFontKey(fontArea);
+        const font = key ? FONTS[key] : null;
+
+        if (!font) {
+            console.error('Could not determine font for section', fontArea);
             return;
         }
 
-        let activeFeatures = [];
-        let featureSet;
-
-        if (titleElement.classList.contains('c4f')) {
-            featureSet = c4fFeatures;
-        } else if (titleElement.classList.contains('ben')) {
-            featureSet = benFeatures;
-        }
-
-        if (!featureSet) {
-            console.error('Feature set not found');
-            return;
-        }
-
-        Object.entries(featureSet).forEach(([featureName, featureValue]) => {
-            if (featureValue[0]) {
-                activeFeatures.push(featureValue[1]);
+        const activeFeatures = [];
+        let allCapsActive = false;
+        Object.entries(font.features).forEach(([featureName, featureValue]) => {
+            const [isActive, featureCode] = featureValue;
+            // "All Caps" is a text-transform toggle, not a real OpenType
+            // feature — pull it out here instead of feeding it into
+            // fontFeatureSettings below.
+            if (featureCode === 'allcaps') {
+                allCapsActive = isActive;
+                return;
+            }
+            if (isActive) {
+                activeFeatures.push(featureCode);
             }
         });
 
         textArea.style.fontFeatureSettings = activeFeatures.map(feature => `'${feature}'`).join(', ');
-        updateCheckMarks(featureSet, fontArea);
+        textArea.style.textTransform = allCapsActive ? 'uppercase' : '';
+        updateCheckMarks(font.features, fontArea);
     }
 
     function updateCheckMarks(featureSet, fontArea) {
@@ -682,20 +910,28 @@ function updatePlaceholder() {
             return;
         }
 
-        // Determine the section's current font from its title element's class
-        // ('c4f' or 'ben'), which is always kept accurate — rather than the
-        // inline fontFamily style, which stays unset until the user manually
-        // switches fonts and would otherwise wrongly default every section
-        // to the Benmania phrase on load/resize.
-        const fontArea = textarea.closest('.font-area');
-        const titleElement = fontArea ? fontArea.querySelector('.title') : null;
-        const isCake4Freaks = titleElement
-            ? titleElement.classList.contains('c4f')
-            : textarea.style.fontFamily === 'Cake4Freaks-Optical';
+        // A box created via "+ Add Text Area" is tagged with the random
+        // Frankenstein snippet it was given, so a resize restores that
+        // instead of quietly swapping it out for the font's plain sample
+        // phrase — that swap-back only happens for boxes without a tag
+        // (the two original sections, or any box whose font was since
+        // switched manually via the dropdown, which clears the tag).
+        if (textarea.dataset.randomText) {
+            textarea.innerText = textarea.dataset.randomText;
+            return;
+        }
 
-        textarea.innerText = isCake4Freaks
-            ? "Ceremonies of Light and Dark"
-            : "And the Rock Cried Out, No Hiding Place";
+        // Determine the section's current font from its title element's
+        // class (kept accurate by updateFont/getFontKey) rather than the
+        // inline fontFamily style, which stays unset until the user
+        // manually switches fonts.
+        const fontArea = textarea.closest('.font-area');
+        const key = fontArea ? getFontKey(fontArea) : null;
+        const font = key ? FONTS[key] : null;
+
+        if (font) {
+            textarea.innerText = font.defaultText;
+        }
     });
 }
 

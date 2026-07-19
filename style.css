@@ -19,9 +19,38 @@
 } 
 @font-face {
     font-family: 'SquareCapitals-Regular';
-    src: url('../../../../Library/Fonts/SquareCapitals-Regular.otf') format('opentype');
+    src: url('./assets/fonts/SquareCapitalsRegular.otf') format('opentype');
     font-weight: 400;
-} 
+}
+@font-face {
+    font-family: 'BlockVariable-Condensed';
+    src: url('./assets/fonts/BlockVariableVF.ttf') format('truetype-variations');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'CmdCut-Black';
+    src: url('./assets/fonts/CmdCutBlack.otf') format('opentype');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'Cursive-Regular';
+    src: url('./assets/fonts/CursiveRegular.otf') format('opentype');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'SweetBabyBoy-Bold';
+    src: url('./assets/fonts/SweetBabyBoyBold.otf') format('opentype');
+    font-weight: 400;
+}
+/* Kept on <html> rather than <body>: overflow-x on body implicitly turns
+   overflow-y into "auto" too (a CSS quirk), which makes body its own
+   scroll container and breaks position: sticky for every descendant (the
+   sidebar below relies on sticky). html is the page's real scrolling
+   element already, so the same overflow-x fix works there without that
+   side effect. */
+html {
+    overflow-x: hidden;
+}
 body {
     display: flex;
     flex-direction: column;
@@ -29,7 +58,6 @@ body {
     align-items: center;
     max-width: 690px;
     margin: 0 auto;
-    overflow-x: hidden;
 }
 a:hover, a *:hover {
     color: pink !important;
@@ -49,6 +77,21 @@ h3 {
 }
 .ben.font-input {
     font-family: 'Benmania-Black';
+}
+.blockvar.font-input {
+    font-family: 'BlockVariable-Condensed';
+}
+.cmdcut.font-input {
+    font-family: 'CmdCut-Black';
+}
+.cursive.font-input {
+    font-family: 'Cursive-Regular';
+}
+.squarecap.font-input {
+    font-family: 'SquareCapitals-Regular';
+}
+.sweetbaby.font-input {
+    font-family: 'SweetBabyBoy-Bold';
 }
 #ben-black {
     font-size: 16px;
@@ -304,7 +347,10 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
     width: 100vw;
     position: relative;
     left: 50%;
-    transform: translateX(-50%);
+    /* Same full-bleed effect as `transform: translateX(-50%)`, but without
+       a transform — any transformed ancestor stops `position: sticky` from
+       working for descendants (the sticky sidebar below relies on this). */
+    margin-left: -50vw;
     margin-top: 0;
     padding: 0px 0;
 }
@@ -318,15 +364,32 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
 }
 .specimen-row {
     position: relative;
+    /* Four tracks: flexible left margin, the centered 690px text area, the
+       260px sidebar sitting flush against it (no gap track between them),
+       and a flexible right margin. Grid (rather than absolute positioning)
+       is what lets the sidebar's own grid cell — not just the sidebar
+       itself — stretch to the row's full height, which is what gives
+       position: sticky below room to move within a tall row. */
+    display: grid;
+    grid-template-columns: calc(50% - 345px) 690px 260px 1fr;
 }
 .specimen-sidebar {
+    grid-column: 3;
+    grid-row: 1;
+    /* Grid's default cross-axis behavior is to stretch a row-1 item to the
+       full row height, but a sticky element needs to stay its own natural
+       (short) height and have the tall grid cell as extra room to move
+       within — stretching it to match the row leaves no such room, and it
+       just scrolls away instead of sticking. align-self: start keeps the
+       sidebar short while the row (sized by the tall text area next to it)
+       still gives it somewhere to stick. */
+    align-self: start;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     gap: 10px;
-    position: absolute;
-    top: 0;
-    left: calc(50% + 405px);
+    position: sticky;
+    top: 20px;
     width: 260px;
     opacity: 0;
     visibility: hidden;
@@ -338,9 +401,10 @@ body.light-mode div.alignment-option:hover > .alignment-dropdown {
     visibility: visible;
 }
 .specimen-text {
+    grid-column: 2;
+    grid-row: 1;
     width: 690px;
     display: block;
-    margin: 0 auto;
     box-sizing: border-box;
     border: none;
     background: transparent;
@@ -760,6 +824,7 @@ iframe::-webkit-scrollbar {
         width: auto;
         position: static;
         left: auto;
+        margin-left: 0;
         transform: none;
     }
     .specimen-row {
